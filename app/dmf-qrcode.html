@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>当面付二维码</title>
+<link rel="stylesheet" href="lib/weui/style/weui.min.css">
+<style>
+body, html {
+	height: 100%;
+}
+body {
+	overflow-x: hidden;
+	background-color: #fbf9fe
+}
+.container {
+	height: 100%;
+	overflow-y: auto;
+}
+.tabbar {
+	height: 100%
+}
+.weui_tab_bd_item_active {
+	display: block;
+}
+</style>
+</head>
+<body>
+<div>
+	二维码
+</div>
+<!--<script type="text/javascript" src="lib/template.js" charset="utf-8"></script>-->
+<script type="text/javascript" src="lib/zepto/zepto.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/tool.js" charset="utf-8"></script>
+<script>		
+		var query = parseQueryString();
+        //requiredWx();
+
+        $(function() {
+            send('/action/ms/mchnt-busi/dmf-qrcode', query, function(data) {
+                if (data.errcode == 0) {
+                    //
+                }
+            });
+        });
+</script>
+</body>
+</html>

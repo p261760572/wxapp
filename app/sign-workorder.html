@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>工作单提交</title>
+    <link rel="stylesheet" href="lib/weui/style/weui.min.css">
+    <link rel="stylesheet" href="lib/weui/weui-extend.css">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form id="detail-fm">
+            <input type="hidden" name="rec_id">
+            <input type="hidden" name="term_no">
+            <!-- <div class="weui_cells_title">收单业务申请</div> -->
+            <div class="weui_cells weui_cells_access weui_cells_form">
+                <div class="weui_cell">
+                    <!-- <div class="weui_cell_hd"><label class="weui_label">工商营业执照编码</label></div> -->
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>工作单号</p>
+                        <input name="work_order_no" type="text" class="weui_input" readonly>
+                    </div>
+                </div>
+                <a id="term-busi-list" class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                      <p>门店名称</p>
+                      <p id="shop_name"></p>
+                      <!--<input name="shop_name" type="text" class="weui_input" readonly>-->
+                    </div>
+                    <div class="weui_cell_ft"></div>
+                  </a>
+                <div class="weui_cell">
+                    <!-- <div class="weui_cell_hd"><label class="weui_label">工商执照有效期</label></div> -->
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>工作单类型</p>
+                        <input name="work_order_type" type="text" class="weui_input" readonly>
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <!-- <div class="weui_cell_hd"><label class="weui_label">组织机构代码证</label></div> -->
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>工作单内容</p>
+                        <input name="work_flag" type="text" class="weui_input" readonly>
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <!-- <div class="weui_cell_hd"><label class="weui_label">税务登记证</label></div> -->
+                    <div class="weui_cell_hd weui_cell_primary">是否完成任务</div>
+                    <div class="weui_cell_ft">
+                        <input class="weui_switch" type="checkbox" name="install_flag" checked>
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <!-- <div class="weui_cell_hd"><label class="weui_label">法人代表姓名</label></div> -->
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>执行日期</p>
+                        <input name="work_date" type="date" class="weui_input" required="required">
+                    </div>
+                </div>
+                <div class="weui_cell">
+        <!-- <div class="weui_cell_hd"><label class="weui_label">当面付二维码</label></div> -->
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>当面付二维码</p>
+          <input name="dmf_qr_code" type="text" class="weui_input" id="dmf_qr_code" placeholder="请扫入二维码" readonly>
+        </div>
+        <div class="weui_cell_ft">
+          <a href="javascript:;" class="weui_btn weui_btn_plain_primary" onclick="onClickScanQRCode('dmf_qr_code')">扫一扫</a>
+        </div>
+      </div>
+                <div class="weui_cell">
+                    <!-- <div class="weui_cell_hd"><label class="weui_label">法人代表身份证号码</label></div> -->
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>备注</p>
+                        <input name="sign_note" type="text" class="weui_input" placeholder="请输入备注">
+                    </div>
+                </div>
+            </div>
+            <div class="weui_cells_title">协议照片</div>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <div class="weui_uploader">
+                            <div class="weui_uploader_bd">
+                                <ul class="weui_uploader_files" id="agreement-photo">
+                                </ul>
+                                <div class="weui_uploader_input_wrp">
+                                    <input class="weui_uploader_input" type="button" onclick="onClickChooseImage(this)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui_cells_title">工作单照片</div>
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <div class="weui_uploader">
+                            <div class="weui_uploader_bd">
+                                <ul class="weui_uploader_files" id="order-photo">
+                                </ul>
+                                <div class="weui_uploader_input_wrp">
+                                    <input class="weui_uploader_input" type="button" onclick="onClickChooseImage(this)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="submit" class="weui_btn weui_btn_primary" value="提交" id="submit-btn">
+        </form>
+    </div>
+    <script type="text/javascript" src="lib/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="lib/weui/weui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/tool.js" charset="utf-8"></script>
+    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script id="uploader-file-templ" type="text/html">
+        <li class="weui_uploader_file weui_uploader_status" style="background-image:url({{localid}})">
+            <div class="weui_uploader_status_content">
+                <i class="weui_icon_clear" onClick="onClickDeleteImage(this)"></i>
+            </div>
+        </li>
+    </script>
+    <script id="uploader-file-view-templ" type="text/html">
+        <li class="weui_uploader_file weui_uploader_status" style="background-image:url({{localid}})">
+        </li>
+    </script>
+    <script>
+        var workOrderTypeData = [{
+            "text": "装机单",
+            "value": "1"
+        }, {
+            "text": "维护单",
+            "value": "2"
+        }, {
+            "text": "巡检单",
+            "value": "3"
+        }];
+
+        var query = parseQueryString();
+        requiredWx();
+
+        $(function() {
+            if (query.operateType == 'view') {
+                $('#submit-btn').hide();
+                $('#detail-fm').find('input').attr('readonly', 'readonly');
+            } else {
+                //something
+            }
+            loadDetail(query);
+            $('#detail-fm').submit(submitDetail);
+        });
+
+
+        function submitDetail(e) {
+            e.preventDefault();
+            var data = $(this).serializeObject();
+
+            //照片处理
+            var images = [];
+            $('#order-photo').children('.weui_uploader_file').each(function(index, item) {
+                var fileData = $(item).data('file');
+                fileData.ei_type = 'gd';
+                images.push(fileData);
+            });
+            $('#agreement-photo').children('.weui_uploader_file').each(function(index, item) {
+                var fileData = $(item).data('file');
+                fileData.ei_type = 'xy';
+                images.push(fileData);
+            });
+            data.images = images;
+
+            if (data.install_flag == 'on') {
+                data.install_flag = '1';
+            } else {
+                data.install_flag = '0';
+            }
+
+            wx.getLocation({
+                type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function(res) {
+                    data.latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                    data.longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                    //var speed = res.speed; // 速度，以米/每秒计
+                    data.radius = res.accuracy || null; // 位置精度
+
+
+                    send('/action/ms/workorder/sign', data, function(data) {
+                        if (data.errcode == 0) {
+                            window.location.href = 'msg.html';
+                        }
+                    });
+                }
+            });
+        }
+
+        function loadDetail(query) {
+            if (!query.work_order_no) {
+                return false;
+            }
+            send('/action/ms/workorder/view', query, function(data) {
+                if (data.errcode == 0) {
+                	var container = 
+                    $.each(data.images, function(index, item) {
+                        var html;
+                        if (query.operateType == 'view') {
+                            html = template('uploader-file-view-templ', data.images[index]);
+                        } else {
+                            html = template('uploader-file-templ', data.images[index]);
+                        }
+                        var file = $(html);
+                        if(item.ei_type == 'gd') {
+                        	$('#order-photo').append(file);
+                        } else if(item.ei_type == 'xy'){
+                        	$('#agreement-photo').append(file);
+                        }
+                        file.data('file', data.images[index]);
+                    });
+
+                    data.data.work_order_type = formatField(workOrderTypeData, data.data.work_order_type);
+                    data.data.work_flag = formatWorkFlag(data.data.work_flag);
+                    load('#detail-fm', data.data);
+					$('#shop_name').text(data.data.shop_name);
+					$('#term-busi-list').attr('href', 'term-busi-list.html?term_no=' + data.data.term_no);
+                }
+            });
+        }
+
+
+        function formatWorkFlag(value) {
+            var flag = ['装机', '调单', '移机', '培训', '其它', '换机'];
+            var work_flag = [],
+                i;
+
+            for (i = 0; i < value.length; i++) {
+                if (value.charAt(i) == '1') {
+                    work_flag.push(flag[i]);
+                }
+            }
+
+            return work_flag.join(',');
+        }
+
+        function onClickChooseImage(target) {
+            wx.chooseImage({
+                count: 1, // 默认9
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function(res) {
+                    var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    var localId = localIds[0];
+
+                    //var container = $(target).closest('.weui_uploader_input_wrp').hide().prev().show();
+                    var container = $(target).closest('.weui_uploader_input_wrp').prev();
+                    var html = template('uploader-file-templ', {
+                        localid: localId
+                    });
+                    var file = $(html);
+                    file.appendTo(container);
+
+                    //存储相关数据
+                    file.data('file', {
+                        'app_created_time': new Date().toISOString().substr(0, 19).replace('T', ' '),
+                        'localid': localId
+                    });
+
+                    uploadImage(file);
+
+                    wx.getLocation({
+                        type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                        success: function(res) {
+                            var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                            var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                            var speed = res.speed; // 速度，以米/每秒计
+                            var accuracy = res.accuracy || null; // 位置精度
+
+                            $.extend(file.data('file'), {
+                                'latitude': latitude,
+                                'longitude': longitude,
+                                'radius': accuracy
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        function uploadImage(target) {
+            var file = $(target);
+            var fileData = file.data('file');
+
+            wx.uploadImage({
+                localId: fileData.localid, // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 1, // 默认为1，显示进度提示
+                success: function(res) {
+                    var serverId = res.serverId; // 返回图片的服务器端ID
+
+                    $.extend(fileData, {
+                        is_new: '1',
+                        serverid: serverId
+                    });
+                }
+            });
+        }
+
+        function onClickDeleteImage(target) {
+            $.confirm('确认要删除照片吗？', function() {
+                var file = $(target).closest('.weui_uploader_file');
+                file.remove();
+            }, function() {});
+        }
+		
+		function onClickScanQRCode(id) {
+		wx.scanQRCode({
+			needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+			scanType: ["barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+			success: function (res) {
+				var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+				var index = result.indexOf(",");
+				if(index >= 0) {
+					result = result.substr(index+1);
+				}
+				$('#'+id).val(result);
+			},
+			fail: function (res) {
+				alert(JSON.stringify(res));
+			}
+		});
+	}
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>工作单详情</title>
+<link rel="stylesheet" href="lib/weui/style/weui.min.css">
+<link rel="stylesheet" href="lib/weui/weui-extend.css">
+<style></style>
+</head>
+
+<body>
+<div class="container">
+  <form id="detail-fm">
+    <input type="hidden" name="rec_id">
+    <input type="hidden" name="term_no">
+    <div class="weui_cells weui_cells_access weui_cells_form">        
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>工作单号</p>
+          <input name="work_order_no" type="text" class="weui_input" readonly>
+        </div>
+      </div>
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>工作单类型</p>
+          <input name="work_order_type" type="text" class="weui_input" readonly>
+        </div>
+      </div>
+      <a id="term-busi-list" class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>门店名称</p>
+          <p id="shop_name"></p>
+          <!--<input name="shop_name" type="text" class="weui_input" readonly>-->
+        </div>
+        <div class="weui_cell_ft"></div>
+      </a>
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>工作单内容</p>
+          <input name="work_flag" type="text" class="weui_input" readonly>
+        </div>
+      </div>
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>押金条号</p>
+          <input name="deposit_no" type="text" class="weui_input" readonly>
+        </div>
+      </div>
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>押金金额</p>
+          <input name="deposit_amount" type="text" class="weui_input" readonly>
+        </div>
+      </div>
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>通讯费单据号</p>
+          <input name="expense_no2" type="text" class="weui_input" readonly>
+        </div>
+      </div>
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>通讯费金额</p>
+          <input name="money2" type="text" class="weui_input" readonly>
+        </div>
+      </div>
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>销售款单据号</p>
+          <input name="expense_no3" type="text" class="weui_input" readonly>
+        </div>
+      </div>
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>销售款金额</p>
+          <input name="money3" type="text" class="weui_input" readonly>
+        </div>
+      </div>
+      <div class="weui_cell">
+        <div class="weui_cell_hd weui_cell_primary">是否完成任务</div>
+        <div class="weui_cell_ft">
+          <input class="weui_switch" type="checkbox" name="install_flag" disabled>
+        </div>
+      </div>
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>执行人</p>
+          <input name="work_name" type="text" class="weui_input">
+        </div>
+      </div>
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>执行日期</p>
+          <input name="work_date" type="text" class="weui_input">
+        </div>
+      </div>
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>备注</p>
+          <input name="note" type="text" class="weui_input" placeholder="">
+        </div>
+      </div>
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>派单人</p>
+          <input name="created_by" type="text" class="weui_input" placeholder="">
+        </div>
+      </div>
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>派单时间</p>
+          <input name="created_time" type="text" class="weui_input" placeholder="">
+        </div>
+      </div>
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>签收人</p>
+          <input name="sign_id" type="text" class="weui_input" placeholder="">
+        </div>
+      </div>
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>签收时间</p>
+          <input name="sign_date" type="text" class="weui_input" placeholder="">
+        </div>
+      </div>
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>处理状态</p>
+          <input name="proc_st_nm" type="text" class="weui_input weui_cell_warn" placeholder="">
+        </div>
+      </div>
+    </div>
+    <div class="weui_cells_title">工作单照片</div>
+    <div class="weui_cells weui_cells_form">
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <div class="weui_uploader" id="order-photo">
+            <div class="weui_uploader_bd">
+              <div class="weui_cell_bd" style="display:none;"> <img alt="照片" style="width:50%;"> </div>
+              <div class="weui_cell_bd" style="display:none;"> <img alt="照片" style="width:50%;"> </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <input type="button" class="weui_btn weui_btn_primary" value="返回" onclick="window.history.back()">
+  </form>
+</div>
+<script type="text/javascript" src="lib/zepto/zepto.min.js" charset="utf-8"></script> 
+<script type="text/javascript" src="lib/weui/weui.min.js" charset="utf-8"></script> 
+<script type="text/javascript" src="js/tool.js" charset="utf-8"></script> 
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> 
+<script>
+    	
+    	var procStData = [{
+            "text": "待提交",
+            "value": "1"
+        }, {
+            "text": "待回访",
+            "value": "2"
+        }, {
+            "text": "已完成",
+            "value": "3"
+        }, {
+            "text": "已作废",
+            "value": "4"
+        }];
+        
+        var workOrderTypeData = [{
+            "text": "装机单",
+            "value": "1"
+        }, {
+            "text": "维护单",
+            "value": "2"
+        }, {
+            "text": "巡检单",
+            "value": "3"
+        }];
+
+        var query = parseQueryString();
+        requiredWx();
+
+        $(function() {
+            if (query.operateType == 'view') {
+                $('#submit-btn').hide();
+                $('#detail-fm').find('input').attr('readonly', 'readonly');
+            } else {
+                //something
+            }
+            loadDetail(query);
+            $('#detail-fm').submit(submitDetail);
+        });
+
+
+        function submitDetail(e) {
+            e.preventDefault();
+            //$.toast("操作成功");
+            var data = $(this).serializeObject();
+
+            //删除不要的字段
+            delete data.is_new;
+            delete data.localid;
+            delete data.serverid;
+            delete data.latitude;
+            delete data.longitude;
+            delete data.accuracy;
+
+            //照片处理
+            var images = [];
+            $('#order-photo').find('.weui_cell_bd').each(function(index, item) {
+                var t = $(item);
+                var is_new = t.find('input[name=is_new]').val();
+                var localid = t.find('input[name=localid]').val();
+                var serverid = t.find('input[name=serverid]').val();
+                var latitude = t.find('input[name=latitude]').val();
+                var longitude = t.find('input[name=longitude]').val();
+                var accuracy = t.find('input[name=accuracy]').val();
+                var app_created_time = new Date().toISOString().substr(0, 19).replace('T', ' ');
+
+                if (localid) {
+                    images.push({
+                        'localid': localid,
+                        'serverid': serverid,
+                        'latitude': latitude,
+                        'longitude': longitude,
+                        'radius': accuracy,
+                        'app_created_time': app_created_time
+                    });
+                }
+            });
+            data.images = images;
+
+            wx.getLocation({
+                type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function(res) {
+                    data.latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                    data.longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                    //var speed = res.speed; // 速度，以米/每秒计
+                    data.radius = res.accuracy || null; // 位置精度
+
+
+                    send('/action/ms/workorder/sign', data, function(data) {
+                        if (data.errcode == 0) {
+                            window.location.href = 'msg.html';
+                        }
+                    });
+                }
+            });
+        }
+
+        function loadDetail(query) {
+            if (!query.work_order_no) {
+                return false;
+            }
+            send('/action/ms/workorder/view', query, function(data) {
+                if (data.errcode == 0) {
+
+                    var images = data.images;
+                    $('#order-photo').find('.weui_cell_bd').each(function(index, item) {
+                        if (index < images.length) {
+                            var image = images[index];
+                            $(item).show().find('img').attr('src', image.localid);
+                        }
+                    });
+                    
+                    if(data.data.install_flag == '1') {
+                    	data.data.install_flag = 'on';
+                    } else {
+                    	data.data.install_flag = null;
+                    }
+                    
+					data.data.proc_st_nm = formatField(procStData, data.data.proc_st);
+                    data.data.work_order_type = formatField(workOrderTypeData, data.data.work_order_type);
+                    data.data.work_flag = formatWorkFlag(data.data.work_flag);
+                    data.data.work_name = data.data.work_name || data.data.work_id;
+                    
+                    for(var i = 0; i < data.expense.length; i ++) {
+                    	data.data['expense_no'+data.expense[i].type] = data.expense[i].expense_no;
+                    	data.data['money'+data.expense[i].type] = data.expense[i].money;
+                    }
+                    
+                    
+                    load('#detail-fm', data.data);
+					$('#shop_name').text(data.data.shop_name);
+					$('#term-busi-list').attr('href', 'term-busi-list.html?term_no=' + data.data.term_no);
+                }
+            });
+        }
+
+        function formatWorkFlag(value) {
+            var flag = ['装机', '调单', '移机', '培训', '其它', '换机'];
+            var work_flag = [],
+                i;
+
+            for (i = 0; i < value.length; i++) {
+                if (value.charAt(i) == '1') {
+                    work_flag.push(flag[i]);
+                }
+            }
+
+            return work_flag.join(',');
+        }
+    </script>
+</body>
+</html>

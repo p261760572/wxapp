@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>终端信息维护</title>
+    <link rel="stylesheet" href="lib/weui/style/weui.min.css">
+    <link rel="stylesheet" href="lib/weui/weui-extend.css">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form id="detail-fm">
+            <!-- <div class="weui_cells_title">收单业务申请</div> -->
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <!-- <div class="weui_cell_hd"><label class="weui_label">工商营业执照编码</label></div> -->
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>终端标识码</p>
+                        <input name="term_no" type="text" class="weui_input" placeholder="" readonly>
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <!-- <div class="weui_cell_hd"><label class="weui_label">工商营业执照名称</label></div> -->
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>门店名称</p>
+                        <input name="shop_name" type="text" class="weui_input" placeholder="请输入门店名称" required="required">
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <!-- <div class="weui_cell_hd"><label class="weui_label">工商执照有效期</label></div> -->
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>联系人</p>
+                        <input name="linkman" type="text" class="weui_input" placeholder="请输入联系人" required="required">
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <!-- <div class="weui_cell_hd"><label class="weui_label">组织机构代码证</label></div> -->
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>联系电话</p>
+                        <input name="tel_no" type="text" class="weui_input" placeholder="请输入联系电话" required="required">
+                    </div>
+                </div>
+                <div class="weui_cell">
+                    <!-- <div class="weui_cell_hd"><label class="weui_label">法人代表身份证号码</label></div> -->
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p>装机地址</p>
+                        <input name="installed_addr" type="text" class="weui_input" placeholder="请输入装机地址" required="required">
+                    </div>
+                </div>
+            </div>
+            <input type="submit" class="weui_btn weui_btn_primary" value="提交">
+        </form>
+    </div>
+    <script type="text/javascript" src="lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="lib/weui/weui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/tool.js" charset="utf-8"></script>
+    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+        var query = parseQueryString();
+        requiredWx();
+
+        $(function() {
+            loadDetail(query);
+            $('#detail-fm').submit(submitDetail);
+        });
+
+
+        function submitDetail(e) {
+            e.preventDefault();
+
+            var data = $(this).serializeObject();
+            wx.getLocation({
+                type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function(res) {
+                    data.latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                    data.longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                    //var speed = res.speed; // 速度，以米/每秒计
+                    data.radius = res.accuracy || null; // 位置精度
+
+                    send('/action/ms/term-info/update-base', data, function(data) {
+                        if (data.errcode == 0) {
+                            window.location.href = 'msg.html';
+                        }
+                    });
+                }
+            });
+
+
+        }
+
+        function loadDetail(query) {
+            if (!query.work_order_no) {
+                return false;
+            }
+            send('/action/ms/term-info/view-base', query, function(data) {
+                if (data.errcode == 0) {
+                    load('#detail-fm', data.data);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

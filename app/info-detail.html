@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>信息详情</title>
+<link rel="stylesheet" href="lib/weui/style/weui.min.css">
+<style></style>
+</head>
+<body>
+<div class="container">
+  <form id="detail-fm">
+    <input type="hidden" name="rec_id">
+    <input type="hidden" name="term_no">
+    <div class="weui_cells_title">基本信息</div>
+    <div class="weui_cells weui_cells_form">
+      <div class="weui_cell"> 
+        <!-- <div class="weui_cell_hd"><label class="weui_label">工商营业执照编码</label></div> -->
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>工商营业执照编码</p>
+          <input name="license_no" type="text" required="required" class="weui_input" id="license_no" placeholder="请输入工商营业执照编码">
+        </div>
+      </div>
+      <div class="weui_cell"> 
+        <!-- <div class="weui_cell_hd"><label class="weui_label">工商营业执照名称</label></div> -->
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>工商营业执照名称</p>
+          <input name="mcht_name" type="text" required="required" class="weui_input" id="mcht_name" placeholder="请输入工商营业执照名称">
+        </div>
+      </div>
+      <div class="weui_cell"> 
+        <!-- <div class="weui_cell_hd"><label class="weui_label">工商执照有效期</label></div> -->
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>工商执照有效期</p>
+          <input name="license_date" type="date" required="required" class="weui_input" id="license_date">
+        </div>
+      </div>
+      <div class="weui_cell"> 
+        <!-- <div class="weui_cell_hd"><label class="weui_label">组织机构代码证</label></div> -->
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>组织机构代码证</p>
+          <input name="org_code_cert" type="text" class="weui_input" id="org_code_cert" placeholder="请输入组织机构代码证">
+        </div>
+      </div>
+      <div class="weui_cell"> 
+        <!-- <div class="weui_cell_hd"><label class="weui_label">税务登记证</label></div> -->
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>税务登记证</p>
+          <input name="taxcert_no" type="text" class="weui_input" id="taxcert_no" placeholder="请输入税务登记证">
+        </div>
+      </div>
+      <div class="weui_cell"> 
+        <!-- <div class="weui_cell_hd"><label class="weui_label">法人代表姓名</label></div> -->
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>法人代表姓名</p>
+          <input name="cert_name" type="text" required="required" class="weui_input" id="cert_name" placeholder="请输入法人代表姓名">
+        </div>
+      </div>
+      <div class="weui_cell"> 
+        <!-- <div class="weui_cell_hd"><label class="weui_label">法人代表身份证号码</label></div> -->
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>法人代表身份证号码</p>
+          <input name="cert_id" type="text" required="required" class="weui_input" id="cert_id" placeholder="请输入法人代表身份证号码">
+        </div>
+      </div>
+      <div class="weui_cell"> 
+        <!-- <div class="weui_cell_hd"><label class="weui_label">法人代表身份证有效期</label></div> -->
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>法人代表身份证有效期</p>
+          <input name="cert_date" type="date" required="required" class="weui_input" id="cert_date">
+        </div>
+      </div>
+      <div class="weui_cell"> 
+        <!-- <div class="weui_cell_hd"><label class="weui_label">控股股东或实际控制自然人</label></div> -->
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>控股股东或实际控制自然人</p>
+          <input name="actual_controller" type="text" class="weui_input" id="actual_controller" placeholder="请输入控股股东或实际控制自然人">
+        </div>
+      </div>
+      <div class="weui_cell"> 
+        <!-- <div class="weui_cell_hd"><label class="weui_label">合同有效期</label></div> -->
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>合同有效期</p>
+          <input name="contract_date" type="date" required="required" class="weui_input" id="contract_date">
+        </div>
+      </div>
+      <div class="weui_cell"> 
+        <!-- <div class="weui_cell_hd"><label class="weui_label">设备安装地址</label></div> -->
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>设备安装地址</p>
+          <input name="installed_addr" type="text" required="required" class="weui_input" id="installed_addr" placeholder="请输入设备安装地址">
+        </div>
+      </div>
+      <!--
+      <div class="weui_cell"> 
+        <div class="weui_cell_hd"><label class="weui_label">押金金额</label></div> 
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>押金金额</p>
+          <input name="deposit_amount" type="text" required="required" class="weui_input" id="deposit_amount" placeholder="请输入押金金额">
+        </div>
+      </div>
+      -->
+      <div class="weui_cell"> 
+        <!-- <div class="weui_cell_hd"><label class="weui_label">联系人</label></div> -->
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>联系人</p>
+          <input name="contact_man" type="text" required="required" class="weui_input" id="contact_man" placeholder="请输入联系人">
+        </div>
+      </div>
+      <div class="weui_cell"> 
+        <!-- <div class="weui_cell_hd"><label class="weui_label">联系电话</label></div> -->
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>联系电话</p>
+          <input name="tel_no" type="text" required="required" class="weui_input" id="tel_no" placeholder="请输入联系电话">
+        </div>
+      </div>
+      <div class="weui_cell"> 
+        <!-- <div class="weui_cell_hd"><label class="weui_label">主机序列号</label></div> -->
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>主机序列号</p>
+          <input name="zj_device_no" type="text" class="weui_input" id="zj_device_no" placeholder="请输入主机序列号">
+        </div>
+        <div class="weui_cell_ft"> <a href="javascript:;" class="weui_btn weui_btn_plain_primary" onclick="onClickScanQRCode('zj_device_no')">扫一扫</a> </div>
+      </div>
+      <div class="weui_cell"> 
+        <!-- <div class="weui_cell_hd"><label class="weui_label">键盘序列号</label></div> -->
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>键盘序列号</p>
+          <input name="jp_device_no" type="text" class="weui_input" id="jp_device_no" placeholder="请输入键盘序列号">
+        </div>
+        <div class="weui_cell_ft"> <a href="javascript:;" class="weui_btn weui_btn_plain_primary" onclick="onClickScanQRCode('jp_device_no')">扫一扫</a> </div>
+      </div>
+      <div class="weui_cell"> 
+        <!-- <div class="weui_cell_hd"><label class="weui_label">附件序列号</label></div> -->
+        <div class="weui_cell_bd weui_cell_primary">
+          <p>附件序列号</p>
+          <input name="fj1_device_no" type="text" class="weui_input" id="fj1_device_no" placeholder="请输入附件序列号">
+        </div>
+        <div class="weui_cell_ft"> <a href="javascript:;" class="weui_btn weui_btn_plain_primary" onclick="onClickScanQRCode('fj1_device_no')">扫一扫</a> </div>
+      </div>
+    </div>
+    <div class="weui_cells_title">上传照片</div>
+    <div class="weui_cells weui_cells_form">
+      <div class="weui_cell">
+        <div class="weui_cell_bd weui_cell_primary">
+          <div class="weui_uploader">
+            <div class="weui_uploader_hd weui_cell">
+              <div class="weui_cell_bd weui_cell_primary">营业执照照片</div>
+            </div>
+            <div class="weui_uploader_bd">
+              <div class="weui_cell_bd" style="display:none;"> <img id="yyzz_img" alt="照片" style="width:50%;">
+                <input type="hidden" name="yyzz_is_new">
+                <input type="hidden" name="yyzz_localid">
+                <input type="hidden" name="yyzz_serverid">
+                <input type="hidden" name="yyzz_latitude">
+                <input type="hidden" name="yyzz_longitude">
+                <input type="hidden" name="yyzz_accuracy">
+                <div> <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_default" data-name="yyzz" onclick="onClickDeleteImage(this)">删除</a> </div>
+              </div>
+              <div class="weui_uploader_input_wrp">
+                <input type="button" class="weui_uploader_input" name="yyzz" value="上传图片" onclick="onClickChooseImage(this)">
+              </div>
+            </div>
+          </div>
+          <div class="weui_uploader">
+            <div class="weui_uploader_hd weui_cell">
+              <div class="weui_cell_bd weui_cell_primary">税务登记证照片</div>
+            </div>
+            <div class="weui_uploader_bd">
+              <div class="weui_cell_bd" style="display:none;"> <img id="swdjz_img" alt="照片" style="width:50%;">
+                <input type="hidden" name="swdjz_is_new">
+                <input type="hidden" name="swdjz_localid">
+                <input type="hidden" name="swdjz_serverid">
+                <input type="hidden" name="swdjz_latitude">
+                <input type="hidden" name="swdjz_longitude">
+                <input type="hidden" name="swdjz_accuracy">
+                <div> <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_default" data-name="swdjz" onclick="onClickDeleteImage(this)">删除</a> </div>
+              </div>
+              <div class="weui_uploader_input_wrp">
+                <input type="button" class="weui_uploader_input" name="swdjz" value="上传图片" onclick="onClickChooseImage(this)">
+              </div>
+            </div>
+          </div>
+          <div class="weui_uploader">
+            <div class="weui_uploader_hd weui_cell">
+              <div class="weui_cell_bd weui_cell_primary">组织机构代码证照片</div>
+            </div>
+            <div class="weui_uploader_bd">
+              <div class="weui_cell_bd" style="display:none;"> <img id="zzjgdmz_img" alt="照片" style="width:50%;">
+                <input type="hidden" name="zzjgdmz_is_new">
+                <input type="hidden" name="zzjgdmz_localid">
+                <input type="hidden" name="zzjgdmz_serverid">
+                <input type="hidden" name="zzjgdmz_latitude">
+                <input type="hidden" name="zzjgdmz_longitude">
+                <input type="hidden" name="zzjgdmz_accuracy">
+                <div> <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_default" data-name="zzjgdmz" onclick="onClickDeleteImage(this)">删除</a> </div>
+              </div>
+              <div class="weui_uploader_input_wrp">
+                <input type="button" class="weui_uploader_input" name="zzjgdmz" value="上传图片" onclick="onClickChooseImage(this)">
+              </div>
+            </div>
+          </div>
+          <div class="weui_uploader">
+            <div class="weui_uploader_hd weui_cell">
+              <div class="weui_cell_bd weui_cell_primary">法人身份证照片</div>
+            </div>
+            <div class="weui_uploader_bd">
+              <div class="weui_cell_bd" style="display:none;"> <img id="frsfz_img" alt="照片" style="width:50%;">
+                <input type="hidden" name="frsfz_is_new">
+                <input type="hidden" name="frsfz_localid">
+                <input type="hidden" name="frsfz_serverid">
+                <input type="hidden" name="frsfz_latitude">
+                <input type="hidden" name="frsfz_longitude">
+                <input type="hidden" name="frsfz_accuracy">
+                <div> <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_default" data-name="frsfz" onclick="onClickDeleteImage(this)">删除</a> </div>
+              </div>
+              <div class="weui_uploader_input_wrp">
+                <input type="button" class="weui_uploader_input" name="frsfz" value="上传图片" onclick="onClickChooseImage(this)">
+              </div>
+              <div class="weui_cell_bd" style="display:none;"> <img id="frsfz2_img" alt="照片" style="width:50%;">
+                <input type="hidden" name="frsfz2_is_new">
+                <input type="hidden" name="frsfz2_localid">
+                <input type="hidden" name="frsfz2_serverid">
+                <input type="hidden" name="frsfz2_latitude">
+                <input type="hidden" name="frsfz2_longitude">
+                <input type="hidden" name="frsfz2_accuracy">
+                <div> <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_default" data-name="frsfz2" onclick="onClickDeleteImage(this)">删除</a> </div>
+              </div>
+              <div class="weui_uploader_input_wrp">
+                <input type="button" class="weui_uploader_input" name="frsfz2" value="上传图片" onclick="onClickChooseImage(this)">
+              </div>
+            </div>
+          </div>
+          <div class="weui_uploader">
+            <div class="weui_uploader_hd weui_cell">
+              <div class="weui_cell_bd weui_cell_primary">门店照片</div>
+            </div>
+            <div class="weui_uploader_bd">
+              <div class="weui_cell_bd" style="display:none;"> <img id="md_img" alt="照片" style="width:50%;">
+                <input type="hidden" name="md_is_new">
+                <input type="hidden" name="md_localid">
+                <input type="hidden" name="md_serverid">
+                <input type="hidden" name="md_latitude">
+                <input type="hidden" name="md_longitude">
+                <input type="hidden" name="md_accuracy">
+                <div> <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_default" data-name="md" onclick="onClickDeleteImage(this)">删除</a> </div>
+              </div>
+              <div class="weui_uploader_input_wrp">
+                <input type="button" class="weui_uploader_input" name="md" value="上传图片" onclick="onClickChooseImage(this)">
+              </div>
+              <div class="weui_cell_bd" style="display:none;"> <img id="md2_img" alt="照片" style="width:50%;">
+                <input type="hidden" name="md2_is_new">
+                <input type="hidden" name="md2_localid">
+                <input type="hidden" name="md2_serverid">
+                <input type="hidden" name="md2_latitude">
+                <input type="hidden" name="md2_longitude">
+                <input type="hidden" name="md2_accuracy">
+                <div> <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_default" data-name="md2" onclick="onClickDeleteImage(this)">删除</a> </div>
+              </div>
+              <div class="weui_uploader_input_wrp">
+                <input type="button" class="weui_uploader_input" name="md2" value="上传图片" onclick="onClickChooseImage(this)">
+              </div>
+              <div class="weui_cell_bd" style="display:none;"> <img id="md3_img" alt="照片" style="width:50%;">
+                <input type="hidden" name="md3_is_new">
+                <input type="hidden" name="md3_localid">
+                <input type="hidden" name="md3_serverid">
+                <input type="hidden" name="md3_latitude">
+                <input type="hidden" name="md3_longitude">
+                <input type="hidden" name="md3_accuracy">
+                <div> <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_default" data-name="md3" onclick="onClickDeleteImage(this)">删除</a> </div>
+              </div>
+              <div class="weui_uploader_input_wrp">
+                <input type="button" class="weui_uploader_input" name="md3" value="上传图片" onclick="onClickChooseImage(this)">
+              </div>
+            </div>
+          </div>
+          <div class="weui_uploader">
+            <div class="weui_uploader_hd weui_cell">
+              <div class="weui_cell_bd weui_cell_primary">结算账户整改</div>
+            </div>
+            <div class="weui_uploader_bd">
+              <div class="weui_cell_bd" style="display:none;"> <img id="shrwsqb_img" alt="照片" style="width:50%;">
+                <input type="hidden" name="shrwsqb_is_new">
+                <input type="hidden" name="shrwsqb_localid">
+                <input type="hidden" name="shrwsqb_serverid">
+                <input type="hidden" name="shrwsqb_latitude">
+                <input type="hidden" name="shrwsqb_longitude">
+                <input type="hidden" name="shrwsqb_accuracy">
+                <div> <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_default" data-name="shrwsqb" onclick="onClickDeleteImage(this)">删除</a> </div>
+              </div>
+              <div class="weui_uploader_input_wrp">
+                <input type="button" class="weui_uploader_input" name="shrwsqb" value="上传图片" onclick="onClickChooseImage(this)">
+              </div>
+              <div class="weui_cell_bd" style="display:none;"> <img id="shrwsqb2_img" alt="照片" style="width:50%;">
+                <input type="hidden" name="shrwsqb2_is_new">
+                <input type="hidden" name="shrwsqb2_localid">
+                <input type="hidden" name="shrwsqb2_serverid">
+                <input type="hidden" name="shrwsqb2_latitude">
+                <input type="hidden" name="shrwsqb2_longitude">
+                <input type="hidden" name="shrwsqb2_accuracy">
+                <div> <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_default" data-name="shrwsqb2" onclick="onClickDeleteImage(this)">删除</a> </div>
+              </div>
+              <div class="weui_uploader_input_wrp">
+                <input type="button" class="weui_uploader_input" name="shrwsqb2" value="上传图片" onclick="onClickChooseImage(this)">
+              </div>
+            </div>
+          </div>
+          <div class="weui_uploader">
+            <div class="weui_uploader_hd weui_cell">
+              <div class="weui_cell_bd weui_cell_primary">合作协议</div>
+            </div>
+            <div class="weui_uploader_bd">
+              <div class="weui_cell_bd" style="display: none;"> <img id="hzxy_img" src="#" alt="照片" style="width:50%;">
+                <input type="hidden" name="hzxy_is_new">
+                <input type="hidden" name="hzxy_localid">
+                <input type="hidden" name="hzxy_serverid">
+                <input type="hidden" name="hzxy_latitude">
+                <input type="hidden" name="hzxy_longitude">
+                <input type="hidden" name="hzxy_accuracy">
+                <div> <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_default" data-name="hzxy" onclick="onClickDeleteImage(this)">删除</a> </div>
+              </div>
+              <div class="weui_uploader_input_wrp">
+                <input type="button" class="weui_uploader_input" name="hzxy" value="上传图片" onclick="onClickChooseImage(this)">
+              </div>
+              <div class="weui_cell_bd" style="display:none;"> <img id="hzxy2_img" src="#" alt="照片" style="width:50%;">
+                <input type="hidden" name="hzxy2_is_new">
+                <input type="hidden" name="hzxy2_localid">
+                <input type="hidden" name="hzxy2_serverid">
+                <input type="hidden" name="hzxy2_latitude">
+                <input type="hidden" name="hzxy2_longitude">
+                <input type="hidden" name="hzxy2_accuracy">
+                <div> <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_default" data-name="hzxy2" onclick="onClickDeleteImage(this)">删除</a> </div>
+              </div>
+              <div class="weui_uploader_input_wrp">
+                <input type="button" class="weui_uploader_input" name="hzxy2" value="上传图片" onclick="onClickChooseImage(this)">
+              </div>
+              <div class="weui_cell_bd" style="display:none;"> <img id="hzxy3_img" src="#" alt="照片" style="width:50%;">
+                <input type="hidden" name="hzxy3_is_new">
+                <input type="hidden" name="hzxy3_localid">
+                <input type="hidden" name="hzxy3_serverid">
+                <input type="hidden" name="hzxy3_latitude">
+                <input type="hidden" name="hzxy3_longitude">
+                <input type="hidden" name="hzxy3_accuracy">
+                <div> <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_default" data-name="hzxy3" onclick="onClickDeleteImage(this)">删除</a> </div>
+              </div>
+              <div class="weui_uploader_input_wrp">
+                <input type="button" class="weui_uploader_input" name="hzxy3" value="上传图片" onclick="onClickChooseImage(this)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <input type="submit" class="weui_btn weui_btn_primary" value="提交">
+  </form>
+</div>
+<script type="text/javascript" src="lib/zepto/zepto.min.js" charset="utf-8"></script> 
+<script type="text/javascript" src="js/tool.js" charset="utf-8"></script> 
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> 
+<script>
+		$(function () {
+			
+			var query = parseQueryString();
+			send('/action/wechat/view', query, function(data) {
+				if(data.code == 0) {
+					data.data.license_date = formatDate(data.data.license_date);
+					data.data.cert_date = formatDate(data.data.cert_date);
+					data.data.contract_date = formatDate(data.data.contract_date);
+					
+					var images = data.images;
+					for(var i = 0; i < images.length; i ++) {
+						var image = images[i];
+						var type = image.image_type;
+						var img = $('#' + type + '_img').attr('src', image.localid);
+						var container = img.closest('.weui_cell_bd');
+						
+						container.find('input[name='+name+'_serverid]').val(image.serverid);
+						container.find('input[name='+name+'_latitude]').val(image.latitude);
+						container.find('input[name='+name+'_longitude]').val(image.longitude);
+						container.find('input[name='+name+'_accuracy]').val(image.accuracy);
+						
+						container.show().next().hide();
+					}
+					
+					load('#detail-fm', data.data);
+				}
+			});
+			
+			$('#detail-fm').submit(function(e) {
+	            e.preventDefault();
+				var data = $(this).serializeObject();
+				var imageType = ['yyzz','swdjz','zzjgdmz','frsfz','frsfz2','md','md2','md3','shrwsqb','shrwsqb2','hzxy','hzxy2','hzxy3'];
+				var images = [];
+				for(var i = 0; i < imageType.length; i ++) {
+					var type = imageType[i];
+					if(data[type+'_serverid']) {
+						images.push({
+							'image_type': type,
+							'is_new': data[type+'_is_new'],
+							'localid': data[type+'_localid'],
+							'serverid': data[type+'_serverid'],
+							'latitude': data[type+'_latitude'],
+							'longitude': data[type+'_longitude'],
+							'accuracy': data[type+'_accuracy']
+						});
+					}
+				}
+				data.images = images;
+				data.license_date = data.license_date.replace(/-/g, '');
+				data.cert_date = data.cert_date.replace(/-/g, '');
+				data.contract_date = data.contract_date.replace(/-/g, '');
+				send('/action/wechat/update', data, function(data) {
+					if(data.code == 0) {
+						alert('操作成功');
+						window.history.back();
+					}
+				});
+	        });
+			
+			
+			 //$.init();
+			$.get('/wechat/get-jsapi-signature', {
+				url: location.href
+			}, function(data) {
+				data = JSON.parse(data);
+				
+				wx.config($.extend({
+					//debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+					jsApiList: ['chooseImage','previewImage','uploadImage', 'downloadImage', 'getNetworkType', 'getLocation', 'scanQRCode'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+				}, data));
+				
+			});
+			 
+			wx.ready(function(){
+				//wx.hideOptionMenu();
+				// config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+				wx.checkJsApi({
+				    jsApiList: ['scanQRCode','chooseImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+				    success: function(res) {
+				        // 以键值对的形式返回，可用的api值true，不可用为false
+				        // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+				        var msg = '';
+				        if(!res.checkResult.scanQRCode) {
+				        	msg += '、微信扫一扫';
+				        }
+				        
+				        if(!res.checkResult.chooseImage) {
+				        	msg += '、拍照或从手机相册中选图';
+				        }
+				        
+				        if(msg) {
+				        	alert('当前客户端不支持' + msg.substr(1));
+				        }
+				    }
+				});
+			});
+			
+			wx.error(function(res){
+				alert(JSON.stringify(res));
+				// config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+			});
+				
+		});
+	
+	
+		function onClickChooseImage(target) {
+				var name = $(target).attr('name');
+				wx.chooseImage({
+					count: 1, // 默认9
+					sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+					success: function (res) {
+						var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+						var localId = localIds[0];
+												
+						var container = $(target).closest('.weui_uploader_input_wrp').hide().prev().show();
+						container.find('img').attr('src', localId);
+						container.find('input[name='+name+'_localid]').val(localId);
+						wx.uploadImage({
+							localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+							isShowProgressTips: 1, // 默认为1，显示进度提示
+							success: function (res) {
+								var serverId = res.serverId; // 返回图片的服务器端ID
+								container.find('input[name='+name+'_is_new]').val('1');
+								container.find('input[name='+name+'_serverid]').val(serverId);
+							}
+						});
+						
+						wx.getLocation({
+							type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+							success: function (res) {
+								var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+								var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+								var speed = res.speed; // 速度，以米/每秒计
+								var accuracy = res.accuracy || null; // 位置精度
+								container.find('input[name='+name+'_latitude]').val(latitude);
+								container.find('input[name='+name+'_longitude]').val(longitude);
+								container.find('input[name='+name+'_accuracy]').val(accuracy);
+							}
+						});
+							 						
+					}
+				});
+		}
+		
+		function onClickPreviewImage(target) {
+			wx.previewImage({
+				current: $(target).attr('src'), // 当前显示图片的http链接
+				urls: [] // 需要预览的图片http链接列表
+			});
+		}
+		
+		
+		function onClickDeleteImage(target) {
+			//$(target)..closest('.weui_uploader_bd').hide().next().show();
+			var container = $(target).closest('.weui_cell_bd').hide();
+			var name = $(target).attr('data-name');
+
+			container.find('img').attr('src','');
+			container.find('input[name='+name+'_is_new]').val('');
+			container.find('input[name='+name+'_serverid]').val('');
+			container.find('input[name='+name+'_latitude]').val('');
+			container.find('input[name='+name+'_longitude]').val('');
+			container.find('input[name='+name+'_accuracy]').val('');
+			
+			container.next().show();
+		}
+		
+		function onClickGetNetworkType() {
+			wx.getNetworkType({
+				success: function (res) {
+					var networkType = res.networkType; // 返回网络类型2g，3g，4g，wifi
+				}
+			});
+		}
+		
+		function onClickGetLocation() {
+			wx.getLocation({
+				type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+				success: function (res) {
+					var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+					var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+					var speed = res.speed; // 速度，以米/每秒计
+					var accuracy = res.accuracy; // 位置精度
+				}
+			});
+		}
+		
+		
+		function onClickScanQRCode(id) {
+			wx.scanQRCode({
+				needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+				scanType: ["barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+				success: function (res) {
+					var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+					var index = result.indexOf(",");
+					if(index >= 0) {
+						result = result.substr(index+1);
+					}
+					$('#'+id).val(result);
+				},
+				fail: function (res) {
+					alert(JSON.stringify(res));
+				}
+			});
+		}
+		
+		function formatDate(value) {
+			if(value.length == 6) {
+				value = value + '01';
+			}
+			return value.substr(0,4) + '-' + value.substr(4,2) + '-' + value.substr(6,2)
+		}
+		
+		
+
+</script>
+</body>
+</html>
