@@ -21,7 +21,7 @@ body {
 .tabbar {
 	height: 100%
 }
-.weui_tab_bd_item_active {
+.weui-tab__bd-item_active {
 	display: block;
 }
 .qrcode {
@@ -31,16 +31,16 @@ body {
 </head>
 <body>
 <div>
-  <div id="busi-list" class="weui_cells ">
-    <!--<div class="weui_cell">
-      <div class="weui_cell_bd weui_cell_primary">
+  <div id="busi-list" class="weui-cells ">
+    <!--<div class="weui-cell">
+      <div class="weui-cell__bd weui-cell_primary">
         <p>当面付 商户名称商户名称商户名称商户名称商户名称商户名称商户名称</p>
       </div>
-      <a href="term-busi-list.html" class="weui_btn weui_btn_mini weui_btn_plain_primary">二维码</a>        
+      <a href="term-busi-list.html" class="weui-btn weui-btn_mini weui-btn_plain_primary">二维码</a>        
     </div>
-    <div class="weui_media_box weui_media_text">
-      <p class="weui_media_desc">商户号: 终端号:</p>
-      <p class="weui_media_desc">户名: 账号:</p>
+    <div class="weui-media_box weui-media_text">
+      <p class="weui-media_desc">商户号: 终端号:</p>
+      <p class="weui-media_desc">户名: 账号:</p>
     </div>-->    
   </div>
 </div>
@@ -50,21 +50,21 @@ body {
 <script type="text/javascript" src="js/tool.js" charset="utf-8"></script>
 <script id="list-templ" type="text/html">
 	{{each rows as row i}}
-	<div class="weui_cell">
-      <div class="weui_cell_bd weui_cell_primary">
+	<div class="weui-cell">
+      <div class="weui-cell__bd weui-cell_primary">
         <p>{{row.marchant_name}}</p>
       </div>	  
     </div>
-    <div class="weui_media_box weui_media_text">
+    <div class="weui-media_box weui-media_text">
 	  {{if row.fee_chan=='Z' && row.qrcode}}
 	   <div class="qrcode" data-qrcode="{{row.qrcode}}"></div>
 	   <!--<img src="qrcode.png" alt="二维码"></img>-->
 	  {{/if}}      	  
-	  <p class="weui_media_desc">渠道: {{row.fee_chan | formatFeeChan}}</p>
-      <p class="weui_media_desc">商户号: {{row.mchnt_cd}}</p>
-	  <p class="weui_media_desc">终端号: {{row.term_id}}</p>
-	  <p class="weui_media_desc">户名: {{row.account_name}}</p>
-      <p class="weui_media_desc">账号: {{row.account_no}}</p>
+	  <p class="weui-media_desc">渠道: {{row.fee_chan | formatFeeChan}}</p>
+      <p class="weui-media_desc">商户号: {{row.mchnt_cd}}</p>
+	  <p class="weui-media_desc">终端号: {{row.term_id}}</p>
+	  <p class="weui-media_desc">户名: {{row.account_name}}</p>
+      <p class="weui-media_desc">账号: {{row.account_no}}</p>
     </div> 	
 	{{/each}}
 </script>

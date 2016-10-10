@@ -18,102 +18,102 @@
         <form id="detail-fm">
             <input type="hidden" name="rec_id">
             <input type="hidden" name="term_no">
-            <!-- <div class="weui_cells_title">收单业务申请</div> -->
-            <div class="weui_cells weui_cells_access weui_cells_form">
-                <div class="weui_cell">
-                    <!-- <div class="weui_cell_hd"><label class="weui_label">工商营业执照编码</label></div> -->
-                    <div class="weui_cell_bd weui_cell_primary">
+            <!-- <div class="weui-cells_title">收单业务申请</div> -->
+            <div class="weui-cells weui-cells_access weui-cells_form">
+                <div class="weui-cell">
+                    <!-- <div class="weui-cell__hd"><label class="weui-label">工商营业执照编码</label></div> -->
+                    <div class="weui-cell__bd weui-cell_primary">
                         <p>工作单号</p>
-                        <input name="work_order_no" type="text" class="weui_input" readonly>
+                        <input name="work_order_no" type="text" class="weui-input" readonly>
                     </div>
                 </div>
-                <a id="term-busi-list" class="weui_cell">
-                    <div class="weui_cell_bd weui_cell_primary">
+                <a id="term-busi-list" class="weui-cell">
+                    <div class="weui-cell__bd weui-cell_primary">
                       <p>门店名称</p>
                       <p id="shop_name"></p>
-                      <!--<input name="shop_name" type="text" class="weui_input" readonly>-->
+                      <!--<input name="shop_name" type="text" class="weui-input" readonly>-->
                     </div>
-                    <div class="weui_cell_ft"></div>
+                    <div class="weui-cell__ft"></div>
                   </a>
-                <div class="weui_cell">
-                    <!-- <div class="weui_cell_hd"><label class="weui_label">工商执照有效期</label></div> -->
-                    <div class="weui_cell_bd weui_cell_primary">
+                <div class="weui-cell">
+                    <!-- <div class="weui-cell__hd"><label class="weui-label">工商执照有效期</label></div> -->
+                    <div class="weui-cell__bd weui-cell_primary">
                         <p>工作单类型</p>
-                        <input name="work_order_type" type="text" class="weui_input" readonly>
+                        <input name="work_order_type" type="text" class="weui-input" readonly>
                     </div>
                 </div>
-                <div class="weui_cell">
-                    <!-- <div class="weui_cell_hd"><label class="weui_label">组织机构代码证</label></div> -->
-                    <div class="weui_cell_bd weui_cell_primary">
+                <div class="weui-cell">
+                    <!-- <div class="weui-cell__hd"><label class="weui-label">组织机构代码证</label></div> -->
+                    <div class="weui-cell__bd weui-cell_primary">
                         <p>工作单内容</p>
-                        <input name="work_flag" type="text" class="weui_input" readonly>
+                        <input name="work_flag" type="text" class="weui-input" readonly>
                     </div>
                 </div>
-                <div class="weui_cell">
-                    <!-- <div class="weui_cell_hd"><label class="weui_label">税务登记证</label></div> -->
-                    <div class="weui_cell_hd weui_cell_primary">是否完成任务</div>
-                    <div class="weui_cell_ft">
-                        <input class="weui_switch" type="checkbox" name="install_flag" checked>
+                <div class="weui-cell">
+                    <!-- <div class="weui-cell__hd"><label class="weui-label">税务登记证</label></div> -->
+                    <div class="weui-cell__hd weui-cell_primary">是否完成任务</div>
+                    <div class="weui-cell__ft">
+                        <input class="weui-switch" type="checkbox" name="install_flag" checked>
                     </div>
                 </div>
-                <div class="weui_cell">
-                    <!-- <div class="weui_cell_hd"><label class="weui_label">法人代表姓名</label></div> -->
-                    <div class="weui_cell_bd weui_cell_primary">
+                <div class="weui-cell">
+                    <!-- <div class="weui-cell__hd"><label class="weui-label">法人代表姓名</label></div> -->
+                    <div class="weui-cell__bd weui-cell_primary">
                         <p>执行日期</p>
-                        <input name="work_date" type="date" class="weui_input" required="required">
+                        <input name="work_date" type="date" class="weui-input" required="required">
                     </div>
                 </div>
-                <div class="weui_cell">
-        <!-- <div class="weui_cell_hd"><label class="weui_label">当面付二维码</label></div> -->
-        <div class="weui_cell_bd weui_cell_primary">
+                <div class="weui-cell">
+        <!-- <div class="weui-cell__hd"><label class="weui-label">当面付二维码</label></div> -->
+        <div class="weui-cell__bd weui-cell_primary">
           <p>当面付二维码</p>
-          <input name="dmf_qr_code" type="text" class="weui_input" id="dmf_qr_code" placeholder="请扫入二维码" readonly>
+          <input name="dmf_qr_code" type="text" class="weui-input" id="dmf_qr_code" placeholder="请扫入二维码" readonly>
         </div>
-        <div class="weui_cell_ft">
-          <a href="javascript:;" class="weui_btn weui_btn_plain_primary" onclick="onClickScanQRCode('dmf_qr_code')">扫一扫</a>
+        <div class="weui-cell__ft">
+          <a href="javascript:;" class="weui-btn weui-btn_plain_primary" onclick="onClickScanQRCode('dmf_qr_code')">扫一扫</a>
         </div>
       </div>
-                <div class="weui_cell">
-                    <!-- <div class="weui_cell_hd"><label class="weui_label">法人代表身份证号码</label></div> -->
-                    <div class="weui_cell_bd weui_cell_primary">
+                <div class="weui-cell">
+                    <!-- <div class="weui-cell__hd"><label class="weui-label">法人代表身份证号码</label></div> -->
+                    <div class="weui-cell__bd weui-cell_primary">
                         <p>备注</p>
-                        <input name="sign_note" type="text" class="weui_input" placeholder="请输入备注">
+                        <input name="sign_note" type="text" class="weui-input" placeholder="请输入备注">
                     </div>
                 </div>
             </div>
-            <div class="weui_cells_title">协议照片</div>
-            <div class="weui_cells weui_cells_form">
-                <div class="weui_cell">
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <div class="weui_uploader">
-                            <div class="weui_uploader_bd">
-                                <ul class="weui_uploader_files" id="agreement-photo">
+            <div class="weui-cells_title">协议照片</div>
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd weui-cell_primary">
+                        <div class="weui-uploader">
+                            <div class="weui-uploader__bd">
+                                <ul class="weui-uploader__files" id="agreement-photo">
                                 </ul>
-                                <div class="weui_uploader_input_wrp">
-                                    <input class="weui_uploader_input" type="button" onclick="onClickChooseImage(this)">
+                                <div class="weui-uploader__input-box">
+                                    <input class="weui-uploader__input" type="button" onclick="onClickChooseImage(this)">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="weui_cells_title">工作单照片</div>
-            <div class="weui_cells weui_cells_form">
-                <div class="weui_cell">
-                    <div class="weui_cell_bd weui_cell_primary">
-                        <div class="weui_uploader">
-                            <div class="weui_uploader_bd">
-                                <ul class="weui_uploader_files" id="order-photo">
+            <div class="weui-cells_title">工作单照片</div>
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd weui-cell_primary">
+                        <div class="weui-uploader">
+                            <div class="weui-uploader__bd">
+                                <ul class="weui-uploader__files" id="order-photo">
                                 </ul>
-                                <div class="weui_uploader_input_wrp">
-                                    <input class="weui_uploader_input" type="button" onclick="onClickChooseImage(this)">
+                                <div class="weui-uploader__input-box">
+                                    <input class="weui-uploader__input" type="button" onclick="onClickChooseImage(this)">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <input type="submit" class="weui_btn weui_btn_primary" value="提交" id="submit-btn">
+            <input type="submit" class="weui-btn weui-btn_primary" value="提交" id="submit-btn">
         </form>
     </div>
     <script type="text/javascript" src="lib/template.js" charset="utf-8"></script>
@@ -122,14 +122,14 @@
     <script type="text/javascript" src="js/tool.js" charset="utf-8"></script>
     <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script id="uploader-file-templ" type="text/html">
-        <li class="weui_uploader_file weui_uploader_status" style="background-image:url({{localid}})">
-            <div class="weui_uploader_status_content">
-                <i class="weui_icon_clear" onClick="onClickDeleteImage(this)"></i>
+        <li class="weui-uploader_file weui-uploader_status" style="background-image:url({{localid}})">
+            <div class="weui-uploader_status_content">
+                <i class="weui-icon_clear" onClick="onClickDeleteImage(this)"></i>
             </div>
         </li>
     </script>
     <script id="uploader-file-view-templ" type="text/html">
-        <li class="weui_uploader_file weui_uploader_status" style="background-image:url({{localid}})">
+        <li class="weui-uploader_file weui-uploader_status" style="background-image:url({{localid}})">
         </li>
     </script>
     <script>
@@ -165,12 +165,12 @@
 
             //照片处理
             var images = [];
-            $('#order-photo').children('.weui_uploader_file').each(function(index, item) {
+            $('#order-photo').children('.weui-uploader_file').each(function(index, item) {
                 var fileData = $(item).data('file');
                 fileData.ei_type = 'gd';
                 images.push(fileData);
             });
-            $('#agreement-photo').children('.weui_uploader_file').each(function(index, item) {
+            $('#agreement-photo').children('.weui-uploader_file').each(function(index, item) {
                 var fileData = $(item).data('file');
                 fileData.ei_type = 'xy';
                 images.push(fileData);
@@ -257,8 +257,8 @@
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                     var localId = localIds[0];
 
-                    //var container = $(target).closest('.weui_uploader_input_wrp').hide().prev().show();
-                    var container = $(target).closest('.weui_uploader_input_wrp').prev();
+                    //var container = $(target).closest('.weui-uploader__input-box').hide().prev().show();
+                    var container = $(target).closest('.weui-uploader__input-box').prev();
                     var html = template('uploader-file-templ', {
                         localid: localId
                     });
@@ -312,7 +312,7 @@
 
         function onClickDeleteImage(target) {
             $.confirm('确认要删除照片吗？', function() {
-                var file = $(target).closest('.weui_uploader_file');
+                var file = $(target).closest('.weui-uploader_file');
                 file.remove();
             }, function() {});
         }

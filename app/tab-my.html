@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>e通</title>
 <link rel="stylesheet" href="lib/weui/style/weui.min.css">
-<link rel="stylesheet" href="lib/weui/weui-extend.css">
 <style>
 body, html {
 	height: 100%;
@@ -22,7 +21,7 @@ body {
 .tabbar {
 	height: 100%
 }
-.weui_tab_bd_item_active {
+.weui-tab__bd-item_active {
 	display: block;
 }
 </style>
@@ -30,59 +29,59 @@ body {
 <body>
 <div class="container" id="container">
   <div class="tabbar">
-    <div class="weui_tab">
-      <div class="weui_tab_bd">
-        <div id="tab-my" class="weui_tab_bd_item weui_tab_bd_item_active">
-          <div class="weui_panel weui_panel_access">
-            <div class="weui_panel_bd">
-              <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
-              <div class="weui_media_hd">
-                <img class="weui_media_appmsg_thumb" src="images/icon_nav_dialog.png" alt="">
+    <div class="weui-tab">
+      <div class="weui-tab__bd">
+        <div id="tab-my" class="weui-tab__bd-item weui-tab__bd-item_active">
+          <div class="weui-panel weui-panel_access">
+            <div class="weui-panel_bd">
+              <a href="javascript:void(0);" class="weui-media-box weui-media_appmsg">
+              <div class="weui-media_hd">
+                <img class="weui-media_appmsg_thumb" src="images/icon_nav_dialog.png" alt="">
               </div>
-              <div class="weui_media_bd">
-                <h4 class="weui_media_title" id="login_name"></h4>
-                <p class="weui_media_desc" id="full_name"></p>
+              <div class="weui-media_bd">
+                <h4 class="weui-media_title" id="login_name"></h4>
+                <p class="weui-media_desc" id="full_name"></p>
               </div>
               </a>
             </div>
           </div>
-          <div class="weui_cells weui_cells_access">
-            <a class="weui_cell" href="change-password.html">
-            <div class="weui_cell_bd weui_cell_primary">
+          <div class="weui-cells">
+            <a class="weui-cell weui-cell_access" href="change-password.html">
+            <div class="weui-cell__bd weui-cell_primary">
               <p>修改登录密码</p>
             </div>
-            <div class="weui_cell_ft"></div>
+            <div class="weui-cell__ft"></div>
             </a>
             <!--
-            <a class="weui_cell" href="javascript:;" onclick="shareFriends()">
-            <div class="weui_cell_bd weui_cell_primary">
+            <a class="weui-cell" href="javascript:;" onclick="shareFriends()">
+            <div class="weui-cell__bd weui-cell_primary">
               <p>推荐给朋友</p>
             </div>
-            <div class="weui_cell_ft"></div>
+            <div class="weui-cell__ft"></div>
             </a>
             -->
           </div>
-          <a href="javascript:;" class="weui_btn weui_btn_warn" onclick="logout()">退出</a>
+          <a href="javascript:;" class="weui-btn weui-btn_warn" onclick="logout()">退出</a>
         </div>
       </div>
-      <div class="weui_tabbar">
-        <a href="index.html?refresh=1" class="weui_tabbar_item">
-        <div class="weui_tabbar_icon">
+      <div class="weui-tabbar">
+        <a href="index.html?refresh=1" class="weui-tabbar__item">
+        <div class="weui-tabbar_icon">
           <img src="./images/icon_nav_button.png" alt="">
         </div>
-        <p class="weui_tabbar_label">首页</p>
+        <p class="weui-tabbar__label">首页</p>
         </a>
-        <a href="tab-workorder.html" class="weui_tabbar_item">
-        <div class="weui_tabbar_icon">
+        <a href="tab-workorder.html" class="weui-tabbar__item">
+        <div class="weui-tabbar_icon">
           <img src="./images/icon_nav_article.png" alt="">
         </div>
-        <p class="weui_tabbar_label">工作单</p>
+        <p class="weui-tabbar__label">工作单</p>
         </a>
-        <a href="javascript:;" class="weui_tabbar_item weui_bar_item_on">
-        <div class="weui_tabbar_icon">
+        <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on">
+        <div class="weui-tabbar_icon">
           <img src="./images/icon_nav_cell.png" alt="">
         </div>
-        <p class="weui_tabbar_label">我</p>
+        <p class="weui-tabbar__label">我</p>
         </a>
       </div>
     </div>

@@ -14,69 +14,69 @@
   <form id="detail-fm">
     <input type="hidden" name="rec_id">
     <input type="hidden" name="term_no">
-    <!-- <div class="weui_cells_title">收单业务申请</div> -->
-    <div class="weui_cells weui_cells_access weui_cells_form">
-      <div class="weui_cell">
-        <!-- <div class="weui_cell_hd"><label class="weui_label">工商营业执照编码</label></div> -->
-        <div class="weui_cell_bd weui_cell_primary">
+    <!-- <div class="weui-cells_title">收单业务申请</div> -->
+    <div class="weui-cells weui-cells_access weui-cells_form">
+      <div class="weui-cell">
+        <!-- <div class="weui-cell__hd"><label class="weui-label">工商营业执照编码</label></div> -->
+        <div class="weui-cell__bd weui-cell_primary">
           <p>工作单号</p>
-          <input name="work_order_no" type="text" class="weui_input" placeholder="" readonly>
+          <input name="work_order_no" type="text" class="weui-input" placeholder="" readonly>
         </div>
       </div>
-      <a id="term-busi-list" class="weui_cell">
-        <div class="weui_cell_bd weui_cell_primary">
+      <a id="term-busi-list" class="weui-cell">
+        <div class="weui-cell__bd weui-cell_primary">
           <p>门店名称</p>
           <p id="shop_name"></p>
-          <!--<input name="shop_name" type="text" class="weui_input" readonly>-->
+          <!--<input name="shop_name" type="text" class="weui-input" readonly>-->
         </div>
-        <div class="weui_cell_ft"></div>
+        <div class="weui-cell__ft"></div>
       </a>
-      <div class="weui_cell">
-        <!-- <div class="weui_cell_hd"><label class="weui_label">工商执照有效期</label></div> -->
-        <div class="weui_cell_bd weui_cell_primary">
+      <div class="weui-cell">
+        <!-- <div class="weui-cell__hd"><label class="weui-label">工商执照有效期</label></div> -->
+        <div class="weui-cell__bd weui-cell_primary">
           <p>工作单类型</p>
-          <input name="work_order_type" type="text" class="weui_input" placeholder="" readonly>
+          <input name="work_order_type" type="text" class="weui-input" placeholder="" readonly>
         </div>
       </div>
-      <div class="weui_cell">
-        <!-- <div class="weui_cell_hd"><label class="weui_label">组织机构代码证</label></div> -->
-        <div class="weui_cell_bd weui_cell_primary">
+      <div class="weui-cell">
+        <!-- <div class="weui-cell__hd"><label class="weui-label">组织机构代码证</label></div> -->
+        <div class="weui-cell__bd weui-cell_primary">
           <p>工作单内容</p>
-          <input name="work_flag" type="text" class="weui_input" placeholder="" readonly>
+          <input name="work_flag" type="text" class="weui-input" placeholder="" readonly>
         </div>
       </div>
-      <div class="weui_cell">
-        <!-- <div class="weui_cell_hd"><label class="weui_label">主机序列号</label></div> -->
-        <div class="weui_cell_bd weui_cell_primary">
+      <div class="weui-cell">
+        <!-- <div class="weui-cell__hd"><label class="weui-label">主机序列号</label></div> -->
+        <div class="weui-cell__bd weui-cell_primary">
           <p>主机序列号</p>
-          <input name="zj_device_no" type="text" class="weui_input" id="zj_device_no" placeholder="请输入主机序列号">
+          <input name="zj_device_no" type="text" class="weui-input" id="zj_device_no" placeholder="请输入主机序列号">
         </div>
-        <div class="weui_cell_ft">
-          <a href="javascript:;" class="weui_btn weui_btn_plain_primary" onclick="onClickScanQRCode('zj_device_no')">扫一扫</a>
+        <div class="weui-cell__ft">
+          <a href="javascript:;" class="weui-btn weui-btn_plain_primary" onclick="onClickScanQRCode('zj_device_no')">扫一扫</a>
         </div>
       </div>
-      <div class="weui_cell">
-        <!-- <div class="weui_cell_hd"><label class="weui_label">键盘序列号</label></div> -->
-        <div class="weui_cell_bd weui_cell_primary">
+      <div class="weui-cell">
+        <!-- <div class="weui-cell__hd"><label class="weui-label">键盘序列号</label></div> -->
+        <div class="weui-cell__bd weui-cell_primary">
           <p>键盘序列号</p>
-          <input name="jp_device_no" type="text" class="weui_input" id="jp_device_no" placeholder="请输入键盘序列号">
+          <input name="jp_device_no" type="text" class="weui-input" id="jp_device_no" placeholder="请输入键盘序列号">
         </div>
-        <div class="weui_cell_ft">
-          <a href="javascript:;" class="weui_btn weui_btn_plain_primary" onclick="onClickScanQRCode('jp_device_no')">扫一扫</a>
+        <div class="weui-cell__ft">
+          <a href="javascript:;" class="weui-btn weui-btn_plain_primary" onclick="onClickScanQRCode('jp_device_no')">扫一扫</a>
         </div>
       </div>
-      <div class="weui_cell">
-        <!-- <div class="weui_cell_hd"><label class="weui_label">附件序列号</label></div> -->
-        <div class="weui_cell_bd weui_cell_primary">
+      <div class="weui-cell">
+        <!-- <div class="weui-cell__hd"><label class="weui-label">附件序列号</label></div> -->
+        <div class="weui-cell__bd weui-cell_primary">
           <p>附件序列号</p>
-          <input name="fj1_device_no" type="text" class="weui_input" id="fj1_device_no" placeholder="请输入附件序列号">
+          <input name="fj1_device_no" type="text" class="weui-input" id="fj1_device_no" placeholder="请输入附件序列号">
         </div>
-        <div class="weui_cell_ft">
-          <a href="javascript:;" class="weui_btn weui_btn_plain_primary" onclick="onClickScanQRCode('fj1_device_no')">扫一扫</a>
+        <div class="weui-cell__ft">
+          <a href="javascript:;" class="weui-btn weui-btn_plain_primary" onclick="onClickScanQRCode('fj1_device_no')">扫一扫</a>
         </div>
       </div>
     </div>
-    <input type="submit" class="weui_btn weui_btn_primary" value="提交">
+    <input type="submit" class="weui-btn weui-btn_primary" value="提交">
   </form>
 </div>
 <script type="text/javascript" src="lib/zepto/zepto.min.js" charset="utf-8"></script>
