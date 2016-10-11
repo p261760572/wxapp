@@ -483,37 +483,6 @@
      */
 })($);
 
-function Router(container) {
-    // Lazy load view element:
-    this.el = document.getElementById(container || 'view');;
-    // A hash to store our routes:
-    this.routes = {};
-    var self = this;
-    function router() {
-        // Current route url (getting rid of '#' in hash as well):
-        var url = location.hash.slice(1) || '/';
-        // Get controller by url:
-        var controller = self.routes[url];
-        // Do we have both a view and a controller?
-        if (self.el && controller) {
-            // Render html:
-            self.el.innerHTML = controller.render();
-            if (typeof controller.bind === 'function') {
-                controller.bind.call(self.el);
-            }
-        }
-    }
-    // Listen on hash change:
-    window.addEventListener('hashchange', router);
-    // Listen on page load:
-    window.addEventListener('load', router);
-}
-
-Router.prototype.push = function(path, controller) {
-    this.routes[path] = controller;
-    return this;
-}
-
 (function($) {
     function bindEvents(target) {
         var state = $(target).data('searchbar');

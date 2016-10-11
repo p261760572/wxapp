@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>收单业务/收银宝</title>
+    <link rel="stylesheet" href="../lib/weui/style/weui.min.css">
+    <link rel="stylesheet" href="../lib/weuijs/style/weuijs.css">
+    <link rel="stylesheet" href="../css/ui-base.css">
+</head>
+
+<body>
+    <div id="page1" class="page page_navbar page_active">
+        <div class="navbar">
+            <div class="navbar__inner">
+                <div class="navbar__left">
+                    <a href="javascript:history.back()" class="navbar__link">
+                        <i class="navbar__icon-back"></i>
+                        <span>返回</span>
+                    </a>
+                </div>
+                <div class="navbar__center">收单业务</div>
+                <div class="navbar__right">
+                    &#12288;&#12288;
+                </div>
+            </div>
+        </div>
+        <div class="page__content">
+            <form id="detail-fm">
+                <input type="hidden" name="rec_id">
+                <input type="hidden" name="apppay_id">
+                <!-- <div class="weui-cells_title">收单业务申请</div> -->
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell">
+                        <!-- <div class="weui-cell__hd"><label class="weui-label">联系人</label></div> -->
+                        <div class="weui-cell__bd weui-cell_primary">
+                            <p>联系人
+                                <span class="required">*</span>
+                            </p>
+                            <input name="linkman" type="text" class="weui-input" placeholder="请输入联系人" required="required">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <!-- <div class="weui-cell__hd"><label class="weui-label">联系人手机</label></div> -->
+                        <div class="weui-cell__bd weui-cell_primary">
+                            <p>联系人手机
+                                <span class="required">*</span>
+                            </p>
+                            <input name="mobile" type="text" class="weui-input" placeholder="请输入联系人手机" required="required">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <!-- <div class="weui-cell__hd"><label class="weui-label">联系电话</label></div> -->
+                        <div class="weui-cell__bd weui-cell_primary">
+                            <p>联系人电话</p>
+                            <input name="tel_no" type="text" class="weui-input" placeholder="请输入联系电话">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <!-- <div class="weui-cell__hd"><label class="weui-label">营业执照号码</label></div> -->
+                        <div class="weui-cell__bd weui-cell_primary">
+                            <p>营业执照号码
+                                <span class="required">*</span>
+                            </p>
+                            <input id="license_no" name="license_no" type="text" class="weui-input" placeholder="请输入营业执照号码" required="required" style="text-transform:uppercase;">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <!-- <div class="weui-cell__hd"><label class="weui-label">户名</label></div> -->
+                        <div class="weui-cell__bd weui-cell_primary">
+                            <p>户名
+                                <span class="required">*</span>
+                            </p>
+                            <input id="account_name" name="account_name" type="text" class="weui-input" placeholder="请输入户名" required="required">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <!-- <div class="weui-cell__hd"><label class="weui-label">账号</label></div> -->
+                        <div class="weui-cell__bd weui-cell_primary">
+                            <p>账号
+                                <span class="required">*</span>
+                            </p>
+                            <input id="account_no" name="account_no" type="text" class="weui-input" placeholder="请输入账号" required="required">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <!-- <div class="weui-cell__hd"><label class="weui-label">开户支行名称</label></div> -->
+                        <div class="weui-cell__bd weui-cell_primary">
+                            <p>开户支行名称
+                                <span class="required">*</span>
+                            </p>
+                            <input id="subbranch_name" name="subbranch_name" type="text" class="weui-input" placeholder="请选择开户支行名称" required="required" onclick="showPage2(this)" readonly>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <!-- <div class="weui-cell__hd"><label class="weui-label">借记卡手续费</label></div> -->
+                        <div class="weui-cell__bd weui-cell_primary">
+                            <p>借记卡手续费
+                                <span class="required">*</span>
+                            </p>
+                            <input name="fee_algo" type="text" class="weui-input" placeholder="请选择手续费" id="fee_algo" required="required">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <!-- <div class="weui-cell__hd"><label class="weui-label">贷记卡手续费</label></div> -->
+                        <div class="weui-cell__bd weui-cell_primary">
+                            <p>贷记卡手续费
+                                <span class="required">*</span>
+                            </p>
+                            <input name="credit_fee_algo" type="text" class="weui-input" placeholder="请选择手续费" id="credit_fee_algo" required="required">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <!-- <div class="weui-cell__hd"><label class="weui-label">装机地区</label></div> -->
+                        <div class="weui-cell__bd weui-cell_primary">
+                            <p>装机地区
+                                <span class="required">*</span>
+                            </p>
+                            <input name="district_name" type="text" class="weui-input" id="city-picker" placeholder="请选择装机地区" required="required">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <!-- <div class="weui-cell__hd"><label class="weui-label">装机详细地址</label></div> -->
+                        <div class="weui-cell__bd weui-cell_primary">
+                            <p>装机详细地址<span style="color:#FF0000">（需核对）</span>
+                                <span class="required">*</span>
+                            </p>
+                            <input name="installed_addr" type="text" id="installed_addr" class="weui-input" placeholder="请输入详细地址" required="required">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <!-- <div class="weui-cell__hd"><label class="weui-label">机具类型</label></div> -->
+                        <div class="weui-cell__bd weui-cell_primary">
+                            <p>机具类型
+                                <span class="required">*</span>
+                            </p>
+                            <input name="equi_type" type="text" class="weui-input" placeholder="请选择机具类型" id="equi_type" required="required">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <!-- <div class="weui-cell__hd"><label class="weui-label">装机数量</label></div> -->
+                        <div class="weui-cell__bd weui-cell_primary">
+                            <p>装机数量
+                                <span class="required">*</span>
+                            </p>
+                            <input name="num_term" type="number" class="weui-input" placeholder="请输入装机数量" value="1" required="required">
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell_switch">
+                        <div class="weui-cell__bd weui-cell_primary">现场装机</div>
+                        <div class="weui-cell__ft">
+                            <input class="weui-switch" type="checkbox" name="quick_flag" value="1">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <!-- <div class="weui-cell__hd"><label class="weui-label">押金</label></div> -->
+                        <div class="weui-cell__bd weui-cell_primary">
+                            <p>押金</p>
+                            <input name="deposit_amount" type="number" class="weui-input" placeholder="请输入押金">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <!-- <div class="weui-cell__hd"><label class="weui-label">押金</label></div> -->
+                        <div class="weui-cell__bd weui-cell_primary">
+                            <p>通讯费</p>
+                            <input name="traffic_amount" type="number" class="weui-input" placeholder="请输入通讯费">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <!-- <div class="weui-cell__hd"><label class="weui-label">销售款</label></div> -->
+                        <div class="weui-cell__bd weui-cell_primary">
+                            <p>销售款</p>
+                            <input name="sale_amount" type="number" class="weui-input" placeholder="请输入销售款">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <!-- <div class="weui-cell__hd"><label class="weui-label">备注</label></div> -->
+                        <div class="weui-cell__bd weui-cell_primary">
+                            <p>备注</p>
+                            <input name="remark" type="text" class="weui-input" placeholder="请输入备注">
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cells_title">上传照片</div>
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd weui-cell_primary">
+                            <div class="weui-uploader">
+                                <div class="weui-uploader__hd weui-cell">
+                                    <div class="weui-cell__bd weui-cell_primary">营业执照照片
+                                        <span class="required">*</span>
+                                    </div>
+                                </div>
+                                <div class="weui-uploader__bd">
+                                    <ul class="weui-uploader__files" id="01">
+                                    </ul>
+                                    <div class="weui-uploader__input-box">
+                                        <input class="weui-uploader__input" type="button" onclick="onClickChooseImage(this)" value="照片">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="weui-uploader">
+                                <div class="weui-uploader__hd weui-cell">
+                                    <div class="weui-cell__bd weui-cell_primary">税务登记证照片</div>
+                                </div>
+                                <div class="weui-uploader__bd">
+                                    <ul class="weui-uploader__files" id="02">
+                                    </ul>
+                                    <div class="weui-uploader__input-box">
+                                        <input class="weui-uploader__input" type="button" onclick="onClickChooseImage(this)" value="照片">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="weui-uploader">
+                                <div class="weui-uploader__hd weui-cell">
+                                    <div class="weui-cell__bd weui-cell_primary">法人身份证照片
+                                        <span class="required">*</span>
+                                    </div>
+                                </div>
+                                <div class="weui-uploader__bd">
+                                    <ul class="weui-uploader__files" id="03">
+                                    </ul>
+                                    <div class="weui-uploader__input-box">
+                                        <input class="weui-uploader__input" type="button" onclick="onClickChooseImage(this)" value="照片">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="weui-uploader">
+                                <div class="weui-uploader__hd weui-cell">
+                                    <div class="weui-cell__bd weui-cell_primary">门店照片</div>
+                                </div>
+                                <div class="weui-uploader__bd">
+                                    <ul class="weui-uploader__files" id="04">
+                                    </ul>
+                                    <div class="weui-uploader__input-box">
+                                        <input class="weui-uploader__input" type="button" onclick="onClickChooseImage(this)" value="照片">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="weui-uploader">
+                                <div class="weui-uploader__hd weui-cell">
+                                    <div class="weui-cell__bd weui-cell_primary">结算账户(银行卡)照片
+                                        <span class="required">*</span>
+                                    </div>
+                                </div>
+                                <div class="weui-uploader__bd">
+                                    <ul class="weui-uploader__files" id="16">
+                                    </ul>
+                                    <div class="weui-uploader__input-box">
+                                        <input class="weui-uploader__input" type="button" onclick="onClickChooseImage(this)" value="照片">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="weui-uploader">
+                                <div class="weui-uploader__hd weui-cell">
+                                    <div class="weui-cell__bd weui-cell_primary">其他照片</div>
+                                </div>
+                                <div class="weui-uploader__bd">
+                                    <ul class="weui-uploader__files" id="17">
+                                    </ul>
+                                    <div class="weui-uploader__input-box">
+                                        <input class="weui-uploader__input" type="button" onclick="onClickChooseImage(this)" value="照片">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="group-btn">
+                    <input type="button" class="weui-btn weui-btn_warn hide" value="暂存" id="save-btn">
+                    <input type="submit" class="weui-btn weui-btn_primary hide" value="提交" id="submit-btn">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="page2" class="container" style="display:none;">
+        <form id="search-fm">
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">开户银行</label>
+                    </div>
+                    <div class="weui-cell__bd weui-cell_primary">
+                        <input id="bank_code" name="bank_code" type="text" class="weui-input" placeholder="请选择开户银行" required="required">
+                    </div>
+                </div>
+            </div>
+            <div class="weui-search_bar" id="search_bar">
+                <div class="weui-search_outer">
+                    <div class="weui-search_inner">
+                        <i class="weui-icon_search"></i>
+                        <input type="search" name="subbranch_name" class="weui-search_input" id="search_input" placeholder="搜索开户支行" onsearch="$(this).closest('form').submit()">
+                        <a href="javascript:" class="weui-icon_clear" id="search_clear"></a>
+                    </div>
+                    <label for="search_input" class="weui-search_text" id="search_text">
+                        <i class="weui-icon_search"></i>
+                        <span>搜索开户支行</span>
+                    </label>
+                </div>
+                <a href="javascript:" class="weui-search_cancel" id="search_cancel">取消</a>
+            </div>
+        </form>
+        <div class="weui-cells weui-cells_access" id="subbranch-list">
+        </div>
+    </div>
+    <script type="text/javascript" src="../lib/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/base.js" charset="utf-8"></script>
+    <script id="subbranch-list-templ" type="text/html">
+        {{each rows as row i}}
+        <a class="weui-cell" href="javascript:;" data-text="{{row.subbranch_name}}">
+            <div class="weui-cell__bd weui-cell_primary">
+                <p>{{row.subbranch_name}}</p>
+            </div>
+            <div class="weui-cell__ft"></div>
+        </a>
+        {{/each}}
+    </script>
+    <script id="uploader-file-templ" type="text/html">
+        <li class="weui-uploader_file weui-uploader_status" style="background-image:url({{if file_url}} {{file_url}} {{else}} {{localid}} {{/if}})">
+            <div class="weui-uploader_status_content">
+                <i class="weui-icon_clear" onClick="onClickDeleteImage(this)"></i>
+            </div>
+        </li>
+    </script>
+    <script id="uploader-file-view-templ" type="text/html">
+        <li class="weui-uploader_file weui-uploader_status" style="background-image:url({{if file_url}} {{file_url}} {{else}} {{localid}} {{/if}})">
+        </li>
+    </script>
+    <script>
+    var version = window.localStorage.getItem('version');
+    var query = parseQueryString();
+    var submitSuccess = false;
+    requiredWx();
+
+    var DETAIL_KEY = 'acq-detail';
+
+    $(function() {
+
+        if (!version) {
+            window.localStorage.setItem('version', '2016/8/19 17:59:37');
+            window.localStorage.setItem(DETAIL_KEY, '');
+        }
+
+        //window.localStorage.clear();
+        //加载上次自动保存的数据
+        if (query.operateType == 'view') {} else {
+            var data = window.localStorage.getItem(DETAIL_KEY);
+            if (data) {
+                data = JSON.parse(data);
+
+                //转换格式
+                loadDetailForm('#detail-fm', {
+                    data: data,
+                    images: data.images
+                });
+            }
+
+            $(window).on('beforeunload', function() {
+                if (!submitSuccess) {
+                    saveDetailForm();
+                }
+            });
+        }
+
+        $('#search-fm').submit(submitSearch);
+        send('/action/ms/parameter/list', {
+            debit_fee_algo: '1',
+            credit_fee_algo: '1',
+            equi_type: '1',
+            account_bank: '1'
+        }, function(data) {
+            if (data.errcode == 0) {
+                $("#equi_type").select({
+                    title: "选择机具类型",
+                    items: getItems(data.equi_type)
+                });
+
+                $("#fee_algo").select({
+                    title: "选择借记卡手续费",
+                    items: getItems(data.debit_fee_algo)
+                });
+
+                $("#credit_fee_algo").select({
+                    title: "选择贷记卡手续费",
+                    items: getItems(data.credit_fee_algo)
+                });
+
+                $("#bank_code").select({
+                    title: "选择开户银行",
+                    items: getItems(data.account_bank),
+                    onChange: function() {
+                        $('#search-fm').trigger('submit');
+                    }
+                });
+            }
+        });
+
+        if (query.operateType == 'view') {
+            $('#detail-fm').find('input').attr('disabled', 'disabled').removeAttr('placeholder');
+        } else {
+            $('#save-btn').removeClass('hide');
+            $('#submit-btn').removeClass('hide');
+            $("#city-picker").cityPicker({
+                title: "选择装机地区"
+            });
+        }
+        loadDetail();
+        $('#detail-fm').submit(submitDetail);
+        $('#save-btn').click(saveDetailForm);
+    });
+
+    function saveDetailForm() {
+        var eiTypeMap = {};
+        var data = serializeDetailForm('#detail-fm', eiTypeMap);
+        window.localStorage.setItem(DETAIL_KEY, JSON.stringify(data));
+        $.toast('暂存成功');
+    }
+
+    function getItems(rows) {
+        var i;
+        for (i = 0; i < rows.length; i++) {
+            rows[i].title = rows[i].text;
+        }
+        return rows;
+    }
+
+    function serializeDetailForm(target, eiTypeMap) {
+        var data = $(target).serializeObject();
+        data.apptype = '105';
+        data.license_no = data.license_no.toUpperCase();
+
+        //照片处理
+        var eiType = ['01', '02', '03', '04', '16', '17'];
+        $.each(eiType, function(index, item) {
+            eiTypeMap[item] = 0;
+        });
+        var images = [];
+        for (var i = 0; i < eiType.length; i++) {
+            var type = eiType[i];
+            var container = $('#' + type).children('.weui-uploader_file').each(function(index, item) {
+                var fileData = $(item).data('file');
+
+                $.extend(fileData, {
+                    'ei_type': type
+                });
+
+                images.push($.extend(fileData, {
+                    'ei_type': type
+                }));
+
+                eiTypeMap[type]++;
+            });
+        }
+        data.images = images;
+
+        return data;
+    }
+
+    function submitDetail(e) {
+        e.preventDefault();
+        window.localStorage.setItem(DETAIL_KEY, '');
+        //$.toast("操作成功");
+        var eiTypeMap = {};
+        var data = serializeDetailForm(this, eiTypeMap);
+
+        var required = true;
+        $(this).find('input[required="required"]').each(function(index, item) {
+            if (!$(item).val()) {
+                required = false;
+                $(item).focus();
+            }
+        });
+
+        if (!required) {
+            alert('请填写必输入项');
+            return false;
+        }
+
+        if (eiTypeMap['01'] < 1) {
+            alert('请上传营业执照照片');
+            return false;
+        }
+
+        if (eiTypeMap['03'] < 1) {
+            alert('请上传法人身份证照片');
+            return false;
+        }
+
+        /*          if(eiTypeMap['04'] < 1) {
+                        alert('请上传门店照片');
+                        return false;
+                    }
+        */
+        if (eiTypeMap['16'] < 1) {
+            alert('请上传结算账户(银行卡)照片');
+            return false;
+        }
+
+        var url = '/action/ms/mchnt-busi/create';
+        if (query.operateType == 'update') {
+            url = '/action/ms/mchnt-busi/update';
+        }
+        send(url, data, function(data) {
+            if (data.errcode == 0) {
+                submitSuccess = true;
+                window.location.href = 'msg.html';
+            }
+        });
+    }
+
+    function loadDetailForm(target, data) {
+        $.each(['01', '02', '03', '04', '16', '17'], function(index, item) {
+            $('#' + item).html('');
+        });
+
+        $.each(data.images, function(index, item) {
+            var html;
+            if (query.operateType == 'view') {
+                html = template('uploader-file-view-templ', data.images[index]);
+            } else {
+                html = template('uploader-file-templ', data.images[index]);
+            }
+            var file = $(html);
+            $('#' + data.images[index].ei_type).append(file);
+            file.data('file', data.images[index]);
+        });
+
+        load(target, data.data);
+    }
+
+    function loadDetail() {
+        if (!query.apppay_id) {
+            return false;
+        }
+        send('/action/ms/mchnt-busi/view', query, function(data) {
+            if (data.errcode == 0) {
+                loadDetailForm('#detail-fm', data);
+            }
+        });
+    }
+
+    function onClickChooseImage(target) {
+        wx.chooseImage({
+            count: 1, // 默认9
+            sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+            sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+            success: function(res) {
+                var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                var localId = localIds[0];
+
+                //var container = $(target).closest('.weui-uploader__input-box').hide().prev().show();
+                var container = $(target).closest('.weui-uploader__input-box').prev();
+                var html = template('uploader-file-templ', {
+                    localid: localId
+                });
+                var file = $(html);
+                file.appendTo(container);
+
+                //存储相关数据
+                file.data('file', {
+                    'app_created_time': new Date().toISOString().substr(0, 19).replace('T', ' '),
+                    'localid': localId
+                });
+
+                uploadImage(file);
+
+                wx.getLocation({
+                    type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                    success: function(res) {
+                        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                        var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                        var speed = res.speed; // 速度，以米/每秒计
+                        var accuracy = res.accuracy || null; // 位置精度
+
+                        $.extend(file.data('file'), {
+                            'latitude': latitude,
+                            'longitude': longitude,
+                            'radius': accuracy
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    function uploadImage(target) {
+        var file = $(target);
+        var fileData = file.data('file');
+
+        wx.uploadImage({
+            localId: fileData.localid, // 需要上传的图片的本地ID，由chooseImage接口获得
+            isShowProgressTips: 1, // 默认为1，显示进度提示
+            success: function(res) {
+                var serverId = res.serverId; // 返回图片的服务器端ID
+
+                $.extend(fileData, {
+                    is_new: '1',
+                    serverid: serverId
+                });
+            },
+            fail: function(res) {
+                alert('上传失败,' + JSON.stringify(res));
+            }
+        });
+    }
+
+    function onClickDeleteImage(target) {
+        $.confirm('确认要删除照片吗？', function() {
+            var file = $(target).closest('.weui-uploader_file');
+            file.remove();
+        }, function() {});
+    }
+
+    function showPage2(target) {
+        $('#page1').hide();
+        $('#page2').show();
+    }
+
+    function showPage1(target) {
+        $('#page1').show();
+        $('#page2').hide();
+    }
+
+    function submitSearch(e) {
+        e.preventDefault();
+        var data = $(this).serializeObject();
+        data.bank_code = $('#bank_code').attr('data-values');
+        send('/action/ms/bank-subbranch/list', data, function(data) {
+            if (data.errcode == 0) {
+                var html = template('subbranch-list-templ', data);
+                $('#subbranch-list').html(html);
+                $('a.weui-cell').off('click').on('click', function() {
+                    $('#subbranch_name').val($(this).attr('data-text'));
+                    showPage1();
+                });
+            }
+        });
+    }
+
+    function searchCancel() {}
+
+    if (!query.operateType) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            var point = new BMap.Point(lon, lat); // 创建坐标点
+            var convertor = new BMap.Convertor();
+            convertor.translate([point], 1, 5, function(data) {
+                if (data.status === 0) {
+                    // 根据坐标得到地址描述
+                    var myGeo = new BMap.Geocoder();
+                    myGeo.getLocation(data.points[0], function(result) {
+                        var addComp = result.addressComponents;
+                        $('#city-picker').val(addComp.province + ' ' + addComp.city + ' ' + addComp.district);
+                        $('#installed_addr').val(addComp.street + addComp.streetNumber);
+                    });
+                }
+            });
+
+        });
+    }
+    </script>
+</body>
+
+</html>

@@ -27,7 +27,7 @@
 }
 
 .page_navbar .page__content {
-    padding-bottom: 44px;
+    padding-top: 44px;
 }
 
 .page__content {
@@ -38,7 +38,7 @@
 
 .navbar {
     font-family: Helvetica Neue, Helvetica, Arial, "Microsoft YaHei", sans-serif;
-    position: relative;
+    position: absolute;
     left: 0;
     top: 0;
     background: #2196f3;
@@ -157,6 +157,30 @@
     animation: refreshing-spin 1s steps(8, end) infinite;
     display: inline-block;
 }
+.search-bar__back-btn {
+    /*margin-left: 5px;*/
+    margin-right: 10px;
+    line-height: 28px;
+    color: #09BB07;
+    white-space: nowrap;
+    display: -webkit-flex;
+    display: flex;   
+    -webkit-align-items: center;
+    align-items: center; 
+}
+
+/*.search-bar__icon-back {
+    width: 12px;
+    height: 20px;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2012%2020'%3E%3Cpath%20d%3D'M10%2C0l2%2C2l-8%2C8l8%2C8l-2%2C2L0%2C10L10%2C0z'%20fill%3D'%23000000'%2F%3E%3C%2Fsvg%3E")
+}*/
+
+.search-bar__icon-back {
+    width: 24px;
+    height: 24px;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%3E%3Cpath%20d%3D'M20%2011H7.83l5.59-5.59L12%204l-8%208%208%208%201.41-1.41L7.83%2013H20v-2z'%20fill%3D'%2309BB07'%2F%3E%3C%2Fsvg%3E")
+}
+
 .search-bar__search-btn {
     margin-left: 10px;
     line-height: 28px;

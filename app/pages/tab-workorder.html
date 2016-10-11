@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>e通</title>
+    <link rel="stylesheet" href="../lib/weui/style/weui.min.css">
+    <link rel="stylesheet" href="../lib/weuijs/style/weuijs.css">
+    <link rel="stylesheet" href="../css/ui-base.css">
+</head>
+
+<body class="page_navbar">
+    <div class="navbar">
+        <div class="navbar__inner">
+            <div class="navbar__left">
+            </div>
+            <div class="navbar__center">e通</div>
+            <div class="navbar__right">
+            </div>
+        </div>
+    </div>
+    <div class="weui-tab page__content">
+        <div class="weui-tab__panel" id="view">
+            <div class="weui-search-bar weui-search-bar_focusing search-bar" id="search_bar">
+                <!-- <a href="javascript:" class="search-bar__back-btn"><i class="search-bar__icon-back"></i></a> -->
+                <form class="weui-search-bar__form">
+                    <div class="weui-search-bar__box">
+                        <i class="weui-icon-search"></i>
+                        <input type="search" class="weui-search-bar__input" name="search" placeholder="支持工作单号、门店名称、联系人" required="required">
+                    </div>
+                </form>
+                <a href="javascript:" class="search-bar__search-btn">搜索</a>
+            </div>
+            <div class="weui-cells weui-cells_access" id="order-list">
+            </div>
+        </div>
+    </div>
+    <div class="weui-tabbar">
+        <a href="index.html" class="weui-tabbar__item">
+            <img src="../images/icon_nav_button.png" alt="" class="weui-tabbar__icon">
+            <p class="weui-tabbar__label">首页</p>
+        </a>
+        <a href="tab-workorder.html" class="weui-tabbar__item  weui-bar__item_on">
+            <img src="../images/icon_nav_article.png" alt="" class="weui-tabbar__icon">
+            <p class="weui-tabbar__label">工作单</p>
+        </a>
+        <a href="tab-my.html" class="weui-tabbar__item">
+            <img src="../images/icon_nav_cell.png" alt="" class="weui-tabbar__icon">
+            <p class="weui-tabbar__label">我</p>
+        </a>
+    </div>
+    <script type="text/javascript" src="../lib/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/base.js" charset="utf-8"></script>
+    <script id="list-templ" type="text/html">
+        {{each rows as row i}}
+        <a class="weui-cell" href="javascript:;" data-id="{{row.work_order_no}}" data-tn="{{row.term_no}}" data-st="{{row.proc_st}}">
+            <div class="weui-cell__bd weui-cell_primary">
+                <p>{{row.work_order_no}} {{row.work_order_type | formatWorkOrderType}}</p>
+            </div>
+            <div class="weui-cell__ft" style="color: #f6383a;">{{row.proc_st | formatProcSt}}</div>
+        </a>
+        <div class="weui-media_box weui-media_text">
+            <p class="weui-media_desc">{{row.shop_name}}</p>
+            <p class="weui-media_desc">{{row.addr}}</p>
+            <ul class="weui-media_info">
+                <li class="weui-media_info_meta">{{row.created_time}}</li>
+                <li class="weui-media_info_meta weui-media_info_meta_extra">{{row.created_by}}</li>
+                <li class="weui-media_info_meta weui-media_info_meta_extra">{{row.tms_captcha}}</li>
+            </ul>
+        </div>
+        {{/each}}
+    </script>
+    <script>
+    var procStData = [{
+        "text": "待提交",
+        "value": "1"
+    }, {
+        "text": "待回访",
+        "value": "2"
+    }, {
+        "text": "已完成",
+        "value": "3"
+    }, {
+        "text": "已作废",
+        "value": "4"
+    }];
+
+    var workOrderTypeData = [{
+        "text": "装机单",
+        "value": "1"
+    }, {
+        "text": "维护单",
+        "value": "2"
+    }, {
+        "text": "巡检单",
+        "value": "3"
+    }];
+
+    var query = {
+        page: 1,
+        rows: 10
+    };
+    var loading = false; //状态标记
+
+    template.helper('formatWorkOrderType', function(work_order_type) {
+        return formatField(workOrderTypeData, work_order_type);
+    });
+
+    template.helper('formatProcSt', function(proc_st) {
+        return formatField(procStData, proc_st);
+    });
+
+    $(function() {
+        $('#search-fm').submit(submitSearch).submit();
+    });
+
+    function showActions(target) {
+        var work_order_no = $(target).attr('data-id');
+        var term_no = $(target).attr('data-tn');
+        var proc_st = $(target).attr('data-st');
+        var params = $.param({
+            work_order_no: work_order_no,
+            term_no: term_no
+        });
+
+        var actions = [{
+            text: "查看",
+            className: "color-primary",
+            onClick: function() {
+                window.location.href = 'workorder.html?operateType=view&' + params;
+            }
+        }];
+
+        if (proc_st == '1') {
+            actions.push({
+                text: "提交",
+                className: "color-success",
+                onClick: function() {
+                    window.location.href = 'sign-workorder.html?operateType=sign&' + params;
+                }
+            });
+
+            actions.push({
+                text: "信息维护",
+                className: "color-warning",
+                onClick: function() {
+                    window.location.href = 'term-info.html?' + params;
+                }
+            });
+
+            actions.push({
+                text: "绑定设备",
+                className: "color-danger",
+                onClick: function() {
+                    window.location.href = 'bind-device.html?' + params;
+                }
+            });
+        }
+
+        $.actions({
+            actions: actions
+        });
+    }
+
+    function submitSearch(e) {
+        e.preventDefault();
+        var data = $(this).serializeObject();
+        $.extend(query, data);
+        query.page = 1;
+        searchWorkorder();
+    }
+
+    function searchCancel() {
+        query.search = null;
+        query.page = 1;
+        searchWorkorder();
+    }
+
+    function searchWorkorder() {
+        //alert(JSON.stringify(query));
+        if (query.page == 1) {
+            $('#infinite').show();
+            $('#tab-workorder').infinite(1).on("infinite", function() {
+                if (loading) return;
+                loading = true;
+                query.page++;
+                searchWorkorder();
+            });
+        }
+        send('/action/ms/workorder/search', query, function(data) {
+            if (data.errcode == 0) {
+                var html = template('list-templ', data);
+                if (query.page == 1) {
+                    $('#order-list').html(html);
+                } else {
+                    $('#order-list').append(html);
+                }
+                $('a.weui-cell').off('click').on('click', function() {
+                    showActions(this);
+                });
+
+                loading = false;
+
+                if (data.rows.length < query.rows) {
+                    $('#tab-workorder').destroyInfinite();
+                    $('#infinite').hide();
+                }
+            }
+        });
+    }
+    </script>
+</body>
+
+</html>

@@ -5,9 +5,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>收单业务/收银宝</title>
-    <link rel="stylesheet" href="lib/weui/style/weui.min.css">
-    <link rel="stylesheet" href="lib/weui/weui-extend.css">
+    <title>当面付</title>
+    <link rel="stylesheet" href="../lib/weui/style/weui.min.css">
+    <link rel="stylesheet" href="../lib/weuijs/style/weuijs.css">
     <style>
 		.required {
 			color: #FF0000;
@@ -21,7 +21,7 @@
 			margin-bottom: 42px;
 		}
 		
-/*		#group-btn {
+		/*#group-btn {
 			position: fixed;
 			bottom: 0px;
 			height: 42px;
@@ -46,14 +46,14 @@
                 <div class="weui-cell">
                     <!-- <div class="weui-cell__hd"><label class="weui-label">联系人</label></div> -->
                     <div class="weui-cell__bd weui-cell_primary">
-                        <p>联系人<label class="required">*</label></p>
+                        <p>联系人<span class="required">*</span></p>
                         <input name="linkman" type="text" class="weui-input" placeholder="请输入联系人" required="required">
                     </div>
                 </div>
                 <div class="weui-cell">
                     <!-- <div class="weui-cell__hd"><label class="weui-label">联系人手机</label></div> -->
                     <div class="weui-cell__bd weui-cell_primary">
-                        <p>联系人手机<label class="required">*</label></p>
+                        <p>联系人手机<span class="required">*</span></p>
                         <input name="mobile" type="text" class="weui-input" placeholder="请输入联系人手机" required="required">
                     </div>
                 </div>
@@ -67,105 +67,71 @@
                 <div class="weui-cell">
                     <!-- <div class="weui-cell__hd"><label class="weui-label">营业执照号码</label></div> -->
                     <div class="weui-cell__bd weui-cell_primary">
-                        <p>营业执照号码<label class="required">*</label></p>
-                        <input id="license_no" name="license_no" type="text" class="weui-input" placeholder="请输入营业执照号码" required="required" style="text-transform:uppercase;">
+                        <p>营业执照号码</p>
+                        <input id="license_no" name="license_no" type="text" class="weui-input" placeholder="请输入营业执照号码" style="text-transform:uppercase;">
                     </div>
                 </div>
                 <div class="weui-cell">
                     <!-- <div class="weui-cell__hd"><label class="weui-label">户名</label></div> -->
                     <div class="weui-cell__bd weui-cell_primary">
-                        <p>户名<label class="required">*</label></p>
+                        <p>户名<span class="required">*</span></p>
                         <input id="account_name" name="account_name" type="text" class="weui-input" placeholder="请输入户名" required="required">
                     </div>
                 </div>
                 <div class="weui-cell">
                     <!-- <div class="weui-cell__hd"><label class="weui-label">账号</label></div> -->
                     <div class="weui-cell__bd weui-cell_primary">
-                        <p>账号<label class="required">*</label></p>
+                        <p>账号<span class="required">*</span></p>
                         <input id="account_no" name="account_no" type="text" class="weui-input" placeholder="请输入账号" required="required">
                     </div>
                 </div>
                 <div class="weui-cell">
                     <!-- <div class="weui-cell__hd"><label class="weui-label">开户支行名称</label></div> -->
                     <div class="weui-cell__bd weui-cell_primary">
-                        <p>开户支行名称<label class="required">*</label></p>
+                        <p>开户支行名称<span class="required">*</span></p>
                         <input id="subbranch_name" name="subbranch_name" type="text" class="weui-input" placeholder="请选择开户支行名称" required="required" onclick="showPage2(this)" readonly>
                     </div>
                 </div>
                 <div class="weui-cell">
 	                <!-- <div class="weui-cell__hd"><label class="weui-label">借记卡手续费</label></div> -->
 	                <div class="weui-cell__bd weui-cell_primary">
-	                    <p>借记卡手续费<label class="required">*</label></p>
+	                    <p>手续费<span class="required">*</span></p>
 	                    <input name="fee_algo" type="text" class="weui-input" placeholder="请选择手续费" id="fee_algo"
 	                           required="required">
 	                </div>
 	            </div>
-	            <div class="weui-cell">
-	                <!-- <div class="weui-cell__hd"><label class="weui-label">贷记卡手续费</label></div> -->
-	                <div class="weui-cell__bd weui-cell_primary">
-	                    <p>贷记卡手续费<label class="required">*</label></p>
-	                    <input name="credit_fee_algo" type="text" class="weui-input" placeholder="请选择手续费" id="credit_fee_algo"
-	                           required="required">
-	                </div>
-	            </div>
-                <div class="weui-cell">
-                    <!-- <div class="weui-cell__hd"><label class="weui-label">装机地区</label></div> -->
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <p>装机地区<label class="required">*</label></p>
+<div class="weui-cell">
+          <!-- <div class="weui-cell__hd"><label class="weui-label">装机地区</label></div> -->
+          <div class="weui-cell__bd weui-cell_primary">
+                        <p>装机地区<span class="required">*</span></p>
                         <input name="district_name" type="text" class="weui-input" id="city-picker" placeholder="请选择装机地区" required="required">
                     </div>
                 </div>
                 <div class="weui-cell">
                     <!-- <div class="weui-cell__hd"><label class="weui-label">装机详细地址</label></div> -->
                     <div class="weui-cell__bd weui-cell_primary">
-                        <p>装机详细地址<span style="color:#FF0000">（需核对）</span><label class="required">*</label></p>
+                        <p>装机详细地址<span style="color:#FF0000">（需核对）</span><span class="required">*</span></p>
                         <input name="installed_addr" type="text" id="installed_addr" class="weui-input" placeholder="请输入详细地址" required="required">
                     </div>
                 </div>
-                <div class="weui-cell">
-                    <!-- <div class="weui-cell__hd"><label class="weui-label">机具类型</label></div> -->
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <p>机具类型<label class="required">*</label></p>
-                        <input name="equi_type" type="text" class="weui-input" placeholder="请选择机具类型" id="equi_type" required="required">
-                    </div>
-                </div>
-                <div class="weui-cell">
-                    <!-- <div class="weui-cell__hd"><label class="weui-label">装机数量</label></div> -->
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <p>装机数量<label class="required">*</label></p>
+<div class="weui-cell">
+          <!-- <div class="weui-cell__hd"><label class="weui-label">装机数量</label></div> -->
+          <div class="weui-cell__bd weui-cell_primary">
+                        <p>装机数量<span class="required">*</span></p>
                         <input name="num_term" type="number" class="weui-input" placeholder="请输入装机数量" value="1" required="required">
                     </div>
                 </div>
-				<div class="weui-cell weui-cell_switch">
-		            <div class="weui-cell__bd weui-cell_primary">现场装机</div>
-		            <div class="weui-cell__ft">
-		                <input class="weui-switch" type="checkbox" name="quick_flag" value="1">
-		            </div>
-		        </div>
                 <div class="weui-cell">
-                    <!-- <div class="weui-cell__hd"><label class="weui-label">押金</label></div> -->
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <p>押金</p>
-                        <input name="deposit_amount" type="number" class="weui-input" placeholder="请输入押金">
-                    </div>
-                </div>
-                <div class="weui-cell">
-                    <!-- <div class="weui-cell__hd"><label class="weui-label">押金</label></div> -->
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <p>通讯费</p>
-                        <input name="traffic_amount" type="number" class="weui-input" placeholder="请输入通讯费">
-                    </div>
-                </div>
-                <div class="weui-cell">
-                    <!-- <div class="weui-cell__hd"><label class="weui-label">销售款</label></div> -->
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <p>销售款</p>
-                        <input name="sale_amount" type="number" class="weui-input" placeholder="请输入销售款">
-                    </div>
-                </div>
-                <div class="weui-cell">
-                    <!-- <div class="weui-cell__hd"><label class="weui-label">备注</label></div> -->
-                    <div class="weui-cell__bd weui-cell_primary">
+	                <!-- <div class="weui-cell__hd"><label class="weui-label">企业性质</label></div> -->
+	                <div class="weui-cell__bd weui-cell_primary">
+	                    <p>企业性质<span class="required">*</span></p>
+	                    <input name="property" type="text" class="weui-input" placeholder="请选择企业性质" id="property"
+	                           required="required">
+	                </div>
+	            </div>
+<div class="weui-cell">
+          <!-- <div class="weui-cell__hd"><label class="weui-label">备注</label></div> -->
+          <div class="weui-cell__bd weui-cell_primary">
                         <p>备注</p>
                         <input name="remark" type="text" class="weui-input" placeholder="请输入备注">
                     </div>
@@ -177,7 +143,7 @@
                     <div class="weui-cell__bd weui-cell_primary">
                         <div class="weui-uploader">
                             <div class="weui-uploader__hd weui-cell">
-                                <div class="weui-cell__bd weui-cell_primary">营业执照照片<label class="required">*</label></div>
+                                <div class="weui-cell__bd weui-cell_primary">营业执照照片</div>
                             </div>
                             <div class="weui-uploader__bd">
                                 <ul class="weui-uploader__files" id="01">
@@ -187,21 +153,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="weui-uploader">
-                            <div class="weui-uploader__hd weui-cell">
-                                <div class="weui-cell__bd weui-cell_primary">税务登记证照片</div>
-                            </div>
-                            <div class="weui-uploader__bd">
-                                <ul class="weui-uploader__files" id="02">
-                                </ul>
-                                <div class="weui-uploader__input-box">
-                                    <input class="weui-uploader__input" type="button" onclick="onClickChooseImage(this)" value="照片">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="weui-uploader">
-                            <div class="weui-uploader__hd weui-cell">
-                                <div class="weui-cell__bd weui-cell_primary">法人身份证照片<label class="required">*</label></div>
+<div class="weui-uploader">
+              <div class="weui-uploader__hd weui-cell">
+                                <div class="weui-cell__bd weui-cell_primary">法人身份证照片<span class="required">*</span></div>
                             </div>
                             <div class="weui-uploader__bd">
                                 <ul class="weui-uploader__files" id="03">
@@ -211,21 +165,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="weui-uploader">
-                            <div class="weui-uploader__hd weui-cell">
-                                <div class="weui-cell__bd weui-cell_primary">门店照片</div>
-                            </div>
-                            <div class="weui-uploader__bd">
-                                <ul class="weui-uploader__files" id="04">
-                                </ul>
-                                <div class="weui-uploader__input-box">
-                                    <input class="weui-uploader__input" type="button" onclick="onClickChooseImage(this)" value="照片">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="weui-uploader">
-                            <div class="weui-uploader__hd weui-cell">
-                                <div class="weui-cell__bd weui-cell_primary">结算账户(银行卡)照片<label class="required">*</label></div>
+<div class="weui-uploader">
+              <div class="weui-uploader__hd weui-cell">
+                                <div class="weui-cell__bd weui-cell_primary">结算账户(银行卡)照片<span class="required">*</span></div>
                             </div>
                             <div class="weui-uploader__bd">
                                 <ul class="weui-uploader__files" id="16">
@@ -288,10 +230,10 @@
         </div>
 
     </div>
-    <script type="text/javascript" src="lib/template.js" charset="utf-8"></script>
-    <script type="text/javascript" src="lib/zepto/zepto.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="lib/weui/weui.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/tool.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/weui/weui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/tool.js" charset="utf-8"></script>
     <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script type="text/javascript" src="https://api.map.baidu.com/api?ak=kKuGiC4LbGgwrcfd1pQKq7M5Ax2GAnCy&v=2.0"></script>
     <script id="subbranch-list-templ" type="text/html">
@@ -321,12 +263,14 @@
         var submitSuccess = false;
         requiredWx();
         
-        var DETAIL_KEY = 'acq-detail';
+        console.log(window.location.pathname);
+        
+        var DETAIL_KEY = 'dmf-detail';
 
         $(function() {
         	
         	if(!version) {
-        		window.localStorage.setItem('version', '2016/8/19 17:59:37');
+        		window.localStorage.setItem('version', '2016/9/13 17:17:30');
         		window.localStorage.setItem(DETAIL_KEY, '');
         	}
         	
@@ -353,9 +297,18 @@
         	}
         	
             $('#search-fm').submit(submitSearch);
+			
+			
+			$("#property").select({
+				title: "选择企业性质",
+				items: ['企业用户', '个体工商户', '个人']
+			});
+			
+			property
+			
             send('/action/ms/parameter/list', {
                 debit_fee_algo: '1',
-				credit_fee_algo: '1',
+				//credit_fee_algo: '1',
                 equi_type: '1',
                 account_bank: '1'
             }, function(data) {
@@ -366,14 +319,14 @@
                     });
 
                     $("#fee_algo").select({
-	                    title: "选择借记卡手续费",
+	                    title: "选择手续费",
 	                    items: getItems(data.debit_fee_algo)
 	                });
 					
-					$("#credit_fee_algo").select({
+					/*$("#credit_fee_algo").select({
 	                    title: "选择贷记卡手续费",
 	                    items: getItems(data.credit_fee_algo)
-	                });
+	                });*/
 
                     $("#bank_code").select({
                         title: "选择开户银行",
@@ -381,7 +334,7 @@
                         onChange: function() {
                         	$('#search-fm').trigger('submit');
                         }
-                    });
+                    });					
                 }
             });
 
@@ -416,7 +369,10 @@
         
         function serializeDetailForm(target, eiTypeMap) {
         	var data = $(target).serializeObject();
-            data.apptype = '105';
+            data.apptype = '109';
+            data.equi_type = '无机具';
+            data.quick_flag = '1';
+            data.credit_fee_algo = data.fee_algo;
             data.license_no = data.license_no.toUpperCase();
             
             //照片处理
@@ -466,10 +422,10 @@
         		return false;
         	}
 
-            if(eiTypeMap['01'] < 1) {
+            /*if(eiTypeMap['01'] < 1) {
             	alert('请上传营业执照照片');
             	return false;
-            }
+            }*/
             
             if(eiTypeMap['03'] < 1) {
             	alert('请上传法人身份证照片');
@@ -648,7 +604,7 @@
 			   });
 	           
 	       });
-   		}
+       }
     </script>
 </body>
 

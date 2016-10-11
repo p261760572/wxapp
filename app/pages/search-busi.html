@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>业务申请查询</title>
-    <link rel="stylesheet" href="lib/weui/style/weui.min.css">
-    <link rel="stylesheet" href="lib/weui/weui-extend.css">
+    <link rel="stylesheet" href="../lib/weui/style/weui.min.css">
+    <link rel="stylesheet" href="../lib/weuijs/style/weuijs.css">
     <style>
         body,
         html {
@@ -16,9 +16,33 @@
     </style>
 </head>
 
-<body>
-
-    <div class="weui-search_bar" id="search_bar">
+<body class="page_navbar">
+    <div class="navbar">
+        <div class="navbar__inner">
+            <div class="navbar__left">
+                <a href="javascript:history.back()" class="navbar__link">
+                    <i class="navbar__icon-back"></i>
+                    <span>返回</span>
+                </a>
+            </div>
+            <div class="navbar__center">申请记录</div>
+            <div class="navbar__right">
+                &#12288;&#12288;
+            </div>
+        </div>
+    </div>
+    <div class="page__content">
+    <div class="weui-search-bar weui-search-bar_focusing search-bar" id="search_bar">
+        <!-- <a href="javascript:" class="search-bar__back-btn"><i class="search-bar__icon-back"></i></a> -->
+        <form class="weui-search-bar__form">
+            <div class="weui-search-bar__box">
+                <i class="weui-icon-search"></i>
+                <input type="search" class="weui-search-bar__input" name="key" placeholder="支持联系人、开户行、装机地址" required="required">
+            </div>
+        </form>
+        <a href="javascript:" class="search-bar__search-btn">搜索</a>
+    </div>
+    <!-- <div class="weui-search_bar" id="search_bar">
         <form class="weui-search_outer" id="search-fm">
             <div class="weui-search_inner">
                 <i class="weui-icon_search"></i>
@@ -31,7 +55,7 @@
             </label>
         </form>
         <a href="javascript:" class="weui-search_cancel" onclick="searchCancel()">取消</a>
-    </div>
+    </div> -->
 
     <div class="weui-cells weui-cells_access" id="busi-list">
         <!--
@@ -51,15 +75,15 @@
             </div>
             -->
     </div>
-    <div class="weui-infinite-scroll" id="infinite">
+    <!-- <div class="weui-infinite-scroll" id="infinite">
         <div class="infinite-preloader"></div>
         正在加载...
+    </div> -->
     </div>
-
-    <script type="text/javascript" src="lib/template.js" charset="utf-8"></script>
-    <script type="text/javascript" src="lib/zepto/zepto.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="lib/weui/weui.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/tool.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/weui/weui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/tool.js" charset="utf-8"></script>
     <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script id="list-templ" type="text/html">
         {{each rows as row i}}

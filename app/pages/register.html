@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>忘记密码</title>
-    <link rel="stylesheet" href="lib/weui/style/weui.min.css">
+    <title>注册</title>
+    <link rel="stylesheet" href="../lib/weui/style/weui.min.css">
     <style>
     </style>
 </head>
@@ -36,28 +36,36 @@
                 </div>
                 <div class="weui-cell">
                     <div class="weui-cell__hd">
-                        <label class="weui-label">新密码</label>
+                        <label class="weui-label">密码</label>
                     </div>
                     <div class="weui-cell__bd weui-cell_primary">
-                        <input class="weui-input" type="password" name="new_login_pwd" placeholder="请输入新密码" required="required">
+                        <input class="weui-input" type="password" name="login_pwd" placeholder="请输入密码" required="required">
                     </div>
                 </div>
                 <div class="weui-cell">
                     <div class="weui-cell__hd">
-                        <label class="weui-label">确认新密码</label>
+                        <label class="weui-label">确认密码</label>
                     </div>
                     <div class="weui-cell__bd weui-cell_primary">
-                        <input class="weui-input" type="password" name="new_login_pwd2" placeholder="请输入新密码" required="required">
+                        <input class="weui-input" type="password" name="login_pwd2" placeholder="请输入密码" required="required">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">推荐码</label>
+                    </div>
+                    <div class="weui-cell__bd weui-cell_primary">
+                        <input class="weui-input" type="text" name="referral_code" placeholder="请输入推荐人手机号">
                     </div>
                 </div>
             </div>
-            <input type="submit" class="weui-btn weui-btn_primary" value="重置密码">
+            <input type="submit" class="weui-btn weui-btn_primary" value="注册">
         </form>
     </div>
-    <script type="text/javascript" src="lib/zepto/zepto.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="lib/md5.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="lib/des.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/tool.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/md5.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/des.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/tool.js" charset="utf-8"></script>
     <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script>
     	
@@ -67,13 +75,10 @@
                 e.preventDefault();
                 var data = $(this).serializeObject();
                 
-                if(data.new_login_pwd != data.new_login_pwd2) {
+                if(data.login_pwd != data.login_pwd2) {
                 	alert('两次输入的密码不一致');
                 	return false;
                 }
-                
-                var mobile = data.mobile;
-				var new_login_pwd = data.new_login_pwd;
                 
                 /*
 				data.login_pwd = md5(g_login_name+data.login_pwd);
@@ -82,10 +87,8 @@
 				data.login_pwd = md5(data.login_pwd + data.captcha);
 				*/
 				
-				send('/action/user/reset-pwd', data, function(data) {
+				send('/action/user/reg', data, function(data) {
 					if(data.errcode == 0) {
-						window.localStorage.setItem('app.mobile', mobile);
-						window.localStorage.setItem('app.login_pwd', new_login_pwd);
 						window.location.href = 'msg.html';
 					}
 				});
@@ -126,7 +129,7 @@
         	}, 1000);
         	$(target).addClass('weui-btn_disabled').text('重新获取(' + secord + 's)');
         	
-        	 send('/action/user/reset-pwd/sms-captcha', {
+        	 send('/action/user/reg/sms-captcha', {
         	 	mobile: data.mobile
         	 }, function(data) {
                 if (data.errcode == 0) {
