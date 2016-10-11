@@ -9,6 +9,16 @@
     <link rel="stylesheet" href="../../lib/weui/style/weui.min.css">
     <link rel="stylesheet" href="../../lib/weuijs/style/weuijs.css">
     <link rel="stylesheet" href="../../css/ui-base.css">
+    <style type="text/css">
+
+        .cells_access .weui-cell {
+          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+          color: inherit;
+        }
+        .cells_access .weui-cell:active {
+          background-color: #ECECEC;
+        }
+    </style>
 </head>
 
 <body class="page_navbar">
@@ -20,36 +30,25 @@
                     <span>返回</span>
                 </a>
             </div>
-            <div class="navbar__center">余额</div>
+            <div class="navbar__center">余额明细</div>
             <div class="navbar__right">
-                <a href="balance-details.html" class="navbar__link">
-                    <span>明细</span>
-                </a>
+                &#12288;&#12288;
             </div>
         </div>
     </div>
     <div class="page__content">
-        <div class="weui-msg">
-        <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
-        <div class="weui-msg__text-area">
-            <h2 class="weui-msg__title"><p>余额账户(元)</p><p style="font-size: 28px;">￥88.88</p></h2>
-            <!-- <p class="weui-msg__desc">内容详情，可根据实际需要安排，如果换行则不超过规定长度，居中展现<a href="javascript:void(0);">文字链接</a></p> -->
+        <div class="weui-cells cells_access">
+            <a class="weui-cell" href="javascript:;">
+                <div class="weui-cell__bd">
+                    <p style="color:#000000; font-weight: bold;">充值</p>
+                    <p>余额：88.88</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <p>2016-01-01</p>
+                    <p style="color:#000000; font-weight: bold;">+88.88</p>
+                </div>
+            </a>
         </div>
-        <div class="weui-msg__opr-area">
-            <p class="weui-btn-area">
-                <a href="withdraw.html" class="weui-btn weui-btn_primary">提现</a>
-                <!-- <a href="javascript:history.back();" class="weui-btn weui-btn_default">辅助操作</a> -->
-            </p>
-        </div>
-        <!-- <div class="weui-msg__extra-area">
-            <div class="weui-footer">
-                <p class="weui-footer__links">
-                    <a href="javascript:void(0);" class="weui-footer__link">底部链接文本</a>
-                </p>
-                <p class="weui-footer__text">Copyright © 2008-2016 weui.io</p>
-            </div>
-        </div> -->
-    </div>
     </div>
     <script type="text/javascript" src="../lib/jweixin-1.0.0.js"></script>
     <script type="text/javascript" src="../lib/zepto/zepto.min.js" charset="utf-8"></script>
