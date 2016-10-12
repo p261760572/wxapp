@@ -9,6 +9,16 @@
     <link rel="stylesheet" href="../../lib/weui/style/weui.min.css">
     <link rel="stylesheet" href="../../lib/weuijs/style/weuijs.css">
     <link rel="stylesheet" href="../../css/ui-base.css">
+    <style type="text/css">
+
+       /* .cells_access .weui-cell {
+          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+          color: inherit;
+        }
+        .cells_access .weui-cell:active {
+          background-color: #ECECEC;
+        }*/
+    </style>
 </head>
 
 <body class="page_navbar">
@@ -20,7 +30,7 @@
                     <span>返回</span>
                 </a>
             </div>
-            <div class="navbar__center">设置</div>
+            <div class="navbar__center">我的客户</div>
             <div class="navbar__right">
                 &#12288;&#12288;
             </div>
@@ -28,29 +38,21 @@
     </div>
     <div class="page__content">
         <div class="weui-cells">
-            <a class="weui-cell weui-cell_access" href="change-password.html">
+            <a class="weui-cell weui-cell_access" href="income-history-merchant.html">
                 <div class="weui-cell__bd">
-                    <p>修改登录密码</p>
+                    <p>客户1</p>
                 </div>
-                <div class="weui-cell__ft"></div>
+                <div class="weui-cell__ft">
+                    <p>2016-01-01</p>
+                </div>
             </a>
-            <!--
-            <a class="weui-cell" href="javascript:;" onclick="shareFriends()">
-            <div class="weui-cell__bd weui-cell_primary">
-              <p>推荐给朋友</p>
-            </div>
-            <div class="weui-cell__ft"></div>
-            </a>
-            -->
         </div>
-        <br>
-        <a href="javascript:;" class="weui-btn weui-btn_warn" onclick="logout()">退出</a>
     </div>
-    <script type="text/javascript" src="../../my/lib/jweixin-1.0.0.js"></script>
-    <script type="text/javascript" src="../../my/lib/zepto/zepto.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../../my/lib/art-template/template.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../../my/lib/weuijs/weuijs.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../../my/js/base.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/base.js" charset="utf-8"></script>
 </body>
 
 </html>

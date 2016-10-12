@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>e通</title>
+    <link rel="stylesheet" href="../../lib/weui/style/weui.min.css">
+    <link rel="stylesheet" href="../../lib/weuijs/style/weuijs.css">
+    <style>
+    .upload-photos {
+        /*position: relative;*/
+        padding-bottom: 8px;
+        margin-bottom: 11px;
+        background-color: #fff;
+        border-top: 1px solid #ddddde;
+        border-bottom: 1px solid #ddddde;
+        /*z-index: -1;*/
+    }
+    
+    .upload-photos .photo-tips {
+        height: 22px;
+        line-height: 22px;
+        text-indent: 10px;
+        font-size: 13px;
+        color: #d73535;
+        border-bottom: 1px solid #ebebeb;
+    }
+    
+    .upload-photos dl {
+        margin-top: 8px;
+        font-size: 0;
+        padding-left: 3%;
+    }
+    
+    .upload-photos dl dd,
+    .upload-photos dl dt {
+        display: inline-block;
+        width: 45%;
+        margin: 0% 3% 0% 1%;
+        text-align: center;
+        vertical-align: middle;
+        overflow: hidden;
+    }
+    
+    .upload-photos dl dd {
+        background-color: #eee;
+    }
+    
+    .upload-photos dl dd img {
+        width: 100%;
+        height: auto;
+    }
+    
+    .upload-photos dl dt {
+        position: relative;
+        background-color: #f4f4f4;
+        border: 1px solid #f4f4f4;
+    }
+    
+    .upload-photos dl dt label {
+        display: inline-block;
+        vertical-align: middle;
+        height: 100%;
+    }
+    
+    .upload-photos dl dt img {
+        max-width: 100%;
+    }
+    
+    .upload-photos dl dt div.i-chose:before {
+        position: absolute;
+        content: "必填";
+        right: 5px;
+        top: 5px;
+        font-size: 12px;
+        color: #cdcdcd;
+    }
+    
+    .upload-photos dl dt div.i-chose.optional:before {
+        content: "选填";
+    }
+    
+    .upload-photos dl dt div.font {
+        font-size: 14px;
+        line-height: 20px;
+        color: #a5a5a5;
+        padding: 10px 5px;
+    }
+    
+    .upload-photos dl dt div img {
+        width: 35%;
+        margin-top: 30px;
+    }
+    
+    .upload-photos dl dt span.delete {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        display: block;
+        width: 100%;
+        height: 35px;
+        line-height: 35px;
+        font-size: 15px;
+        color: #fff;
+        background-color: rgba(241, 50, 30, 0.8);
+        text-align: center;
+        z-index: 999;
+    }
+    </style>
+</head>
+
+<body class="page_navbar">
+    <div class="navbar">
+        <div class="navbar__inner">
+            <div class="navbar__left">
+                <a href="javascript:history.back()" class="navbar__link">
+                    <i class="navbar__icon-back"></i>
+                    <span>返回</span>
+                </a>
+            </div>
+            <div class="navbar__center">身份认证</div>
+            <div class="navbar__right">
+                &#12288;&#12288;
+            </div>
+        </div>
+    </div>
+    <div class="page__content">
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">真实姓名</label>
+                </div>
+                <div class="weui-cell__bd weui-cell_primary">
+                    <input class="weui-input" type="text" placeholder="请输入真实姓名">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">身份证号</label>
+                </div>
+                <div class="weui-cell__bd weui-cell_primary">
+                    <input class="weui-input" type="text" placeholder="请输入身份证号">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="upload-photos">
+            <div class="photo-tips">请按照示例样式进行拍照，保证照片清晰</div>
+            <!-- <dl>
+                <dd>
+                    <img src="zhengmian.png">
+                    <input type="hidden" id="input_zm_image" value="法人身份证原件正面_20161012142301_001.jpg">
+                </dd>
+                <dt id="dt_zm_image" style="height: 158px;">
+                    <label></label><img src="weixin://resourceid/5d9868e626b9e282473ae4df05f5de71" style="max-height:158px" id="zm_image"><span class="delete" id="span_zm_image">删除</span></dt>
+            </dl> -->
+            <dl>
+                <dd>
+                    <img src="zhengmian.png">
+                    <input type="hidden" id="input_fm_image">
+                </dd>
+                <dt id="dt_fm_image" style="height: 158px;">
+                    <div class="i-chose">
+                        <img src="upload-click.png" id="fm_image" style="max-height: 158px;">
+                    </div>
+                    <div class="font">身份证原件正面</div>
+                </dt>
+            </dl>
+            <dl>
+                <dd>
+                    <img src="fanmian.png">
+                    <input type="hidden" id="input_fm_image">
+                </dd>
+                <dt id="dt_fm_image" style="height: 158px;">
+                    <div class="i-chose">
+                        <img src="upload-click.png" id="fm_image" style="max-height: 158px;">
+                    </div>
+                    <div class="font">身份证原件反面</div>
+                </dt>
+            </dl>
+        </div>
+        <input type="submit" class="weui-btn weui-btn_primary" value="提交申请">
+    </div>
+    <script type="text/javascript" src="../lib/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/base.js" charset="utf-8"></script>
+</body>
+
+</html>

@@ -29,7 +29,7 @@ span.required {
 .icon-plus {
     width: 24px;
     height: 24px;
-    background-image: url('data:image/svg+xml;charset=utf-8,<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" fill="#ffffff"> <path d="M12 2q0.414 0 0.707 0.293t0.293 0.707v8h8q0.414 0 0.707 0.293t0.293 0.707-0.293 0.707-0.707 0.293h-8v8q0 0.414-0.293 0.707t-0.707 0.293-0.707-0.293-0.293-0.707v-8h-8q-0.414 0-0.707-0.293t-0.293-0.707 0.293-0.707 0.707-0.293h8v-8q0-0.414 0.293-0.707t0.707-0.293z"></path> </svg>');
+    background-image: url('plus.svg');
 }
 
 .icon-balance {
@@ -42,4 +42,82 @@ span.required {
     width: 28px;
     height: 28px;
     background-image: url('银行卡.svg');
+}
+
+.icon-income {
+    width: 28px;
+    height: 28px;
+    background-image: url('收益.svg');
+}
+
+.icon-other-income {
+    width: 28px;
+    height: 28px;
+    background-image: url('其他收入.svg');
+}
+
+.icon-setting {
+    width: 28px;
+    height: 28px;
+    background-image: url('设置.svg');
+}
+
+.icon-my {
+    width: 28px;
+    height: 28px;
+    background-image: url('我的.svg');
+}
+
+.icon-user {
+    width: 60px;
+    height: 60px;
+    background-image: url('用户.svg');
+}
+
+.icon-home {
+    width: 28px;
+    height: 28px;
+    background-image: url('住房.svg');
+}
+
+.icon-list {
+    width: 28px;
+    height: 28px;
+    background-image: url('列表.svg');
+}
+
+.icon-list {
+    width: 28px;
+    height: 28px;
+    background-image: url('列表.svg');
+}
+
+.icon-friend {
+    width: 28px;
+    height: 28px;
+    background-image: url('社交.svg');
+}
+
+.icon-merchant {
+    width: 28px;
+    height: 28px;
+    background-image: url('财富A.svg');
+}
+
+.icon-business {
+    width: 28px;
+    height: 28px;
+    background-image: url('业务.svg');
+}
+
+.icon-history {
+    width: 28px;
+    height: 28px;
+    background-image: url('历史.svg');
+}
+
+.icon-more {
+    width: 28px;
+    height: 28px;
+    background-image: url('更多.svg');
 }

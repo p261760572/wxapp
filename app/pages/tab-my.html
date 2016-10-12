@@ -25,9 +25,10 @@
         <div class="weui-tab__panel" id="view">
             <div class="weui-panel weui-panel_access">
                 <div class="weui-panel_bd">
-                    <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg weui-cell_access">
+                    <a href="my/personal.html" class="weui-media-box weui-media-box_appmsg weui-cell_access">
                         <div class="weui-media-box__hd">
-                            <img class="weui-media-box__thumb" src="../images/icon_nav_dialog.png" alt="">
+                            <!-- <img class="weui-media-box__thumb" src="../images/icon_nav_dialog.png" alt=""> -->
+                            <i class="icon-user"></i>
                         </div>
                         <div class="weui-media-box__bd">
                             <h4 class="weui-media-box__title" id="login_name">昵称</h4>
@@ -40,8 +41,17 @@
             </div>
             <br>
             <div class="weui-grids">
+                <a href="javascript:;" class="weui-grid">
+                    <div class="weui-grid__icon">
+                        <i class="icon-other-income"></i>
+                    </div>
+                    <div class="weui-grid__label">
+                        <p>未结算收益</p>
+                        <p style="color: #999;">￥0.00</p>
+                    </div>
+                </a>
                 <a href="my/balance.html" class="weui-grid">
-                <div class="weui-grid__icon">
+                    <div class="weui-grid__icon">
                         <i class="icon-balance"></i>
                     </div>
                     <div class="weui-grid__label">
@@ -58,66 +68,42 @@
                         <p style="color: #999;">&nbsp;</p>
                     </div>
                 </a>
-                <a href="javascript:;" class="weui-grid">
+            </div>
+            <br>
+            <div class="weui-grids">
+                <a href="my/merchant.html" class="weui-grid">
                     <div class="weui-grid__icon">
-                        <img src="../images/icon_nav_tab.png" alt="">
+                        <i class="icon-merchant"></i>
                     </div>
                     <div class="weui-grid__label">
-                        <p>未结算收益</p>
-                        <p style="color: #999;">&nbsp;</p>
+                        <p>我的客户</p>
+                    </div>
+                </a>
+                <a href="my/friend.html" class="weui-grid">
+                    <div class="weui-grid__icon">
+                        <i class="icon-friend"></i>
+                    </div>
+                    <div class="weui-grid__label">
+                        <p>我的好友</p>
+                    </div>
+                </a>
+                <a href="my/setting.html" class="weui-grid">
+                    <div class="weui-grid__icon">
+                        <i class="icon-setting"></i>
+                    </div>
+                    <div class="weui-grid__label">
+                        <p>设置</p>
                     </div>
                 </a>
             </div>
             <div class="weui-cells">
-                <a class="weui-cell weui-cell_access" href="my/balance.html">
-                    <div class="weui-cell__hd"><img src="../images/icon_nav_cell.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <p>余额</p>
-                    </div>
-                    <span class="weui-cell__ft">88.88</span>
-                </a>
-                <a class="weui-cell weui-cell_access" href="my/bank-card.html">
-                    <div class="weui-cell__hd"><img src="../images/icon_nav_cell.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <p>我的银行卡</p>
-                    </div>
-                    <span class="weui-cell__ft"></span>
-                </a>
-                <a class="weui-cell weui-cell_access" href="javascript:;">
-                    <div class="weui-cell__hd"><img src="../images/icon_nav_cell.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <p>我的累计收益（元）</p>
-                    </div>
-                    <span class="weui-cell__ft"></span>
-                </a>
-                <a class="weui-cell weui-cell_access" href="javascript:;">
-                    <div class="weui-cell__hd"><img src="../images/icon_nav_cell.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <p>未结算收益（元）</p>
-                    </div>
-                    <span class="weui-cell__ft"></span>
-                </a>
-                <a class="weui-cell weui-cell_access" href="javascript:;">
-                    <div class="weui-cell__hd"><img src="../images/icon_nav_cell.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <p>我的好友</p>
-                    </div>
-                    <span class="weui-cell__ft"></span>
-                </a>
-                <a class="weui-cell weui-cell_access" href="javascript:;">
-                    <div class="weui-cell__hd"><img src="../images/icon_nav_cell.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <p>我的客户</p>
-                    </div>
-                    <span class="weui-cell__ft"></span>
-                </a>
-                <a class="weui-cell weui-cell_access" href="my/setting.html">
+                <!-- <a class="weui-cell weui-cell_access" href="my/setting.html">
                     <div class="weui-cell__hd"><img src="../images/icon_nav_cell.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
                     <div class="weui-cell__bd weui-cell_primary">
                         <p>设置</p>
                     </div>
                     <span class="weui-cell__ft"></span>
-                </a>
+                </a> -->
                 <a class="weui-cell weui-cell_access" href="my/help.html">
                     <div class="weui-cell__hd"><img src="../images/icon_nav_cell.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
                     <div class="weui-cell__bd weui-cell_primary">
@@ -130,15 +116,18 @@
     </div>
     <div class="weui-tabbar">
         <a href="index.html" class="weui-tabbar__item">
-            <img src="../images/icon_nav_button.png" alt="" class="weui-tabbar__icon">
+            <!-- <img src="../images/icon_nav_button.png" alt="" class="weui-tabbar__icon"> -->
+            <i class="icon-home"></i>
             <p class="weui-tabbar__label">首页</p>
         </a>
         <a href="tab-workorder.html" class="weui-tabbar__item">
-            <img src="../images/icon_nav_article.png" alt="" class="weui-tabbar__icon">
+            <!-- <img src="../images/icon_nav_article.png" alt="" class="weui-tabbar__icon"> -->
+            <i class="icon-list"></i>
             <p class="weui-tabbar__label">工作单</p>
         </a>
         <a href="tab-my.html" class="weui-tabbar__item  weui-bar__item_on">
-            <img src="../images/icon_nav_cell.png" alt="" class="weui-tabbar__icon">
+            <!-- <img src="../images/icon_nav_cell.png" alt="" class="weui-tabbar__icon"> -->
+            <i class="icon-my"></i>
             <p class="weui-tabbar__label">我</p>
         </a>
     </div>
