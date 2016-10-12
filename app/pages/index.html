@@ -71,12 +71,12 @@
     <script type="text/javascript" src="../lib/art-template/template.js" charset="utf-8"></script>
     <script type="text/javascript" src="../lib/weuijs/weuijs.js" charset="utf-8"></script>
     <script type="text/javascript" src="../js/base.js" charset="utf-8"></script>
-    <script>
-    $(function() {
-        send('/action/user/view', {}, function(data) {
-            if (data.errcode == 0) {}
+    <script type="text/javascript">
+        $(function() {
+            $$.request('/action/user/view', {}, function(data) {
+                if (data.errcode == 0) {}
+            });
         });
-    });
     </script>
 </body>
 
