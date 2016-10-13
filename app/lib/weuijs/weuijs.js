@@ -291,10 +291,7 @@
         });
     }
 
-    $.fn.infinite.methods = {
-        options: function (jq) {
-            return $.data(jq[0], 'infinite').options;
-        },
+    $.fn.infinite.methods = {        
         destroy: function (jq) {
             return jq.each(function () {
                 bindEvents(this, true);
@@ -306,6 +303,125 @@
         distance: 50
     };
 
+})($);
+
+(function($) {
+
+    function selectPage(target, pageNumber) {
+        var state = $(target).data('pagination');
+        var opts = state.options;
+        var pageCount = Math.ceil(state.data.total / opts.pageSize);
+        if (pageNumber > pageCount) pageNumber = pageCount;
+        if (pageNumber < 1) pageNumber = 1; //页码最小是1
+        request(target);
+        opts.pageNumber = pageNumber;
+    }
+
+    function next(target) {
+        var state = $(target).data('pagination');
+        var opts = state.options;
+        var pageCount = Math.ceil(state.data.total / opts.pageSize);
+        if (opts.pageNumber < pageCount) {
+            selectPage(target, opts.pageNumber + 1);
+        }
+    }
+
+    function loadData(target, data) {
+        var state = $(target).data('pagination');
+        var opts = state.options;
+
+        //数组数据处理
+        if ($.isArray(data)) {
+            data = {
+                rows: data,
+                total: data.length
+            }
+        } else {
+            data.total = parseInt(data.total || data.length); //防止total是字符串
+        }
+
+        state.data = data; //更新data
+
+        if (opts.onLoadSuccess) {
+            opts.onLoadSuccess.call(target, data);
+        }
+    }
+
+    //请求远程数据
+    function request(target) {
+        var state = $(target).data('pagination');
+        var opts = state.options;
+
+        if (!opts.url) {
+            return false;
+        }
+
+        var param = $.extend({}, opts.queryParams);
+        $.extend(param, {
+            page: opts.pageNumber,
+            rows: opts.pageSize
+        });
+
+        $.ajax({
+            type: opts.method,
+            url: opts.url,
+            data: $.toJSON(param),
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function(data) {
+                if (data.errcode == 0) {
+                    loadData(target, data);
+                }
+            }
+        });
+    }
+
+    $.fn.pagination = function(options, param) {
+        if (typeof options == 'string') {
+            return $.fn.pagination.methods[options](this, param);
+        }
+
+        options = options || {};
+        return this.each(function() {
+            var state = $(this).data('pagination');
+            var opts;
+            if (state) {
+                opts = $.extend(state.options, options);
+            } else {
+                opts = $.extend({}, $.fn.pagination.defaults, options);
+                $(this).data('pagination', {
+                    options: opts,
+                    data: {
+                        total: 0,
+                        rows: []
+                    }
+                });
+            }
+            selectPage(this, opts.pageNumber);
+        });
+    };
+
+    $.fn.pagination.methods = {
+        select: function(jq, param) {
+            return jq.each(function() {
+                selectPage(this, param);
+            });
+        },
+        next: function(jq) {
+            return jq.each(function() {
+                next(this);
+            });
+        }
+    };
+
+    $.fn.pagination.defaults = {
+        method: 'post',
+        url: null,        
+        pageSize: 20,
+        pageNumber: 1,
+        queryParams: {},
+        onLoadSuccess: function(data) {}
+    };
 })($);
 
 (function($) {
@@ -353,6 +469,38 @@
             return options;
         }
     };
+})($);
+
+(function($) {
+
+    function open(target) {   
+        $(target).addClass('popup_toggle');
+    }
+
+    function close(target) {
+        $(target).removeClass('popup_toggle');
+    }
+
+    $.fn.popup = function(options, param) {
+        if (typeof options == 'string') {
+            return $.fn.popup.methods[options](this, param);
+        }
+    };
+
+
+    $.fn.popup.methods = {
+        open: function(jq) {
+            return jq.each(function() {
+                open(this);
+            });
+        },
+        close: function(jq) {
+            return jq.each(function() {
+                close(this);
+            });
+        }
+    };
+
 })($);
 
 (function ($) {
@@ -489,7 +637,8 @@
         var opts = state.options;
         var form = $(target).find('form.weui-search-bar__form');
 
-        form.off('submit').on('submit', function() {
+        form.off('submit').on('submit', function(e) {
+            e.preventDefault();
             if (opts.onSearch) { opts.onSearch.call(this) }
         });
 
@@ -704,6 +853,106 @@
 })($);
 
 (function($) {
+
+    //加载数据
+    function loadData(target, items) {
+        var state = $(target).data('select2');
+        var opts = state.options;
+        var render = template.compile(optionTemplate);
+
+        state.items = items;
+        $(target).html(render(state));
+        opts.onLoadSuccess.call(target, items);
+    }
+
+    //请求远程数据
+    function request(target, url, param) {
+        var opts = $(target).data('select2').options;
+        if (url) {
+            opts.url = url;
+        }
+        if (!opts.url)
+            return;
+        param = param || {};
+
+        if (opts.onBeforeLoad.call(target, param) == false)
+            return;
+
+        $.ajax({
+            type: opts.method,
+            url: opts.url,
+            data: $.toJSON(param),
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function(data) {
+                loadData(target, data.rows);
+            },
+            error: function() {
+                opts.onLoadError.apply(this, arguments);
+            }
+        });
+    }
+
+    $.fn.select2 = function(options, param) {
+        if (typeof options == 'string') {
+            return $.fn.select2.methods[options](this, param);
+        }
+
+        options = options || {};
+        return this.each(function() {
+            var state = $(this).data('select2');
+            var opts;
+
+            if (state) {
+                opts = $.extend(state.options, options);
+            } else {
+                opts = $.extend({}, $.fn.select2.defaults, options);
+                state = $(this).data('select2', {
+                    options: opts,
+                    items: []
+                });
+            }
+
+            if (opts.items) {
+                loadData(this, opts.items);
+            }
+            request(this);
+        });
+    };
+
+
+    $.fn.select2.methods = {
+        loadData: function(jq, items) {
+            return jq.each(function() {
+                loadData(this, items);
+            });
+        },
+        reload: function(jq, url) {
+            return jq.each(function() {
+                request(this, url);
+            });
+        }
+    };
+
+    $.fn.select2.defaults = {
+        valueField: 'value',
+        textField: 'text',
+        method: 'post',
+        url: null,
+        items: null,
+        onBeforeLoad: function(param) {},
+        onLoadSuccess: function() {},
+        onLoadError: function() {}
+    };
+
+    var optionTemplate = '{{each items as item i}} <option value="{{item.value}}">{{item.text}}</option> {{/each}}';
+
+    // {{each items as item i}}
+    // <option value="{{item.value}}">{{item.text}}</option>
+    // {{/each}}
+})($);
+
+(function($) {
     function bindEvents(target) {
     	$(target).on('click', '.weui-tabbar__item', function () {
 	        $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
@@ -720,13 +969,14 @@
 (function($) {
     var toast;
 
-    function show(options, isLoading) {
+    function show(options) {
         options = options || {};
         var opts = $.extend({}, $.toast.defaults, options)
         var render = template.compile(toastTemplate);
+        hide(opts);
         toast = $(render(opts)).appendTo('body');
 
-        if (!isLoading) {
+        if (opts.duration != 0) {
             setTimeout(function() {
                 hide(opts);
             }, opts.duration);
@@ -734,9 +984,11 @@
     };
 
     function hide(opts) {
-        toast.remove();
-        toast = null;
-        if (opts && opts.callback) opts.callback(this);
+        if (toast) {
+            toast.remove();
+            toast = null;
+            if (opts && opts.callback) opts.callback(this);
+        }
     }
 
     $.toast = function(options, param) {
@@ -747,13 +999,20 @@
 
     $.toast.methods = {
         show: function(options) {
-            show(options, false);
+            show(options);
+        },
+        showPlain: function(msg) {
+            show({
+                plain: true,
+                msg: msg
+            });
         },
         showLoading: function(options) {
             show($.extend({
+                duration: 0,
                 msg: '数据加载中',
                 iconCls: 'weui-loading'
-            }, options), true);
+            }, options));
         },
         hideLoading: function(options) {
             hide();
@@ -924,7 +1183,7 @@
 
     $.fn.validate.methods = {
     	options: function(jq) {
-            return $.data(jq[0], 'validate').options;
+            return jq.data('validate').options;
         },
         validate: function(jq) {
             return jq.each(function() {

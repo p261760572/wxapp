@@ -2,86 +2,97 @@
 <html>
 
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<title>登录</title>
-	<link rel="stylesheet" href="../lib/weui/style/weui.min.css">
-	<style>
-
-	</style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>登录</title>
+    <link rel="stylesheet" href="../lib/weui/style/weui.min.css">
+    <link rel="stylesheet" href="../lib/weuijs/style/weuijs.css">
 </head>
 
-<body>
-	<div class="container">
-		<form id="login-fm" action="#">
-			<div class="weui-cells weui-cells_form">
-				<div class="weui-cell">
-					<div class="weui-cell__hd"><label class="weui-label">账号</label></div>
-					<div class="weui-cell__bd weui-cell_primary">
-						<input class="weui-input" type="text" name="mobile" placeholder="请输入手机号">
-					</div>
-				</div>
-				<div class="weui-cell">
-					<div class="weui-cell__hd"><label class="weui-label">密码</label></div>
-					<div class="weui-cell__bd weui-cell_primary">
-						<input class="weui-input" type="password" name="login_pwd" placeholder="请输入密码">
-					</div>
-				</div>
-			</div>
-			<input type="submit" class="weui-btn weui-btn_primary" value="登录">
-		</form>
-	</div>
-	<div style="float:left; padding:5px 10px; font-size:18px;">
-		<a href="reset-password.html">忘记密码</a>
-	</div>
-	<div style="float:right; padding:5px 10px; font-size:18px;">
-		<a href="register.html">注册</a>
-	</div>
-	<div style="clear:both"></div>
+<body class="page_navbar">
+    <div class="navbar">
+        <div class="navbar__inner">
+            <div class="navbar__left">
+            </div>
+            <div class="navbar__center">登录</div>
+            <div class="navbar__right">
+            </div>
+        </div>
+    </div>
+    <div class="page__content">
+        <form id="login-fm" action="#">
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">账号</label>
+                    </div>
+                    <div class="weui-cell__bd weui-cell_primary">
+                        <input class="weui-input" type="text" name="mobile" placeholder="请输入手机号">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">密码</label>
+                    </div>
+                    <div class="weui-cell__bd weui-cell_primary">
+                        <input class="weui-input" type="password" name="login_pwd" placeholder="请输入密码">
+                    </div>
+                </div>
+            </div>
+            <input type="submit" class="weui-btn weui-btn_primary" value="登录">
+        </form>
+    </div>
+    <div style="float:left; padding:5px 10px; font-size:18px;">
+        <a href="reset-password.html">忘记密码</a>
+    </div>
+    <div style="float:right; padding:5px 10px; font-size:18px;">
+        <a href="register.html">注册</a>
+    </div>
+    <div style="clear:both"></div>
+    <script type="text/javascript" src="../lib/md5.min.js"></script>
+    <script type="text/javascript" src="../lib/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/base.js" charset="utf-8"></script>
+    <script>
+    $(function() {
+        // if(window.localStorage) {
+        //  var mobile = window.localStorage.getItem('app.mobile');
+        //  var login_pwd = window.localStorage.getItem('app.login_pwd');
+        //  load('#login-fm', {
+        //      mobile: mobile,
+        //      login_pwd: login_pwd
+        //  });
+        // }
 
-	<script type="text/javascript" src="../lib/zepto/zepto.min.js" charset="utf-8"></script>
-	<script type="text/javascript" src="../lib/md5.min.js" charset="utf-8"></script>
-	<script type="text/javascript" src="../js/tool.js" charset="utf-8"></script>
-	<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+        $('#login-fm').submit(function(e) {
+            e.preventDefault();
 
-	<script>
-	
-	$(function () {
-		if(window.localStorage) {
-			var mobile = window.localStorage.getItem('app.mobile');
-			var login_pwd = window.localStorage.getItem('app.login_pwd');
-			load('#login-fm', {
-				mobile: mobile,
-				login_pwd: login_pwd
-			});
-		}
-		$('#login-fm').submit(function(e) {
-	        e.preventDefault();
-	        
-	        send('/action/user/session', {}, function(data) {
-				if(data.errcode == 0) {
-					var data2 = $('#login-fm').serializeObject();
-					var mobile = data2.mobile;
-					var login_pwd = data2.login_pwd;
-					
-					data2.login_pwd = md5(md5(data2.mobile+data2.login_pwd) + data.captcha);
-					
-					send('/action/user/login', data2, function(data) {
-						if(data.errcode == 0) {
-							window.localStorage.setItem('app.mobile', mobile);
-							window.localStorage.setItem('app.login_pwd', login_pwd);
-							
-							window.location.href = 'index.html';
-						}
-					});
-				}
-			});
+            $$.request('/action/user/session', {}, function(data) {
+                // $.toast('hideLoading');
+                if (data.errcode == 0) {
+                    var loginData = $('#login-fm').serializeObject();
+                    var mobile = loginData.mobile;
+                    var login_pwd = loginData.login_pwd;
 
-	    });
-	});
-	
-</script>
+                    loginData.login_pwd = md5(md5(loginData.mobile + loginData.login_pwd) + data.captcha);
+
+                    $$.request('/action/user/login', loginData, function(data) {
+                        if (data.errcode == 0) {
+                            // window.localStorage.setItem('app.mobile', mobile);
+                            // window.localStorage.setItem('app.login_pwd', login_pwd);
+
+                            window.location.href = 'index.html';
+                        }
+                    });
+                }
+            });
+
+        });
+    });
+    </script>
 </body>
 
 </html>

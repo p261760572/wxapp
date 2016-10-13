@@ -100,6 +100,16 @@
     -webkit-align-items: center;
     align-items: center;
     color: #fff;
+    -webkit-transition-duration: .3s;
+    transition-duration: .3s;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+.navbar__link:active {
+    opacity: .3;
+    -webkit-transition-duration: 0s;
+    transition-duration: 0s;
 }
 
 .navbar__link span {
@@ -112,6 +122,25 @@
     background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2012%2020'%3E%3Cpath%20d%3D'M10%2C0l2%2C2l-8%2C8l8%2C8l-2%2C2L0%2C10L10%2C0z'%20fill%3D'%23ffffff'%2F%3E%3C%2Fsvg%3E")
 }
 
+.popup {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    -webkit-transform: translate(0, 100%);
+    transform: translate(0, 100%);
+    -webkit-transition: -webkit-transform .3s;
+    transition: transform .3s;
+    background-color: #fff;
+    z-index: 5000;
+}
+
+.popup_toggle {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+}
 @keyframes refreshing-spin {
     100% {
         transform: rotate(360deg);
@@ -247,6 +276,7 @@
     -webkit-transition: -webkit-transform .3s;
     transition: transform .3s;
     background-color: #fff;
+    z-index: 5000;
 }
 
 .select__content {
@@ -266,7 +296,7 @@
 .toast-text {
     min-height: 1em;
     width: auto;
-    height: 45px;
+    /*height: 45px;*/
     border-radius: 25px;
     margin-left: 0;
     -webkit-transform:  translate3d(-50%, 0, 0);
