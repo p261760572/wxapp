@@ -278,7 +278,9 @@
             </form>
             <a href="javascript:" class="search-bar__search-btn">搜索</a>
         </div>
-        <div class="weui-cells" id="subbranch-list">
+        <div id="infinite" class="popup__bd">
+        <div id="subbranch-list" class="weui-cells" style="margin-bottom: 44px;">
+        </div>
         </div>
     </div>
     <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
@@ -296,6 +298,7 @@
             <div class="weui-cell__ft"></div>
         </a>
         {{/each}}
+        </div>
     </script>
     <script id="uploader-file-templ" type="text/html">
         <li class="weui-uploader_file weui-uploader_status" style="background-image:url({{if file_url}} {{file_url}} {{else}} {{localid}} {{/if}})">

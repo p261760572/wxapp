@@ -141,6 +141,12 @@
     -webkit-transform: translate(0, 0);
     transform: translate(0, 0);
 }
+
+.popup__bd {
+    overflow: auto;
+    height: 100%;
+}
+
 @keyframes refreshing-spin {
     100% {
         transform: rotate(360deg);

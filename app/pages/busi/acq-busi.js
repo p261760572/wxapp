@@ -5,17 +5,28 @@ requiredWx();
 
 
 function searchSubbrach() {
+    var processing = false;
     var data = $(this).serializeObject();
+    $('#subbranch-list').html('');
     $('#subbranch-list').pagination({
         url: $$.wrapUrl('/action/ms/bank-subbranch/list'),
         pageNumber: 1,
         queryParams: data,
         onLoadSuccess: function(data) {
+            processing = false;
             var html = template('subbranch-templ', data);
-            $('#subbranch-list').html(html);                
+            $('#subbranch-list').append(html);
+        },
+        onLoadError() {
+            processing = false;
         }
-    }).infinite().on('infinite', function () {
-        $('#subbranch-list').pagination('next');
+    })
+
+    $('#infinite').infinite().on('infinite', function () {
+        if(!processing) {
+            processing = true;            
+            $('#subbranch-list').pagination('next');
+        }
     });;
 }
 

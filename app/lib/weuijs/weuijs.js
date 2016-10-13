@@ -337,7 +337,7 @@
                 total: data.length
             }
         } else {
-            data.total = parseInt(data.total || data.length); //防止total是字符串
+            data.total = parseInt(data.total || data.rows.length); //防止total是字符串
         }
 
         state.data = data; //更新data
@@ -362,6 +362,7 @@
             rows: opts.pageSize
         });
 
+        $.toast('showLoading');
         $.ajax({
             type: opts.method,
             url: opts.url,
@@ -369,8 +370,17 @@
             contentType: 'application/json',
             dataType: 'json',
             success: function(data) {
+                $.toast('hideLoading');
                 if (data.errcode == 0) {
                     loadData(target, data);
+                } else if (opts.onLoadError) {
+                    opts.onLoadError.call(target);
+                }
+            },
+            error: function () {
+                $.toast('hideLoading');
+                if (opts.onLoadError) {
+                    opts.onLoadError.call(target);
                 }
             }
         });
@@ -416,11 +426,12 @@
 
     $.fn.pagination.defaults = {
         method: 'post',
-        url: null,        
+        url: null,
         pageSize: 20,
         pageNumber: 1,
         queryParams: {},
-        onLoadSuccess: function(data) {}
+        onLoadSuccess: function(data) {},
+        onLoadError: function() {}
     };
 })($);
 
