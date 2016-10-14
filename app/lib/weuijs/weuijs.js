@@ -1010,13 +1010,13 @@
 
     $.toast.methods = {
         show: function(options) {
+            //msg
+            if (typeof options == 'string') {
+                options = {
+                    msg: options
+                };
+            }
             show(options);
-        },
-        showPlain: function(msg) {
-            show({
-                plain: true,
-                msg: msg
-            });
         },
         showLoading: function(options) {
             show($.extend({
@@ -1031,25 +1031,25 @@
     };
 
     $.toast.defaults = {
-        //toast
         duration: 2000,
         msg: '操作成功',
-        iconCls: 'weui-icon-success-no-circle',
-        plain: false,
+        iconCls: null, //weui-icon-success-no-circle
         callback: null //function
     };
 
-    var toastTemplate = '<div style="display: block;"> <div class="weui-mask_transparent"></div> <div class="weui-toast {{if plain}}toast-text{{/if}}"> <i class="weui-icon_toast {{iconCls}}"></i> <p class="weui-toast__content">{{msg}}</p> </div> </div>';
+    var toastTemplate = '<div style="display: block;"> <div class="weui-mask_transparent"></div> <div class="weui-toast {{if !iconCls}}toast_plain{{/if}}"> {{if iconCls}} <i class="weui-icon_toast {{iconCls}}"></i> {{/if}} <p class="weui-toast__content">{{msg}}</p> </div> </div>';
 
-    /* toastTemplate
-     <div style="display: block;">
-     <div class="weui-mask_transparent"></div>
-     <div class="weui-toast {{if plain}}toast-text{{/if}}">
-     <i class="weui-icon_toast {{iconCls}}"></i>
-     <p class="weui-toast__content">{{msg}}</p>
-     </div>
-     </div>
-     */
+     // toastTemplate
+     // <div style="display: block;">
+     // <div class="weui-mask_transparent"></div>
+     // <div class="weui-toast {{if !iconCls}}toast_plain{{/if}}">
+     // {{if iconCls}}
+     // <i class="weui-icon_toast {{iconCls}}"></i>
+     // {{/if}}
+     // <p class="weui-toast__content">{{msg}}</p>
+     // </div>
+     // </div>
+     
 })
 ($);
 
@@ -1169,6 +1169,8 @@
         		}
         	}
         }
+
+        t.removeClass('validate-invalid');
         
         return true;
     }

@@ -104,13 +104,16 @@ var baseJs = (function() {
         return query;
     };
 
-    $$.setData = function (data) {
-        window.localStorage.setItem(window.location.pathname, JSON.stringify(data));
+    $$.setData = function (keyName, data) {
+        window.localStorage.setItem(window.location.pathname + ':' + keyName, JSON.stringify(data));
     };
 
+    $$.getData = function (keyName) {
+        return JSON.parse(window.localStorage.getItem(window.location.pathname + ':' + keyName));  
+    };
 
-    $$.getData = function () {
-        return JSON.parse(window.localStorage.getItem(window.location.pathname));  
+    $$.removeData = function (keyName) {
+        return window.localStorage.removeItem(window.location.pathname + ':' + keyName);  
     };
 
     return $$;
@@ -129,7 +132,7 @@ $(document).on('ajaxComplete', function(e, xhr, options) {
                 window.location.href = 'login.html';
             } else if (data.errcode != 0) {
                 if (data.errmsg) {
-                    $.toast('showPlain', data.errmsg);
+                    $.toast('show', data.errmsg);
                 }
             }
         }
@@ -168,14 +171,14 @@ function requiredWx() {
                 }
                 
                 if(msg) {
-                    $.toast('showPlain', '当前客户端不支持' + msg.substr(1));
+                    $.toast('show', '当前客户端不支持' + msg.substr(1));
                 }
             }
         });
     });
     
     wx.error(function(res){
-        $.toast('showPlain', JSON.stringify(res));
+        $.toast('show', JSON.stringify(res));
         // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
     });
 }

@@ -22,9 +22,9 @@ function searchSubbrach() {
         }
     })
 
-    $('#infinite').infinite().on('infinite', function () {
-        if(!processing) {
-            processing = true;            
+    $('#infinite').infinite().on('infinite', function() {
+        if (!processing) {
+            processing = true;
             $('#subbranch-list').pagination('next');
         }
     });;
@@ -32,13 +32,18 @@ function searchSubbrach() {
 
 
 $(function() {
+    //验证
+    $('.validate').validate({
+        // required: true
+    });
+
     //支行查询
-    $('#subbranch-sb').searchbar({
+    $('#subbranch-searchbar').searchbar({
         onSearch: searchSubbrach
     });
 
     $('#subbranch-list').on('click', 'a.weui-cell', function() {
-        //$('#subbranch_name').val($(this).attr('data-text'));
+        $('#subbranch_name').val($(this).attr('data-text'));
         $('#subbranch-popup').popup('close');
     });
 
@@ -68,17 +73,153 @@ $(function() {
                 title: '请选择贷记卡手续费',
                 items: data.credit_fee_algo
             });
+        }
+    });
+});
+
+//封装微信JS-SDK
+function wxCamera(argument) {
+    wx.chooseImage({
+        count: 1, // 默认9
+        sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+        sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
+        success: function(res) {
+            var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+            var localId = localIds[0];
+            //TODO
+        }
+    });
+}
+
+function wxChooseImage(argument) {
+    wx.chooseImage({
+        count: 1, // 默认9
+        sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+        sourceType: ['album'], // 可以指定来源是相册还是相机，默认二者都有
+        success: function(res) {
+            var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+            var localId = localIds[0];
+            //TODO
+        }
+    });
+}
+
+function wxLocation(argument) {
+    wx.getLocation({
+        type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+        success: function(res) {
+            var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+            var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+            var speed = res.speed; // 速度，以米/每秒计
+            var accuracy = res.accuracy || null; // 位置精度
+            //TODO
+        }
+    });
+}
+
+function uploadImage(argument) {
+    wx.uploadImage({
+        localId: localid, // 需要上传的图片的本地ID，由chooseImage接口获得
+        isShowProgressTips: 1, // 默认为1，显示进度提示
+        success: function(res) {
+            var serverId = res.serverId; // 返回图片的服务器端ID
+            //TODO
+        },
+        fail: function(res) {
+            $.toast('show', '上传失败,' + JSON.stringify(res));
+        }
+    });
+}
+
+function serializeForm(argument) {
+    // body...
+}
+
+function serializeDetailForm(target, eiTypeMap) {
+    var data = $(target).serializeObject();
+    data.apptype = '105';
+    data.license_no = data.license_no.toUpperCase();
+
+    //照片处理
+    var eiType = ['01', '02', '03', '04', '16', '17'];
+    $.each(eiType, function(index, item) {
+        eiTypeMap[item] = 0;
+    });
+    var images = [];
+    for (var i = 0; i < eiType.length; i++) {
+        var type = eiType[i];
+        var container = $('#' + type).children('.weui_uploader_file').each(function(index, item) {
+            var fileData = $(item).data('file');
+
+            $.extend(fileData, {
+                'ei_type': type
+            });
+
+            images.push($.extend(fileData, {
+                'ei_type': type
+            }));
+
+            eiTypeMap[type]++;
+        });
+    }
+    data.images = images;
+
+    return data;
+}
 
 
+function save(argument) {
+    var isValid = $('#detail-fm').form('validate');
+    var eiTypeMap = {};
+    var data = serializeForm('#detail-fm', eiTypeMap);
+    $$.setData('detail', data);
+    $.toast('暂存成功');
+}
 
-            // $("#bank_code").select({
-            //     title: "选择开户银行",
-            //     items: getItems(data.account_bank),
-            //     onChange: function() {
-            //         $('#search-fm').trigger('submit');
-            //     }
-            // });
+
+function submit(argument) {
+    // e.preventDefault();
+    window.localStorage.setItem(DETAIL_KEY, '');
+    //$.toast("操作成功");
+    var eiTypeMap = {};
+    var data = serializeDetailForm(this, eiTypeMap);
+
+    var required = true;
+    $(this).find('input[required="required"]').each(function(index, item) {
+        if (!$(item).val()) {
+            required = false;
+            $(item).focus();
         }
     });
 
-});
+    if (!required) {
+        alert('请填写必输入项');
+        return false;
+    }
+
+    if (eiTypeMap['01'] < 1) {
+        alert('请上传营业执照照片');
+        return false;
+    }
+
+    if (eiTypeMap['03'] < 1) {
+        alert('请上传法人身份证照片');
+        return false;
+    }
+
+    if (eiTypeMap['16'] < 1) {
+        alert('请上传结算账户(银行卡)照片');
+        return false;
+    }
+
+    var url = '/action/ms/mchnt-busi/create';
+    if (query.operateType == 'update') {
+        url = '/action/ms/mchnt-busi/update';
+    }
+    send(url, data, function(data) {
+        if (data.errcode == 0) {
+            submitSuccess = true;
+            window.location.href = 'msg.html';
+        }
+    });
+}

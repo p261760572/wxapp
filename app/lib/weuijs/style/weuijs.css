@@ -192,35 +192,39 @@
     animation: refreshing-spin 1s steps(8, end) infinite;
     display: inline-block;
 }
-.search-bar__back-btn {
-    /*margin-left: 5px;*/
-    margin-right: 10px;
+.search-bar__btn {
     line-height: 28px;
-    color: #09BB07;
     white-space: nowrap;
-    display: -webkit-flex;
-    display: flex;   
-    -webkit-align-items: center;
-    align-items: center; 
+    -webkit-transition-duration: .3s;
+    transition-duration: .3s;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
 
-/*.search-bar__icon-back {
-    width: 12px;
-    height: 20px;
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2012%2020'%3E%3Cpath%20d%3D'M10%2C0l2%2C2l-8%2C8l8%2C8l-2%2C2L0%2C10L10%2C0z'%20fill%3D'%23000000'%2F%3E%3C%2Fsvg%3E")
-}*/
+.search-bar__btn:active {
+    opacity: .3;
+    -webkit-transition-duration: 0s;
+    transition-duration: 0s;
+}
+
+.search-bar__search-btn {
+    margin-left: 10px;
+    color: #09BB07;
+}
+
+.search-bar__back-btn {
+    margin-right: 10px;
+    color: #09BB07;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+}
 
 .search-bar__icon-back {
     width: 24px;
     height: 24px;
     background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%3E%3Cpath%20d%3D'M20%2011H7.83l5.59-5.59L12%204l-8%208%208%208%201.41-1.41L7.83%2013H20v-2z'%20fill%3D'%2309BB07'%2F%3E%3C%2Fsvg%3E")
-}
-
-.search-bar__search-btn {
-    margin-left: 10px;
-    line-height: 28px;
-    color: #09BB07;
-    white-space: nowrap;
 }
 
 .toolbar {
@@ -229,7 +233,7 @@
     font-size: .85rem;
     line-height: 1.5;
     color: #3d4145;
-    background: #f7f7f8;
+    background: #efeff4;
 }
 
 .toolbar .toolbar-inner {
@@ -262,7 +266,10 @@
 
 .toolbar .toolbar-back {
     left: 0;
-    color: #3d4145;
+    color: #04BE02;
+    width: 24px;
+    height: 24px;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%3E%3Cpath%20d%3D'M20%2011H7.83l5.59-5.59L12%204l-8%208%208%208%201.41-1.41L7.83%2013H20v-2z'%20fill%3D'%2309BB07'%2F%3E%3C%2Fsvg%3E")
 }
 
 .toolbar .toolbar-close {
@@ -299,7 +306,7 @@
     -webkit-transform: translate(0, 0);
     transform: translate(0, 0);
 }
-.toast-text {
+.toast_plain {
     min-height: 1em;
     width: auto;
     /*height: 45px;*/
@@ -311,10 +318,10 @@
     transform-origin: left;
 }
 
-.toast-text .weui-icon_toast {
+.toast_plain .weui-icon_toast {
     display: none;
 }
 
-.toast-text .weui-toast__content {
+.toast_plain .weui-toast__content {
     margin: 10px 15px;
 }
