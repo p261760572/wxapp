@@ -47,6 +47,25 @@ $(function() {
         $('#subbranch-popup').popup('close');
     });
 
+    //上传照片
+    $('#detail-fm').on('click', '.weui-uploader__input', function() {
+        var files = $(this).closest('.weui-uploader').find('.weui-uploader__files');
+        $.actionsheet({
+            android: true,
+            actions: [{
+                text: '拍照',
+                onClick: function() {
+                    uploadImage('camera', files);
+                }
+            }, {
+                text: '选择照片',
+                onClick: function() {
+                    uploadImage('album', files);
+                }
+            }]
+        });
+    });
+
     $$.request('/action/ms/parameter/list', {
         debit_fee_algo: '1',
         credit_fee_algo: '1',
@@ -78,33 +97,20 @@ $(function() {
 });
 
 //封装微信JS-SDK
-function wxCamera(argument) {
+function wxChooseImage(sourceType, success) {
     wx.chooseImage({
         count: 1, // 默认9
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-        sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
+        sourceType: sourceType, // 可以指定来源是相册还是相机，默认二者都有 ['camera', 'album']
         success: function(res) {
             var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
             var localId = localIds[0];
-            //TODO
+            if (success) { success(localId); }
         }
     });
 }
 
-function wxChooseImage(argument) {
-    wx.chooseImage({
-        count: 1, // 默认9
-        sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-        sourceType: ['album'], // 可以指定来源是相册还是相机，默认二者都有
-        success: function(res) {
-            var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-            var localId = localIds[0];
-            //TODO
-        }
-    });
-}
-
-function wxLocation(argument) {
+function wxLocation(success) {
     wx.getLocation({
         type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
         success: function(res) {
@@ -112,21 +118,27 @@ function wxLocation(argument) {
             var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
             var speed = res.speed; // 速度，以米/每秒计
             var accuracy = res.accuracy || null; // 位置精度
-            //TODO
+            if (success) {
+                success({
+                    latitude: latitude,
+                    longitude: longitude
+                });
+            }
         }
     });
 }
 
-function uploadImage(argument) {
+function uploadImage(localId, success, error) {
     wx.uploadImage({
-        localId: localid, // 需要上传的图片的本地ID，由chooseImage接口获得
+        localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
         isShowProgressTips: 1, // 默认为1，显示进度提示
         success: function(res) {
             var serverId = res.serverId; // 返回图片的服务器端ID
-            //TODO
+            if (success) { success(serverId); }
         },
         fail: function(res) {
-            $.toast('show', '上传失败,' + JSON.stringify(res));
+            // $.toast('show', '上传失败,' + JSON.stringify(res));
+            if (error) { error(res); }
         }
     });
 }
@@ -221,5 +233,12 @@ function submit(argument) {
             submitSuccess = true;
             window.location.href = 'msg.html';
         }
+    });
+}
+
+
+function uploadImage(sourceType, files) {
+    wxChooseImage(sourceType, function(localId) {
+
     });
 }

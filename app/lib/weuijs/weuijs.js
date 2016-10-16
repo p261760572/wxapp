@@ -1,26 +1,16 @@
 (function($) {
-    var mask;
     var actionsheet;
 
     function show(params) {
 
-        mask = $('<div class="weui-mask_transparent actionsheet__mask"></div>').appendTo(document.body);
-
+        var render = template.compile(actionsheetTemplate);
         var actions = params.actions || [];
+        isAdnroid = params.android; //保存
+        $.closeActionsheet(); //关闭
 
-        var actionsHtml = actions.map(function(d, i) {
-            return '<div class="weui-actionsheet__cell ' + (d.className || "") + '">' + d.text + '</div>';
-        }).join("");
-
-        var tpl = '<div class="weui-actionsheet" id="weui-actionsheet">' +
-            '<div class="weui-actionsheet__menu">' +
-            actionsHtml +
-            '</div>' +
-            '<div class="weui-actionsheet__action">' +
-            '<div class="weui-actionsheet__cell">取消</div>' +
-            '</div>' +
-            '</div>';
-        actionsheet = $(tpl).appendTo(document.body);
+        actionsheet = $(render(params)).appendTo('body').data('actionsheet', {
+            options: params
+        });
 
         actionsheet.find('.weui-actionsheet__menu .weui-actionsheet__cell, .weui-actionsheet__action .weui-actionsheet__cell').each(function(i, e) {
             $(e).click(function() {
@@ -32,18 +22,28 @@
             })
         });
 
-        mask.show().addClass('actionsheet__mask_show');
-        actionsheet.show().addClass('weui-actionsheet_toggle');
+        actionsheet.children('.weui-mask').fadeIn(200).on('click', function() {
+            $.closeActionsheet();
+        });
+        actionsheet.children('.weui-actionsheet').addClass('weui-actionsheet_toggle');
     };
 
+
+    function remove() {
+        if (actionsheet) actionsheet.remove();
+        actionsheet = null;
+    }
+
     function hide() {
-        mask.removeClass('actionsheet__mask_show');
-        actionsheet.removeClass('weui-actionsheet_toggle').on('transitionend webkitTransitionEnd', function () {
-        	if(mask) mask.remove();
-        	if(actionsheet) actionsheet.remove();
-        	mask = null;
-        	actionsheet = null;
-        });
+        if (actionsheet) {
+            var opts = actionsheet.data('actionsheet').options;
+            actionsheet.children('.weui-mask').fadeOut(200);
+            if (opts.android) {
+                actionsheet.children('.weui-actionsheet').fadeOut(200, remove);
+            } else {
+                actionsheet.children('.weui-actionsheet').removeClass('weui-actionsheet_toggle').on('transitionend webkitTransitionEnd', remove);
+            }
+        }
     }
 
     $.actionsheet = function(params) {
@@ -55,15 +55,31 @@
         hide();
     }
 
-    $(document).on('click', '.actionsheet__mask', function() {
-        $.closeActionsheet();
-    });
-
     $.actionsheet.defaults = {
+        android: false,
+        actions: [],
         onClose: undefined
     };
 
+
+    var actionsheetTemplate = '<div class="{{if android}}weui-skin_android{{/if}}"> <div class="weui-mask actionsheet__mask"></div> <div class="weui-actionsheet weui-actionsheet_toggle"> <div class="weui-actionsheet__menu"> {{each actions as action i}} <div class="weui-actionsheet__cell {{if action.className}}{{action.className}}{{/if}}">{{action.text}}</div> {{/each}} </div> <div class="weui-actionsheet__action"> <div class="weui-actionsheet__cell">取消</div> </div> </div> </div>';
+
+    // <div class="{{if android}}weui-skin_android{{/if}}">
+    //     <div class="weui-mask actionsheet__mask"></div>
+    //     <div class="weui-actionsheet weui-actionsheet_toggle">
+    //         <div class="weui-actionsheet__menu">
+    //             {{each actions as action i}}
+    //             <div class="weui-actionsheet__cell {{if action.className}}{{action.className}}{{/if}}">{{action.text}}</div>
+    //             {{/each}}
+    //         </div>
+    //         <div class="weui-actionsheet__action">
+    //             <div class="weui-actionsheet__cell">取消</div>
+    //         </div>
+    //     </div>
+    // </div>
+
 })($);
+
 (function($) {
 
     var dialog;
@@ -824,27 +840,27 @@
         items: [],
         title: "请选择",
         closeText: "关闭",
-        backText: "返回",
+        // backText: "返回",
         onChange: null, //function
         onClose: null, //function
         onOpen: null, //function
         split: " " //多选模式下的分隔符
     };
 
-    var selectTemplate = '<div class="select"> <div class="toolbar"> <div class="toolbar-inner"> <a href="javascript:;" class="toolbar-back">{{backText}}</a> <h1 class="toolbar-title">{{title}}</h1> <a href="javascript:;" class="toolbar-close">{{closeText}}</a></div> </div> <div class="select__content"></div> </div>';
+    var selectTemplate = '<div class="select"> <div class="toolbar"> <div class="toolbar__box"> <a href="javascript:;" class="toolbar__btn"><i class="toolbar__icon-back"></i></a> <h1 class="toolbar__title">{{title}}</h1> <a href="javascript:;" class="toolbar__btn toolbar__btn_close">{{closeText}}</a></div> </div> <div class="select__content"></div> </div>';
     var radioTemplate = '<div class="weui-cells weui-cells_radio"> {{each items as item i}} <label class="weui-cell weui-check__label"> <div class="weui-cell__bd"> <p>{{item.text}}</p> </div> <div class="weui-cell__ft"> <input type="radio" class="weui-check" name="select" value="{{item.value}}"> <span class="weui-icon-checked"></span> </div> </label> {{/each}} </div>';
 
-    /* selectTemplate
-     <div class="select">
-     <div class="toolbar">
-     <div class="toolbar-inner">
-     <a href="javascript:;" class="toolbar-back">{{backText}}</a>
-     <h1 class="toolbar-title">{{title}}</h1>
-     <a href="javascript:;" class="toolbar-close">{{closeText}}</a></div>
-     </div>
-     <div class="select__content"></div>
-     </div>
-     */
+     // selectTemplate
+     // <div class="select">
+     // <div class="toolbar">
+     // <div class="toolbar__box">
+     // <a href="javascript:;" class="toolbar__btn"><i class="toolbar__icon-back"></i></a>
+     // <h1 class="toolbar__title">{{title}}</h1>
+     // <a href="javascript:;" class="toolbar__btn toolbar__btn_close">{{closeText}}</a></div>
+     // </div>
+     // <div class="select__content"></div>
+     // </div>
+     
 
 
     //  <div class="weui-cells weui-cells_radio">
