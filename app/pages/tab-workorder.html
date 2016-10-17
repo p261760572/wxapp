@@ -16,14 +16,14 @@
         <div class="navbar__inner">
             <div class="navbar__left">
             </div>
-            <div class="navbar__center">e通</div>
+            <div class="navbar__center">工作单</div>
             <div class="navbar__right">
             </div>
         </div>
     </div>
     <div class="weui-tab page__content">
         <div class="weui-tab__panel" id="view">
-            <div class="weui-search-bar weui-search-bar_focusing search-bar" id="search_bar">
+            <div id="workorder-searchbar" class="weui-search-bar weui-search-bar_focusing search-bar">
                 <!-- <a href="javascript:" class="search-bar__back-btn"><i class="search-bar__icon-back"></i></a> -->
                 <form class="weui-search-bar__form">
                     <div class="weui-search-bar__box">
@@ -33,7 +33,9 @@
                 </form>
                 <a href="javascript:" class="search-bar__search-btn">搜索</a>
             </div>
-            <div class="weui-cells weui-cells_access" id="order-list">
+            <div id="infinite" style="overflow: auto; height: 100%;">
+            <div id="workorder-list" class="weui-cells" style="margin-bottom: 44px;">
+            </div>
             </div>
         </div>
     </div>
@@ -59,21 +61,22 @@
     <script type="text/javascript" src="../lib/art-template/template.js" charset="utf-8"></script>
     <script type="text/javascript" src="../lib/weuijs/weuijs.js" charset="utf-8"></script>
     <script type="text/javascript" src="../js/base.js" charset="utf-8"></script>
-    <script id="list-templ" type="text/html">
+    <script type="text/javascript" src="tab-workorder.js" charset="utf-8"></script>
+    <script id="workorder-templ" type="text/html">
         {{each rows as row i}}
-        <a class="weui-cell" href="javascript:;" data-id="{{row.work_order_no}}" data-tn="{{row.term_no}}" data-st="{{row.proc_st}}">
-            <div class="weui-cell__bd weui-cell_primary">
-                <p>{{row.work_order_no}} {{row.work_order_type | formatWorkOrderType}}</p>
+        <a class="weui-cell weui-cell_access" href="javascript:;" data-id="{{row.work_order_no}}" data-tn="{{row.term_no}}" data-st="{{row.proc_st}}">
+            <div class="weui-cell__bd">
+                <p>{{row.work_order_no}} {{row.work_order_type}}</p>
             </div>
-            <div class="weui-cell__ft" style="color: #f6383a;">{{row.proc_st | formatProcSt}}</div>
+            <div class="weui-cell__ft" style="color: #f6383a;">{{row.proc_st}}</div>
         </a>
-        <div class="weui-media_box weui-media_text">
-            <p class="weui-media_desc">{{row.shop_name}}</p>
-            <p class="weui-media_desc">{{row.addr}}</p>
-            <ul class="weui-media_info">
-                <li class="weui-media_info_meta">{{row.created_time}}</li>
-                <li class="weui-media_info_meta weui-media_info_meta_extra">{{row.created_by}}</li>
-                <li class="weui-media_info_meta weui-media_info_meta_extra">{{row.tms_captcha}}</li>
+        <div class="weui-media-box weui-media-box_text">
+            <p class="weui-media-box__desc">{{row.shop_name}}</p>
+            <p class="weui-media-box__desc">{{row.addr}}</p>
+            <ul class="weui-media-box__info">
+                <li class="weui-media-box__info__meta">{{row.created_time}}</li>
+                <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{row.created_by}}</li>
+                <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{row.tms_captcha}}</li>
             </ul>
         </div>
         {{/each}}

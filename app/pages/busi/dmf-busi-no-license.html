@@ -38,7 +38,7 @@
                         
                     </a>
                 </div>
-                <div class="navbar__center">收单业务</div>
+                <div class="navbar__center">当面付</div>
                 <div class="navbar__right">
                     <a href="javascript:;" class="navbar__link hide-view" onclick="saveDetail()">
                         <span>暂存</span>
@@ -74,14 +74,14 @@
                             <input name="tel_no" type="text" class="weui-input" placeholder="请输入联系电话">
                         </div>
                     </div>
-                    <div class="weui-cell">
+                    <!-- <div class="weui-cell">
                         <div class="weui-cell__hd">
                             <label class="weui-label">营业执照号码<span class="required">*</span></label>
                         </div>
                         <div class="weui-cell__bd">
                             <input id="license_no" name="license_no" type="text" class="weui-input validate" placeholder="请输入营业执照号码" required="required" title="营业执照号码" style="text-transform:uppercase;">
                         </div>
-                    </div>
+                    </div> -->
                     <div class="weui-cell">
                         <div class="weui-cell__hd">
                             <label class="weui-label">户名<span class="required">*</span></label>
@@ -108,20 +108,20 @@
                     </div>
                     <div class="weui-cell">
                         <div class="weui-cell__hd">
-                            <label class="weui-label">借记卡手续费<span class="required">*</span></label>
+                            <label class="weui-label">手续费<span class="required">*</span></label>
                         </div>
                         <div class="weui-cell__bd">
-                            <input name="fee_algo" type="text" class="weui-input validate" placeholder="请选择借记卡手续费" id="fee_algo" required="required" title="借记卡手续费" readonly="readonly">
+                            <input name="fee_algo" type="text" class="weui-input validate" placeholder="请选择手续费" id="fee_algo" required="required" title="手续费" readonly="readonly">
                         </div>
                     </div>
-                    <div class="weui-cell">
+                   <!--  <div class="weui-cell">
                         <div class="weui-cell__hd">
                             <label class="weui-label">贷记卡手续费<span class="required">*</span></label>
                         </div>
                         <div class="weui-cell__bd">
                             <input name="credit_fee_algo" type="text" class="weui-input validate" placeholder="请选择贷记卡手续费" id="credit_fee_algo" required="required" title="贷记卡手续费" readonly="readonly">
                         </div>
-                    </div>
+                    </div> -->
                     <div class="weui-cell">
                         <div class="weui-cell__hd">
                             <label class="weui-label">装机地区<span class="required">*</span></label>
@@ -138,13 +138,11 @@
                             <input name="installed_addr" type="text" id="installed_addr" class="weui-input validate" placeholder="请输入详细地址(需核对)" required="required" title="装机详细地址">
                         </div>
                     </div>
-                    <div class="weui-cell">
+                    <!-- <div class="weui-cell">
                         <div class="weui-cell__hd">
                             <label for="" class="weui-label">机具类型<span class="required">*</span></label>
                         </div>
                         <div class="weui-cell__bd">
-                            <!-- <select id="equi_type" class="weui-select validate" name="equi_type" required="required" title="机具类型">
-                            </select> -->
                             <input name="equi_type" type="text" class="weui-input validate" placeholder="请选择机具类型" id="equi_type" required="required">
                         </div>
                     </div>
@@ -185,7 +183,7 @@
                         <div class="weui-cell__bd">
                             <input name="sale_amount" type="number" class="weui-input" placeholder="请输入销售款">
                         </div>
-                    </div>
+                    </div> -->
                     <div class="weui-cell">
                         <div class="weui-cell__hd">
                             <label class="weui-label">备注</label>
@@ -197,7 +195,7 @@
                 </div>
                 <div class="weui-cells weui-cells_form">
                     <div class="weui-cells__title">上传照片</div>
-                    <div class="weui-cell">
+                    <!-- <div class="weui-cell">
                         <div class="weui-cell__bd">
                             <div class="weui-uploader">
                                 <div class="weui-uploader__hd">
@@ -212,13 +210,13 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     
                     <div class="weui-cell">
                         <div class="weui-cell__bd">
                             <div class="weui-uploader">
                                 <div class="weui-uploader__hd">
-                                    法人身份证照片
+                                    <!-- 法人 -->身份证照片
                                     <span class="required">*</span>
                                 </div>
                                 <div class="weui-uploader__bd">
@@ -248,7 +246,7 @@
                             </div>
                         </div>
                     </div>                    
-                    <div class="weui-cell show-more">
+                    <!-- <div class="weui-cell show-more">
                         <div class="weui-cell__bd">
                             <div class="weui-uploader">
                                 <div class="weui-uploader__hd ">
@@ -263,7 +261,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="weui-cell show-more">
                         <div class="weui-cell__bd">
                             <div class="weui-uploader">
@@ -296,7 +294,7 @@
                             </div>
                         </div>
                     </div>                    
-                    <div class="weui-cell show-more">
+                    <!-- <div class="weui-cell show-more">
                         <div class="weui-cell__bd">
                             <div class="weui-uploader">
                                 <div class="weui-uploader__hd">
@@ -311,7 +309,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="weui-cell show-more">
                         <div class="weui-cell__bd">
                             <div class="weui-uploader">
@@ -357,7 +355,7 @@
     <script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
-    <script type="text/javascript" src="acq-busi.js" charset="utf-8"></script>
+    <script type="text/javascript" src="dmf-busi-no-license.js" charset="utf-8"></script>
     <script id="subbranch-templ" type="text/html">
         {{each rows as row i}}
         <a class="weui-cell weui-cell_access" href="javascript:;" data-text="{{row.subbranch_name}}">

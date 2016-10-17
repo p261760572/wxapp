@@ -33,7 +33,11 @@ function searchSubbrach() {
 
 function serializeDetailForm() {
     var data = $('#detail-fm').serializeObject();
-    data.apptype = '105';
+    data.apptype = '109';
+    data.equi_type = '无机具';
+    data.quick_flag = '1';
+    data.credit_fee_algo = data.fee_algo;
+    data.num_term = '1';
     data.license_no = data.license_no.toUpperCase();
 
     //照片处理

@@ -33,8 +33,12 @@ function searchSubbrach() {
 
 function serializeDetailForm() {
     var data = $('#detail-fm').serializeObject();
-    data.apptype = '105';
-    data.license_no = data.license_no.toUpperCase();
+    data.apptype = '109';
+    data.equi_type = '无机具';
+    data.quick_flag = '1';
+    data.credit_fee_algo = data.fee_algo;
+    data.num_term = '1';
+    // data.license_no = data.license_no.toUpperCase();
 
     //照片处理
     var images = [];
@@ -100,10 +104,10 @@ function submitDetail() {
     var eiTypeMap = {};
     var data = serializeDetailForm();
 
-    if (!hasImage(data.images, '01')) {
-        $.toast('show', '请上传营业执照照片');
-        return false;
-    }
+    // if (!hasImage(data.images, '01')) {
+    //     $.toast('show', '请上传营业执照照片');
+    //     return false;
+    // }
 
     if (!hasImage(data.images, '03')) {
         $.toast('show', '请上传法人身份证照片');

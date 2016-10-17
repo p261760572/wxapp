@@ -5,14 +5,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>业务申请查询</title>
+    <title>e通</title>
     <link rel="stylesheet" href="../../lib/weui/style/weui.min.css">
     <link rel="stylesheet" href="../../lib/weuijs/style/weuijs.css">
     <style>
-        body,
-        html {
-            height: 100%;
-        }
+    body,
+    html {
+        height: 100%;
+    }
     </style>
 </head>
 
@@ -21,8 +21,7 @@
         <div class="navbar__inner">
             <div class="navbar__left">
                 <a href="javascript:history.back()" class="navbar__link">
-                    <i class="navbar__icon-back"></i>
-                    <span>返回</span>
+                    <i class="icon-back_nav"></i>
                 </a>
             </div>
             <div class="navbar__center">申请记录</div>
@@ -31,209 +30,50 @@
             </div>
         </div>
     </div>
-    <div class="page__content">
-    <div class="weui-search-bar weui-search-bar_focusing search-bar" id="search_bar">
-        <!-- <a href="javascript:" class="search-bar__back-btn"><i class="search-bar__icon-back"></i></a> -->
-        <form class="weui-search-bar__form">
-            <div class="weui-search-bar__box">
-                <i class="weui-icon-search"></i>
-                <input type="search" class="weui-search-bar__input" name="key" placeholder="支持联系人、开户行、装机地址" required="required">
+    <div class="page__content" style="overflow: hidden;">
+        <div id="busi-searchbar" class="weui-search-bar weui-search-bar_focusing search-bar">
+            <!-- <a href="javascript:" class="search-bar__back-btn"><i class="search-bar__icon-back"></i></a> -->
+            <form class="weui-search-bar__form">
+                <div class="weui-search-bar__box">
+                    <i class="weui-icon-search"></i>
+                    <input type="search" class="weui-search-bar__input" name="search" placeholder="支持联系人、开户行、装机地址" required="required">
+                </div>
+            </form>
+            <a href="javascript:" class="search-bar__search-btn">搜索</a>
+        </div>
+        <div id="infinite" style="overflow: auto; height: 100%;">
+            <div class="weui-cells" id="busi-list" style="margin-bottom: 44px;">
             </div>
-        </form>
-        <a href="javascript:" class="search-bar__search-btn">搜索</a>
+        </div>
     </div>
-    <!-- <div class="weui-search_bar" id="search_bar">
-        <form class="weui-search_outer" id="search-fm">
-            <div class="weui-search_inner">
-                <i class="weui-icon_search"></i>
-                <input type="search" name="search" class="weui-search_input" id="search_input" placeholder="搜索" />
-                <a href="javascript:" class="weui-icon_clear" id="search_clear"></a>
-            </div>
-            <label for="search_input" class="weui-search_text" id="search_text">
-                <i class="weui-icon_search"></i>
-                <span>支持联系人、开户行、装机地址</span>
-            </label>
-        </form>
-        <a href="javascript:" class="weui-search_cancel" onclick="searchCancel()">取消</a>
-    </div> -->
-
-    <div class="weui-cells weui-cells_access" id="busi-list">
-        <!--
-        	<a class="weui-cell" href="javascript:;">
-	          <div class="weui-cell__bd weui-cell_primary">
-	            <p>联系人 联系电话</p>
-	          </div>
-	          <div class="weui-cell__ft">处理状态</div>
-	        </a>
-            <div class="weui-media_box weui-media_text">
-                <h4 class="weui-media_title">联系人 联系电话 处理状态</h4>
-                <p class="weui-media_desc">开户行名称 装机详细地址</p>
-                <ul class="weui-media_info">
-                    <li class="weui-media_info_meta">申请时间</li>
-                    <li class="weui-media_info_meta weui-media_info_meta_extra">备注</li>
-                </ul>
-            </div>
-            -->
-    </div>
-    <!-- <div class="weui-infinite-scroll" id="infinite">
-        <div class="infinite-preloader"></div>
-        正在加载...
-    </div> -->
-    </div>
-    <script type="text/javascript" src="../../lib/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
     <script type="text/javascript" src="../../lib/zepto/zepto.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../../lib/weui/weui.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../../js/tool.js" charset="utf-8"></script>
-    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <script id="list-templ" type="text/html">
+    <script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
+    <script type="text/javascript" src="search-busi.js" charset="utf-8"></script>
+    <script id="busi-templ" type="text/html">
         {{each rows as row i}}
-        <a class="weui-cell" href="javascript:;" data-index="{{i}}">
+        <a class="weui-cell weui-cell_access" href="javascript:;" data-id="{{row.apppay_id}}" data-st="{{row.proc_st}}" data-tp="{{row.apptype}}">
             <div class="weui-cell__bd weui-cell_primary">
                 <p>{{row.linkman}} {{row.tel_no}} </p>
             </div>
-            <div class="weui-cell__ft" style="color:#f6383a;">{{row.proc_st | formatProcSt}}</div>
+            <div class="weui-cell__ft" style="color:#f6383a;">{{row.proc_st_nm}}</div>
         </a>
-        <div class="weui-media_box weui-media_text">
-            <div class="weui-media_desc">{{row.subbranch_name}}</div>
-            <div class="weui-media_desc">{{row.installed_addr}}</div>
-            <div class="weui-media_desc">{{row.remark}} </div>
-            <div class="weui-media_desc" style="color:#f6383a;">{{row.checked_reason}}</div>
-            <ul class="weui-media_info">
-                <li class="weui-media_info_meta">{{row.created_time}}</li>
-                <li class="weui-media_info_meta weui-media_info_meta_extra">{{row.created_by}}</li>
+        <div class="weui-media-box weui-media-box_text">
+            <div class="weui-media-box__desc">{{row.subbranch_name}}</div>
+            <div class="weui-media-box__desc">{{row.installed_addr}}</div>
+            <div class="weui-media-box__desc">{{row.remark}} </div>
+            <div class="weui-media-box__desc" style="color:#f6383a;">{{row.checked_reason}}</div>
+            <ul class="weui-media-box__info">
+                <li class="weui-media-box__info__meta">{{row.created_time}}</li>
+                <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{row.created_by}}</li>
                 {{if row.apptype=='109'}}
-                <li class="weui-media_info_meta weui-media_info_meta_extra">当面付</li>
+                <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">当面付</li>
                 {{/if}}
             </ul>
         </div>
         {{/each}}
-    </script>
-    <script>
-        var procStData = [{
-            "text": "暂存",
-            "value": "1"
-        }, {
-            "text": "已提交",
-            "value": "2"
-        }, {
-            "text": "待完善",
-            "value": "3"
-        }, {
-            "text": "已处理",
-            "value": "4"
-        }, {
-            "text": "审核通过",
-            "value": "8"
-        }, {
-            "text": "审核不通过",
-            "value": "9"
-        }, {
-            "text": "已派单",
-            "value": "A"
-        }, {
-            "text": "装机中",
-            "value": "B"
-        }, {
-            "text": "已装机",
-            "value": "C"
-        }];
-
-
-        var query = {
-            page: 1,
-            rows: 10
-        };
-        var loading = false; //状态标记
-
-        template.helper('formatProcSt', function(proc_st) {
-            return formatField(procStData, proc_st);
-        });
-
-        $(function() {
-            $('#search-fm').submit(submitSearch).submit();
-        });
-
-        function showActions(target, rows) {
-        	var index = $(target).attr('data-index');
-        	var row = rows[index];
-            var apptype = row.apptype;
-            var params = $.param({
-                apppay_id: row.apppay_id
-            });
-            
-            var page = 'acq-busi.html';
-            if(row.apptype == '109') {
-            	page = 'dmf-busi.html';
-            }
-            
-            var actions = [{
-                text: "查看",
-                className: "color-primary",
-                onClick: function() {
-                    window.location.href = page + '?operateType=view&' + params;
-                }
-            }];
-
-            if (row.proc_st == '3') {
-                actions.push({
-                    text: "编辑",
-                    className: "color-danger",
-                    onClick: function() {
-                        window.location.href = page + '?operateType=update&' + params;
-                    }
-                });
-            }
-
-            $.actions({
-                actions: actions
-            });
-        }
-
-        function submitSearch(e) {
-            e.preventDefault();
-            var data = $(this).serializeObject();
-            $.extend(query, data);
-            query.page = 1;
-            searchBusi();
-        }
-
-        function searchCancel() {
-            query.search = null;
-            query.page = 1;
-            searchBusi();
-        }
-
-        function searchBusi() {
-            if (query.page == 1) {
-                $('#infinite').show();
-                $(document.body).infinite(1).on("infinite", function() {
-                    if (loading) return;
-                    loading = true;
-                    query.page++;
-                    searchBusi();
-                });
-            }
-            send('/action/ms/mchnt-busi/search', query, function(data) {
-                if (data.errcode == 0) {
-                    var html = template('list-templ', data);
-                    if (query.page == 1) {
-                        $('#busi-list').html(html);
-                    } else {
-                        $('#busi-list').append(html);
-                    }
-                    $('a.weui-cell').off('click').on('click', function() {
-                        showActions(this, data.rows);
-                    });
-
-                    loading = false;
-
-                    if (data.rows.length < query.rows) {
-                        $(document.body).destroyInfinite();
-                        $('#infinite').hide();
-                    }
-                }
-            });
-        }
     </script>
 </body>
 

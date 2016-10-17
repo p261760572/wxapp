@@ -89,9 +89,9 @@
         dialog = null;
     }
 
-    $.messager = {
+    $.dialog = {
         show: function(options) {
-            var opts = $.extend({}, $.messager.defaults, options)
+            var opts = $.extend({}, $.dialog.defaults, options)
             var render = template.compile(opts.dialogTempalte);
             close(); //确保关闭
             dialog = $(render(opts)).appendTo('body');
@@ -105,28 +105,28 @@
             return dialog;
         },
         alert: function(title, msg, fn) {
-            return $.messager.show({
+            return $.dialog.show({
                 title: title,
                 msg: msg,
                 buttons: [{
-                    text: $.messager.defaults.buttonOK,
+                    text: $.dialog.defaults.buttonOK,
                     btnCls: 'primary',
                     onClick: fn
                 }]
             });
         },
         confirm: function(title, msg, fn) {
-            return $.messager.show({
+            return $.dialog.show({
                 title: title,
                 msg: msg,
                 buttons: [{
-                    text: $.messager.defaults.buttonCancel,
+                    text: $.dialog.defaults.buttonCancel,
                     btnCls: 'default',
                     onClick: function() {
                         fn(false);
                     }
                 }, {
-                    text: $.messager.defaults.buttonOK,
+                    text: $.dialog.defaults.buttonOK,
                     btnCls: 'primary',
                     onClick: function() {
                         fn(true);
@@ -136,7 +136,7 @@
         }
     };
 
-    $.messager.defaults = {
+    $.dialog.defaults = {
         title: null,
         msg: null,
         buttonOK: '确定',
@@ -268,6 +268,84 @@
             return validate(jq[0]);
         }
     };
+})($);
+
+(function($) {
+    var gallery;
+
+    function show(params) {
+        var opts = params;
+        var render = template.compile(galleryTemplate);
+
+        $.gallery('close'); //关闭
+
+        gallery = $(render(opts)).appendTo('body').data('gallery', {
+            options: opts
+        });
+
+        gallery.on('click', '.gallery__back-btn', function() {
+            $.gallery('close');
+        }).on('click', '.gallery__delete-btn', function() {
+            $.dialog.confirm('提示', '是否删除当前内容?', function(r) {
+                if (r) {
+                    $.gallery('close');
+                    if (opts.onDelete) {
+                        opts.onDelete();
+                    }
+                }
+            });
+        })
+    };
+
+    function remove() {
+        if (gallery) gallery.remove();
+        gallery = null;
+    }
+
+    function close() {
+        if (gallery) {
+            gallery.fadeOut(200, remove);
+        }
+    }
+
+    $.gallery = function(options, params) {
+        if (typeof options == 'string') {
+            return $.gallery.methods[options](params);
+        }
+        options = $.extend({}, $.gallery.defaults, options);
+        show(options);
+    }
+
+    $.gallery.methods = {
+        close: function(params) {
+            close();
+        }
+    };
+
+    $.gallery.defaults = {
+        deletable: true,
+        imageUrl: null,
+        onDelete: undefined
+    };
+
+    var galleryTemplate = '<div class="weui-gallery" style="display: block"> <span class="weui-gallery__img" style="background-image: url({{imageUrl}});"></span> <div class="weui-gallery__opr"> <a href="javascript:" class="gallery__back-btn" style="display: inline-block;"> <i class="icon-back_gallery"></i> </a> {{if deletable}} &nbsp; <a href="javascript:" class="gallery__delete-btn" style="display: inline-block;"> <i class="weui-icon-delete weui-icon_gallery-delete"></i> </a> {{/if}} </div> </div>';
+
+
+    // <div class="weui-gallery" style="display: block">
+    //     <span class="weui-gallery__img" style="background-image: url({{imageUrl}});"></span>
+    //     <div class="weui-gallery__opr">
+    //         <a href="javascript:" class="gallery__back-btn" style="display: inline-block;">
+    //             <i class="icon-back_gallery"></i>
+    //         </a>
+    //         {{if deletable}}
+    //         &nbsp;
+    //         <a href="javascript:" class="gallery__delete-btn" style="display: inline-block;">
+    //             <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+    //         </a>
+    //         {{/if}}
+    //     </div>
+    // </div>
+
 })($);
 
 (function($) {
@@ -712,9 +790,9 @@
             open(target);
         });
 
-        state.toolbar.off('click').on('click', '.toolbar-close', function(e) {
+        state.toolbar.off('click').on('click', '.toolbar__close-btn', function(e) {
             close(target);
-        }).on('click', '.toolbar-back', function(e) {
+        }).on('click', '.toolbar__back-btn', function(e) {
             if (state.values.length == 0) {
                 close(target);
             } else {
@@ -821,9 +899,6 @@
 
 
     $.fn.select.methods = {
-        options: function(jq) {
-            return $.data(jq[0], 'select').options;
-        },
         open: function(jq) {
             return jq.each(function() {
                 open(this);
@@ -840,26 +915,29 @@
         items: [],
         title: "请选择",
         closeText: "关闭",
-        // backText: "返回",
         onChange: null, //function
         onClose: null, //function
         onOpen: null, //function
         split: " " //多选模式下的分隔符
     };
 
-    var selectTemplate = '<div class="select"> <div class="toolbar"> <div class="toolbar__box"> <a href="javascript:;" class="toolbar__btn"><i class="toolbar__icon-back"></i></a> <h1 class="toolbar__title">{{title}}</h1> <a href="javascript:;" class="toolbar__btn toolbar__btn_close">{{closeText}}</a></div> </div> <div class="select__content"></div> </div>';
+    var selectTemplate = '<div class="select"> <div class="toolbar"> <div class="toolbar__left"> <a href="javascript:;" class="toolbar__btn toolbar__back-btn"><i class="icon-back_bar"></i></a> </div> <div class="toolbar__center"> <div class="toolbar__title">{{title}}</div> </div> <div class="toolbar__right"> <a href="javascript:;" class="toolbar__btn toolbar__close-btn">{{closeText}}</a> </div> </div> <div class="select__content"></div> </div>';
     var radioTemplate = '<div class="weui-cells weui-cells_radio"> {{each items as item i}} <label class="weui-cell weui-check__label"> <div class="weui-cell__bd"> <p>{{item.text}}</p> </div> <div class="weui-cell__ft"> <input type="radio" class="weui-check" name="select" value="{{item.value}}"> <span class="weui-icon-checked"></span> </div> </label> {{/each}} </div>';
 
-     // selectTemplate
-     // <div class="select">
-     // <div class="toolbar">
-     // <div class="toolbar__box">
-     // <a href="javascript:;" class="toolbar__btn"><i class="toolbar__icon-back"></i></a>
-     // <h1 class="toolbar__title">{{title}}</h1>
-     // <a href="javascript:;" class="toolbar__btn toolbar__btn_close">{{closeText}}</a></div>
-     // </div>
-     // <div class="select__content"></div>
-     // </div>
+    // <div class="select">
+    //     <div class="toolbar">
+    //         <div class="toolbar__left">
+    //             <a href="javascript:;" class="toolbar__btn toolbar__back-btn"><i class="icon-back_bar"></i></a>
+    //         </div>
+    //         <div class="toolbar__center">
+    //             <div class="toolbar__title">{{title}}</div>
+    //         </div>
+    //         <div class="toolbar__right">
+    //             <a href="javascript:;" class="toolbar__btn toolbar__close-btn">{{closeText}}</a>
+    //         </div>
+    //     </div>
+    //     <div class="select__content"></div>
+    // </div>
      
 
 
@@ -995,7 +1073,7 @@
 
 (function($) {
     var toast;
-
+    var timer;
     function show(options) {
         options = options || {};
         var opts = $.extend({}, $.toast.defaults, options)
@@ -1004,13 +1082,18 @@
         toast = $(render(opts)).appendTo('body');
 
         if (opts.duration != 0) {
-            setTimeout(function() {
+            timer = setTimeout(function() {
                 hide(opts);
             }, opts.duration);
         }
     };
 
     function hide(opts) {
+        if(timer) {
+            clearTimeout(timer);
+            timer = null;
+        }
+        
         if (toast) {
             toast.remove();
             toast = null;
@@ -1076,7 +1159,7 @@
         options = options || {};
         var opts = $.extend({}, $.toptip.defaults, options)
         var render = template.compile(toptipTemplate);
-        if (toptip) {hide(opts)}
+        if (toptip) { hide(opts); }
         toptip = $(render(opts)).appendTo('body');
 
         setTimeout(function() {
@@ -1085,9 +1168,11 @@
     };
 
     function hide(opts) {
-        toptip.remove();
-        toptip = null;
-        if (opts && opts.callback) opts.callback(this);
+        if (toptip) {
+            toptip.remove();
+            toptip = null;
+            if (opts && opts.callback) opts.callback(this);
+        }
     }
 
     $.toptip = function(options, param) {
