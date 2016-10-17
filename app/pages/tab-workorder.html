@@ -66,9 +66,9 @@
         {{each rows as row i}}
         <a class="weui-cell weui-cell_access" href="javascript:;" data-id="{{row.work_order_no}}" data-tn="{{row.term_no}}" data-st="{{row.proc_st}}">
             <div class="weui-cell__bd">
-                <p>{{row.work_order_no}} {{row.work_order_type}}</p>
+                <p>{{row.work_order_no}} {{row.work_order_tp_nm}}</p>
             </div>
-            <div class="weui-cell__ft" style="color: #f6383a;">{{row.proc_st}}</div>
+            <div class="weui-cell__ft" style="color: #f6383a;">{{row.proc_st_nm}}</div>
         </a>
         <div class="weui-media-box weui-media-box_text">
             <p class="weui-media-box__desc">{{row.shop_name}}</p>

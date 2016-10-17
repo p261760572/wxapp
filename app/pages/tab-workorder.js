@@ -46,53 +46,53 @@
 //     });
 // });
 
-// function showActions(target) {
-//     var work_order_no = $(target).attr('data-id');
-//     var term_no = $(target).attr('data-tn');
-//     var proc_st = $(target).attr('data-st');
-//     var params = $.param({
-//         work_order_no: work_order_no,
-//         term_no: term_no
-//     });
+function showActions(target) {
+    var work_order_no = $(target).attr('data-id');
+    var term_no = $(target).attr('data-tn');
+    var proc_st = $(target).attr('data-st');
+    var params = $.param({
+        work_order_no: work_order_no,
+        term_no: term_no
+    });
 
-//     var actions = [{
-//         text: "查看",
-//         className: "color-primary",
-//         onClick: function() {
-//             window.location.href = 'workorder.html?operateType=view&' + params;
-//         }
-//     }];
+    var actions = [{
+        text: "查看",
+        className: "actionsheet__cell_primary",
+        onClick: function() {
+            window.location.href = 'work/workorder.html?operateType=view&' + params;
+        }
+    }];
 
-//     if (proc_st == '1') {
-//         actions.push({
-//             text: "提交",
-//             className: "color-success",
-//             onClick: function() {
-//                 window.location.href = 'sign-workorder.html?operateType=sign&' + params;
-//             }
-//         });
+    if (proc_st == '1') {
+        actions.push({
+            text: "提交",
+            className: "actionsheet__cell_warning",
+            onClick: function() {
+                window.location.href = 'work/sign-workorder.html?operateType=sign&' + params;
+            }
+        });
 
-//         actions.push({
-//             text: "信息维护",
-//             className: "color-warning",
-//             onClick: function() {
-//                 window.location.href = 'term-info.html?' + params;
-//             }
-//         });
+        actions.push({
+            text: "信息维护",
+            className: "actionsheet__cell_primary",
+            onClick: function() {
+                window.location.href = 'work/term-info.html?' + params;
+            }
+        });
 
-//         actions.push({
-//             text: "绑定设备",
-//             className: "color-danger",
-//             onClick: function() {
-//                 window.location.href = 'bind-device.html?' + params;
-//             }
-//         });
-//     }
+        actions.push({
+            text: "绑定设备",
+            className: "actionsheet__cell_warning",
+            onClick: function() {
+                window.location.href = 'work/bind-device.html?' + params;
+            }
+        });
+    }
 
-//     $.actions({
-//         actions: actions
-//     });
-// }
+    $.actionsheet({
+        actions: actions
+    });
+}
 
 // function search() {
 //     var data = $(this).serializeObject();
@@ -151,42 +151,42 @@
 
 
 
-function showActions(target, rows) {
-    var apppay_id = $(target).attr('data-id');
-    var proc_st = $(target).attr('data-st');
-    var apptype = $(target).attr('data-tp');
+// function showActions(target) {
+//     var apppay_id = $(target).attr('data-id');
+//     var proc_st = $(target).attr('data-st');
+//     var apptype = $(target).attr('data-tp');
 
-    var params = $.param({
-        apppay_id: apppay_id
-    });
+//     var params = $.param({
+//         apppay_id: apppay_id
+//     });
 
-    var page = 'acq-busi.html';
-    if (apptype == '109') {
-        page = 'dmf-busi.html';
-    }
+//     var page = 'acq-busi.html';
+//     if (apptype == '109') {
+//         page = 'dmf-busi.html';
+//     }
 
-    var actions = [{
-        text: "查看",
-        className: "actionsheet__cell_primary",
-        onClick: function() {
-            window.location.href = page + '?operateType=view&' + params;
-        }
-    }];
+//     var actions = [{
+//         text: "查看",
+//         className: "actionsheet__cell_primary",
+//         onClick: function() {
+//             window.location.href = page + '?operateType=view&' + params;
+//         }
+//     }];
 
-    if (proc_st == '3') {
-        actions.push({
-            text: "编辑",
-            className: "actionsheet__cell_warning",
-            onClick: function() {
-                window.location.href = page + '?operateType=update&' + params;
-            }
-        });
-    }
+//     if (proc_st == '3') {
+//         actions.push({
+//             text: "编辑",
+//             className: "actionsheet__cell_warning",
+//             onClick: function() {
+//                 window.location.href = page + '?operateType=update&' + params;
+//             }
+//         });
+//     }
 
-    $.actionsheet({
-        actions: actions
-    });
-}
+//     $.actionsheet({
+//         actions: actions
+//     });
+// }
 
 
 function searchWorkorder() {
@@ -213,7 +213,7 @@ function searchWorkorder() {
             processing = true;
             $('#workorder-list').pagination('next');
         }
-    });;
+    });
 }
 
 

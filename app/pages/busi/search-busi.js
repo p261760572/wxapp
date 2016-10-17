@@ -60,7 +60,7 @@ function searchBusi() {
             processing = true;
             $('#busi-list').pagination('next');
         }
-    });;
+    });
 }
 
 
