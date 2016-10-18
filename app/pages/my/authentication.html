@@ -117,7 +117,6 @@
             <div class="navbar__left">
                 <a href="javascript:history.back()" class="navbar__link">
                     <i class="icon-back_nav"></i>
-                    
                 </a>
             </div>
             <div class="navbar__center">身份认证</div>
@@ -127,28 +126,29 @@
         </div>
     </div>
     <div class="page__content">
-        <div class="weui-cells weui-cells_form">
-            <div class="weui-cell">
-                <div class="weui-cell__hd">
-                    <label class="weui-label">真实姓名</label>
+        <form id="detail-fm" method="post" action="/action/user/apply-auth">
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">真实姓名</label>
+                    </div>
+                    <div class="weui-cell__bd weui-cell_primary">
+                        <input class="weui-input" type="text" name="actual_name" placeholder="请输入真实姓名">
+                    </div>
                 </div>
-                <div class="weui-cell__bd weui-cell_primary">
-                    <input class="weui-input" type="text" placeholder="请输入真实姓名">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">身份证号</label>
+                    </div>
+                    <div class="weui-cell__bd weui-cell_primary">
+                        <input class="weui-input" type="text" name="id_card_no" placeholder="请输入身份证号">
+                    </div>
                 </div>
             </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd">
-                    <label class="weui-label">身份证号</label>
-                </div>
-                <div class="weui-cell__bd weui-cell_primary">
-                    <input class="weui-input" type="text" placeholder="请输入身份证号">
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="upload-photos">
-            <div class="photo-tips">请按照示例样式进行拍照，保证照片清晰</div>
-            <!-- <dl>
+            <br>
+            <div class="upload-photos">
+                <div class="photo-tips">请按照示例样式进行拍照，保证照片清晰</div>
+                <!-- <dl>
                 <dd>
                     <img src="zhengmian.png">
                     <input type="hidden" id="input_zm_image" value="法人身份证原件正面_20161012142301_001.jpg">
@@ -156,38 +156,46 @@
                 <dt id="dt_zm_image" style="height: 158px;">
                     <label></label><img src="weixin://resourceid/5d9868e626b9e282473ae4df05f5de71" style="max-height:158px" id="zm_image"><span class="delete" id="span_zm_image">删除</span></dt>
             </dl> -->
-            <dl>
-                <dd>
-                    <img src="zhengmian.png">
-                    <input type="hidden" id="input_fm_image">
-                </dd>
-                <dt id="dt_fm_image" style="height: 158px;">
-                    <div class="i-chose">
-                        <img src="upload-click.png" id="fm_image" style="max-height: 158px;">
-                    </div>
-                    <div class="font">身份证原件正面</div>
-                </dt>
-            </dl>
-            <dl>
-                <dd>
-                    <img src="fanmian.png">
-                    <input type="hidden" id="input_fm_image">
-                </dd>
-                <dt id="dt_fm_image" style="height: 158px;">
-                    <div class="i-chose">
-                        <img src="upload-click.png" id="fm_image" style="max-height: 158px;">
-                    </div>
-                    <div class="font">身份证原件反面</div>
-                </dt>
-            </dl>
-        </div>
-        <input type="submit" class="weui-btn weui-btn_primary" value="提交申请">
+                <dl>
+                    <dd>
+                        <img src="zhengmian.png">
+                        <input type="hidden" id="input_zm_image">
+                    </dd>
+                    <dt id="dt_zm_image" style="height: 158px;">
+                        <div class="i-chose">
+                            <img src="upload-click.png" id="zm_image" style="max-height: 158px;">
+                        </div>
+                        <div class="font">身份证原件正面</div>
+                    </dt>
+                </dl>
+                <dl>
+                    <dd>
+                        <img src="fanmian.png">
+                        <input type="hidden" id="input_fm_image">
+                    </dd>
+                    <dt id="dt_fm_image" style="height: 158px;">
+                        <div class="i-chose">
+                            <img src="upload-click.png" id="fm_image" style="max-height: 158px;">
+                        </div>
+                        <div class="font">身份证原件反面</div>
+                    </dt>
+                </dl>
+            </div>
+            <input type="button" class="weui-btn weui-btn_primary" value="提交申请">
+        </form>
     </div>
-    <script type="text/javascript" src="../lib/jweixin-1.0.0.js"></script>
-    <script type="text/javascript" src="../lib/zepto/zepto.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../lib/art-template/template.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../lib/weuijs/weuijs.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../js/base.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
+    <script type="text/javascript">
+    function submitDetail() {
+        $$.submit('detail-fm', function() {
+            history.back();
+        });
+    }
+    </script>
 </body>
 
 </html>

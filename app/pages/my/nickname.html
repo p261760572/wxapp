@@ -17,32 +17,42 @@
             <div class="navbar__left">
                 <a href="javascript:history.back()" class="navbar__link">
                     <i class="icon-back_nav"></i>
-                    
                 </a>
             </div>
             <div class="navbar__center">昵称</div>
             <div class="navbar__right">
-                <a href="javascript:;" class="navbar__link">
+                <a href="javascript:;" class="navbar__link" onclick="submitDetail()">
                     <span>保存</span>
                 </a>
             </div>
         </div>
     </div>
     <div class="page__content">
-        <div class="weui-cells">
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">昵称</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="text" placeholder="请输入昵称">
+        <form id="detail-fm" method="post" action="/action/user/update-nickname">
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">昵称</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input validate" type="text" name="nickname" placeholder="请输入昵称" required="required">
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
     <script type="text/javascript" src="../../my/lib/jweixin-1.0.0.js"></script>
     <script type="text/javascript" src="../../my/lib/zepto/zepto.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../my/lib/art-template/template.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../my/lib/weuijs/weuijs.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../my/js/base.js" charset="utf-8"></script>
+    <script type="text/javascript">
+    function submitDetail() {
+        $$.submit('detail-fm', function() {
+            history.back();
+        });
+    }
+    </script>
 </body>
 
 </html>

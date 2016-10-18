@@ -117,6 +117,35 @@ var baseJs = (function() {
         return window.localStorage.removeItem(window.location.pathname + ':' + keyName);
     };
 
+    $$.load = function(data) {
+        for (var id in data) {
+            $('#' + id).text(data[id]);
+        }
+    };
+
+    $$.submit = function(formId, success) {
+        var fm = $('#' + formId);
+        if (!fm.form('validate')) {
+            return false;
+        }
+
+        var data = fm.serializeObject();
+        var url = fm.attr('action');
+
+        $$.request(url, data, function(data) {
+            if (data.errcode == 0) {
+                $.toast('show', {
+                    iconCls: 'weui-icon-success-no-circle',
+                    callback: function() {
+                        if (success) {
+                            success();
+                        }
+                    }
+                });
+            }
+        });
+    };
+
     return $$;
 })();
 

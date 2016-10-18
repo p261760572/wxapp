@@ -17,7 +17,6 @@
             <div class="navbar__left">
                 <a href="javascript:history.back()" class="navbar__link">
                     <i class="icon-back_nav"></i>
-                    
                 </a>
             </div>
             <div class="navbar__center">个人信息</div>
@@ -32,13 +31,13 @@
                 <div class="weui-cell__bd">
                     <p>昵称</p>
                 </div>
-                <div class="weui-cell__ft">测试</div>
+                <div class="weui-cell__ft"><span id="nickname">测试</span></div>
             </a>
             <div class="weui-cell" href="javascript:;">
                 <div class="weui-cell__bd">
                     <p>手机</p>
                 </div>
-                <div class="weui-cell__ft">159****8888</div>
+                <div class="weui-cell__ft"><span id="mobile">159****8888</span></div>
             </div>
         </div>
         <br>
@@ -47,16 +46,23 @@
                 <div class="weui-cell__bd">
                     <p>身份认证</p>
                 </div>
-                <div class="weui-cell__ft">未认证</div>
-            </a>           
+                <div class="weui-cell__ft"><span id="auth_st_nm"></span>未认证</div>
+            </a>
         </div>
         <!-- <a href="javascript:;" class="weui-btn weui-btn_warn" onclick="logout()">退出</a> -->
     </div>
-    <script type="text/javascript" src="../../my/lib/jweixin-1.0.0.js"></script>
-    <script type="text/javascript" src="../../my/lib/zepto/zepto.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../../my/lib/art-template/template.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../../my/lib/weuijs/weuijs.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../../my/js/base.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
+    <script type="text/javascript">
+    $(function() {
+        $$.request('/action/user/view', {}, function(data) {
+            $$.load(data.data);
+        });
+    });
+    </script>
 </body>
 
 </html>

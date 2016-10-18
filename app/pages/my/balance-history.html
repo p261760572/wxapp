@@ -10,14 +10,14 @@
     <link rel="stylesheet" href="../../lib/weuijs/style/weuijs.css">
     <link rel="stylesheet" href="../../css/ui-base.css">
     <style type="text/css">
-
-        .cells_access .weui-cell {
-          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-          color: inherit;
-        }
-        .cells_access .weui-cell:active {
-          background-color: #ECECEC;
-        }
+    .cells_access .weui-cell {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        color: inherit;
+    }
+    
+    .cells_access .weui-cell:active {
+        background-color: #ECECEC;
+    }
     </style>
 </head>
 
@@ -27,7 +27,6 @@
             <div class="navbar__left">
                 <a href="javascript:history.back()" class="navbar__link">
                     <i class="icon-back_nav"></i>
-                    
                 </a>
             </div>
             <div class="navbar__center">余额明细</div>
@@ -50,11 +49,38 @@
             </a>
         </div>
     </div>
-    <script type="text/javascript" src="../lib/jweixin-1.0.0.js"></script>
-    <script type="text/javascript" src="../lib/zepto/zepto.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../lib/art-template/template.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../lib/weuijs/weuijs.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../js/base.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
+    <script id="subbranch-templ" type="text/html">
+        {{each rows as row i}}
+        <a class="weui-cell" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p style="color:#000000; font-weight: bold;">{{row.trans_type}}</p>
+                <p>余额：88.88</p>
+            </div>
+            <div class="weui-cell__ft">
+                <p>2016-01-01</p>
+                <p style="color:#000000; font-weight: bold;">+88.88</p>
+            </div>
+        </a>
+        {{/each}}
+    </script>
+    <script type="text/javascript">
+    $(function() {
+        $$.request('/action/user/view', {}, function(data) {
+            $$.load({
+                nickname: data.data.login_name
+            });
+        });
+
+        $$.request('/action/ms/account/view', {}, function(data) {
+            $$.load(data.data); //unsettled_income,balance
+        });
+    });
+    </script>
 </body>
 
 </html>
