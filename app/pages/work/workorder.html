@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="../../lib/weui/style/weui.min.css">
     <link rel="stylesheet" href="../../lib/weuijs/style/weuijs.css">
     <link rel="stylesheet" href="../../css/ui-base.css">
-    <style>      
-    </style>
 </head>
 
 <body class="page page_navbar page_active">
@@ -46,10 +44,10 @@
                         <label class="weui-label">工作单类型</label>
                     </div>
                     <div class="weui-cell__bd">
-                        <input name="work_order_type" type="text" class="weui-input" readonly>
+                        <input name="work_order_tp_nm" type="text" class="weui-input" readonly>
                     </div>
                 </div>
-                <a id="term-busi-list" class="weui-cell">
+                <a id="term-busi-list" class="weui-cell weui-cell_access">
                     <div class="weui-cell__hd">
                         <label class="weui-label">门店名称</label>
                     </div>
@@ -116,33 +114,11 @@
                     </div>
                 </div>
                 <div class="weui-cell">
-                    <div class="weui-cell__bd">是否完成任务</div>
-                    <div class="weui-cell__ft">
-                        <input class="weui-switch" type="checkbox" name="install_flag" value="1" disabled>
-                    </div>
-                </div>
-                <div class="weui-cell">
                     <div class="weui-cell__hd">
                         <label class="weui-label">执行人</label>
                     </div>
                     <div class="weui-cell__bd">
                         <input name="work_name" type="text" class="weui-input">
-                    </div>
-                </div>
-                <div class="weui-cell">
-                    <div class="weui-cell__hd">
-                        <label class="weui-label">执行日期</label>
-                    </div>
-                    <div class="weui-cell__bd">
-                        <input name="work_date" type="text" class="weui-input">
-                    </div>
-                </div>
-                <div class="weui-cell">
-                    <div class="weui-cell__hd">
-                        <label class="weui-label">备注</label>
-                    </div>
-                    <div class="weui-cell__bd">
-                        <input name="note" type="text" class="weui-input" placeholder="">
                     </div>
                 </div>
                 <div class="weui-cell">
@@ -163,6 +139,36 @@
                 </div>
                 <div class="weui-cell">
                     <div class="weui-cell__hd">
+                        <label class="weui-label">处理状态</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input name="proc_st_nm" type="text" class="weui-input weui-cell_warn" placeholder="">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">是否完成任务</div>
+                    <div class="weui-cell__ft">
+                        <input class="weui-switch" type="checkbox" name="install_flag" value="1" disabled>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">执行日期</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input name="work_date" type="text" class="weui-input">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">备注</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input name="note" type="text" class="weui-input" placeholder="">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
                         <label class="weui-label">签收人</label>
                     </div>
                     <div class="weui-cell__bd">
@@ -177,14 +183,6 @@
                         <input name="sign_date" type="text" class="weui-input" placeholder="">
                     </div>
                 </div>
-                <div class="weui-cell">
-                    <div class="weui-cell__hd">
-                        <label class="weui-label">处理状态</label>
-                    </div>
-                    <div class="weui-cell__bd">
-                        <input name="proc_st_nm" type="text" class="weui-input weui-cell_warn" placeholder="">
-                    </div>
-                </div>
             </div>
             <div class="weui-cells__title">上传照片</div>
             <div class="weui-cells weui-cells_form">
@@ -195,7 +193,7 @@
                                 工作单照片
                             </div>
                             <div class="weui-uploader__bd">
-                                <ul class="weui-uploader__files" id="17">
+                                <ul class="weui-uploader__files" id="gd">
                                 </ul>
                                 <div class="weui-uploader__input-box">
                                     <input class="weui-uploader__input" type="button" value="照片">
@@ -211,7 +209,7 @@
                                 协议
                             </div>
                             <div class="weui-uploader__bd">
-                                <ul class="weui-uploader__files" id="17">
+                                <ul class="weui-uploader__files" id="xy">
                                 </ul>
                                 <div class="weui-uploader__input-box">
                                     <input class="weui-uploader__input" type="button" value="照片">
@@ -229,6 +227,10 @@
     <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
     <script type="text/javascript" src="workorder.js" charset="utf-8"></script>
+    <script id="uploader-file-templ" type="text/html">
+        <li class="weui-uploader__file" style="background-image:url({{if file_url}} {{file_url}} {{else}} {{localid}} {{/if}})">
+        </li>
+    </script>
 </body>
 
 </html>

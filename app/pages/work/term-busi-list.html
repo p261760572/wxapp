@@ -1,129 +1,66 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>e通</title>
-<link rel="stylesheet" href="../../lib/weui/style/weui.min.css">
-<style>
-body, html {
-	height: 100%;
-}
-body {
-	overflow-x: hidden;
-	background-color: #fbf9fe
-}
-.container {
-	height: 100%;
-	overflow-y: auto;
-}
-.tabbar {
-	height: 100%
-}
-.weui-tab__bd-item_active {
-	display: block;
-}
-.qrcode {
-	margin-bottom: 10px;
-}
-</style>
-</head>
-<body>
-<div>
-  <div id="busi-list" class="weui-cells ">
-    <!--<div class="weui-cell">
-      <div class="weui-cell__bd weui-cell_primary">
-        <p>当面付 商户名称商户名称商户名称商户名称商户名称商户名称商户名称</p>
-      </div>
-      <a href="term-busi-list.html" class="weui-btn weui-btn_mini weui-btn_plain_primary">二维码</a>        
-    </div>
-    <div class="weui-media_box weui-media_text">
-      <p class="weui-media_desc">商户号: 终端号:</p>
-      <p class="weui-media_desc">户名: 账号:</p>
-    </div>-->    
-  </div>
-</div>
-<script type="text/javascript" src="../../lib/template.js" charset="utf-8"></script>
-<script type="text/javascript" src="../../lib/zepto/zepto.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="../../lib/qrcode.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="../../js/tool.js" charset="utf-8"></script>
-<script id="list-templ" type="text/html">
-	{{each rows as row i}}
-	<div class="weui-cell">
-      <div class="weui-cell__bd weui-cell_primary">
-        <p>{{row.marchant_name}}</p>
-      </div>	  
-    </div>
-    <div class="weui-media_box weui-media_text">
-	  {{if row.fee_chan=='Z' && row.qrcode}}
-	   <div class="qrcode" data-qrcode="{{row.qrcode}}"></div>
-	   <!--<img src="qrcode.png" alt="二维码"></img>-->
-	  {{/if}}      	  
-	  <p class="weui-media_desc">渠道: {{row.fee_chan | formatFeeChan}}</p>
-      <p class="weui-media_desc">商户号: {{row.mchnt_cd}}</p>
-	  <p class="weui-media_desc">终端号: {{row.term_id}}</p>
-	  <p class="weui-media_desc">户名: {{row.account_name}}</p>
-      <p class="weui-media_desc">账号: {{row.account_no}}</p>
-    </div> 	
-	{{/each}}
-</script>
-<script>
-		var feeChanData = [{
-			"text": "银联直联",
-			"value": "1"
-		}, {
-			"text": "银联多渠道直联",
-			"value": "2"
-		}, {
-			"text": "总部间联",
-			"value": "3"
-		}, {
-			"text": "本地平台+总部间联",
-			"value": "4"
-		}, {
-			"text": "本地平台+银联多渠道",
-			"value": "5"
-		}, {
-			"text": "通联通",
-			"value": "6"
-		}, {
-			"text": "银行间联",
-			"value": "7"
-		}, {
-			"text": "收银宝",
-			"value": "8"
-		}, {
-			"text": "本地平台+银联直联",
-			"value": "9"
-		}, {
-			"text": "当面付",
-			"value": "Z"
-		}];
-		
-		var query = parseQueryString();
-        //requiredWx();
-		
-		template.helper('formatFeeChan', function(fee_chan) {
-            return formatField(feeChanData, fee_chan);
-        });
 
-        $(function() {
-            send('/action/ms/term-info/list-busi', query, function(data) {
-                if (data.errcode == 0) {
-                    var html = template('list-templ', data);
-                    $('#busi-list').html(html);
-					$('#busi-list div.qrcode').each(function(index, element) {
-                        var qrcode = new QRCode(element, {
-							width : 200,
-							height : 200,
-							correctLevel : QRCode.CorrectLevel.H
-						});
-						qrcode.makeCode($(element).attr('data-qrcode'));
-                    });
-                }
-            });
-        });
-</script>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>e通</title>
+    <link rel="stylesheet" href="../../lib/weui/style/weui.min.css">
+    <link rel="stylesheet" href="../../lib/weuijs/style/weuijs.css">
+    <link rel="stylesheet" href="../../css/ui-base.css">
+    <style>
+    .qrcode {
+        margin-bottom: 10px;
+    }
+    </style>
+</head>
+
+<body class="page page_navbar page_active">
+    <div class="navbar">
+        <div class="navbar__inner">
+            <div class="navbar__left">
+                <a href="javascript:history.back()" class="navbar__link">
+                    <i class="icon-back_nav"></i>
+                    <!--  -->
+                </a>
+            </div>
+            <div class="navbar__center">终端业务信息</div>
+            <div class="navbar__right">
+                &#12288;&#12288;
+            </div>
+        </div>
+    </div>
+    <div class="page__content">
+        <div id="busi-list" class="weui-cells">
+        </div>
+    </div>
+    <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
+    <script type="text/javascript" src="term-busi-list.js" charset="utf-8"></script>
+    <script id="busi-templ" type="text/html">
+        {{each rows as row i}}
+        <div class="weui-cell">
+            <div class="weui-cell__bd weui-cell_primary">
+                <p>{{row.marchant_name}}</p>
+            </div>
+        </div>
+        <div class="weui-media-box weui-media-box_text">
+            {{if row.fee_chan=='Z' && row.qrcode}}
+            <div class="qrcode" data-qrcode="{{row.qrcode}}"></div>
+            <!--<img src="qrcode.png" alt="二维码"></img>-->
+            {{/if}}
+            <p class="weui-media-box__desc">渠道: {{row.fee_chan_nm}}</p>
+            <p class="weui-media-box__desc">商户号: {{row.mchnt_cd}}</p>
+            <p class="weui-media-box__desc">终端号: {{row.term_id}}</p>
+            <p class="weui-media-box__desc">户名: {{row.account_name}}</p>
+            <p class="weui-media-box__desc">账号: {{row.account_no}}</p>
+        </div>
+        {{/each}}
+    </script>
 </body>
+
 </html>

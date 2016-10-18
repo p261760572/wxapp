@@ -7,103 +7,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>e通</title>
     <link rel="stylesheet" href="../../lib/weui/style/weui.min.css">
-    <link rel="stylesheet" href="../../lib/weui/weui-extend.css">
+    <link rel="stylesheet" href="../../lib/weuijs/style/weuijs.css">
+    <link rel="stylesheet" href="../../css/ui-base.css">
     <style>
 
     </style>
 </head>
 
-<body>
-    <div class="container">
+<body class="page page_navbar page_active">
+    <div class="navbar">
+        <div class="navbar__inner">
+            <div class="navbar__left">
+                <a href="javascript:history.back()" class="navbar__link">
+                    <i class="icon-back_nav"></i>
+                    <!--  -->
+                </a>
+            </div>
+            <div class="navbar__center">工作单</div>
+            <div class="navbar__right">
+                &#12288;&#12288;
+            </div>
+        </div>
+    </div>
+    <div class="page__content">
         <form id="detail-fm">
             <!-- <div class="weui-cells_title">收单业务申请</div> -->
             <div class="weui-cells weui-cells_form">
                 <div class="weui-cell">
-                    <!-- <div class="weui-cell__hd"><label class="weui-label">工商营业执照编码</label></div> -->
+                    <div class="weui-cell__hd"><label class="weui-label">终端标识码</label></div>
                     <div class="weui-cell__bd weui-cell_primary">
-                        <p>终端标识码</p>
                         <input name="term_no" type="text" class="weui-input" placeholder="" readonly>
                     </div>
                 </div>
                 <div class="weui-cell">
-                    <!-- <div class="weui-cell__hd"><label class="weui-label">工商营业执照名称</label></div> -->
+                    <div class="weui-cell__hd"><label class="weui-label">门店名称<span class="required">*</span></label></div>
                     <div class="weui-cell__bd weui-cell_primary">
-                        <p>门店名称</p>
-                        <input name="shop_name" type="text" class="weui-input" placeholder="请输入门店名称" required="required">
+                        <input name="shop_name" type="text" class="weui-input validate" placeholder="请输入门店名称" required="required" title="门店名称">
                     </div>
                 </div>
                 <div class="weui-cell">
-                    <!-- <div class="weui-cell__hd"><label class="weui-label">工商执照有效期</label></div> -->
+                    <div class="weui-cell__hd"><label class="weui-label">联系人<span class="required">*</span></label></div>
                     <div class="weui-cell__bd weui-cell_primary">
-                        <p>联系人</p>
-                        <input name="linkman" type="text" class="weui-input" placeholder="请输入联系人" required="required">
+                        <input name="linkman" type="text" class="weui-input validate" placeholder="请输入联系人" required="required" title="联系人">
                     </div>
                 </div>
                 <div class="weui-cell">
-                    <!-- <div class="weui-cell__hd"><label class="weui-label">组织机构代码证</label></div> -->
+                    <div class="weui-cell__hd"><label class="weui-label">联系电话<span class="required">*</span></label></div>
                     <div class="weui-cell__bd weui-cell_primary">
-                        <p>联系电话</p>
-                        <input name="tel_no" type="text" class="weui-input" placeholder="请输入联系电话" required="required">
+                        <input name="tel_no" type="text" class="weui-input validate" placeholder="请输入联系电话" required="required" title="联系电话">
                     </div>
                 </div>
                 <div class="weui-cell">
-                    <!-- <div class="weui-cell__hd"><label class="weui-label">法人代表身份证号码</label></div> -->
+                    <div class="weui-cell__hd"><label class="weui-label">装机地址<span class="required">*</span></label></div>
                     <div class="weui-cell__bd weui-cell_primary">
-                        <p>装机地址</p>
-                        <input name="installed_addr" type="text" class="weui-input" placeholder="请输入装机地址" required="required">
+                        <input name="installed_addr" type="text" class="weui-input validate" placeholder="请输入装机地址" required="required" title="装机地址">
                     </div>
                 </div>
             </div>
-            <input type="submit" class="weui-btn weui-btn_primary" value="提交">
+            <input type="button" class="weui-btn weui-btn_primary" value="提交" onclick="submitDetail()">
         </form>
     </div>
+    <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
     <script type="text/javascript" src="../../lib/zepto/zepto.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../../lib/weui/weui.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../../js/tool.js" charset="utf-8"></script>
-    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
+    <script type="text/javascript" src="term-info.js" charset="utf-8"></script>
     <script>
-        var query = parseQueryString();
-        requiredWx();
-
-        $(function() {
-            loadDetail(query);
-            $('#detail-fm').submit(submitDetail);
-        });
-
-
-        function submitDetail(e) {
-            e.preventDefault();
-
-            var data = $(this).serializeObject();
-            wx.getLocation({
-                type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-                success: function(res) {
-                    data.latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-                    data.longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-                    //var speed = res.speed; // 速度，以米/每秒计
-                    data.radius = res.accuracy || null; // 位置精度
-
-                    send('/action/ms/term-info/update-base', data, function(data) {
-                        if (data.errcode == 0) {
-                            window.location.href = 'msg.html';
-                        }
-                    });
-                }
-            });
-
-
-        }
-
-        function loadDetail(query) {
-            if (!query.work_order_no) {
-                return false;
-            }
-            send('/action/ms/term-info/view-base', query, function(data) {
-                if (data.errcode == 0) {
-                    load('#detail-fm', data.data);
-                }
-            });
-        }
+   
     </script>
 </body>
 

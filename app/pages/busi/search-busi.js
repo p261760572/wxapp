@@ -2,16 +2,16 @@
 function showActions(target, rows) {
     var apppay_id = $(target).attr('data-id');
     var proc_st = $(target).attr('data-st');
-    var apptype = $(target).attr('data-tp');
+    var page = $(target).attr('data-url');
 
     var params = $.param({
         apppay_id: apppay_id
     });
 
-    var page = 'acq-busi.html';
-    if (apptype == '109') {
-        page = 'dmf-busi.html';
-    }
+    // var page = 'acq-busi.html';
+    // if (apptype == '109') {
+    //     page = 'dmf-busi.html';
+    // }
 
     var actions = [{
         text: "查看",

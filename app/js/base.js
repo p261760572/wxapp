@@ -109,7 +109,8 @@ var baseJs = (function() {
     };
 
     $$.getData = function(keyName) {
-        return JSON.parse(window.localStorage.getItem(window.location.pathname + ':' + keyName));
+        var data = window.localStorage.getItem(window.location.pathname + ':' + keyName);
+        return data && JSON.parse(data);
     };
 
     $$.removeData = function(keyName) {
@@ -129,7 +130,7 @@ $(document).on('ajaxComplete', function(e, xhr, options) {
             var data = JSON.parse(xhr.responseText || '{}');
             if (data.errcode == 55) {
                 // window.top.location.href = 'login.html';
-                window.location.href = 'login.html';
+                window.location.href = '/pages/login.html';
             } else if (data.errcode != 0) {
                 if (data.errmsg) {
                     $.toast('show', data.errmsg);
@@ -228,7 +229,20 @@ function wxUploadImage(localId, success, error) {
             if (success) { success(serverId); }
         },
         fail: function(res) {
-            // $.toast('show', '上传失败,' + JSON.stringify(res));
+            if (error) { error(res); }
+        }
+    });
+}
+
+function wxScanQRCode(scanType, success, error) {
+    wx.scanQRCode({
+        needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+        scanType: scanType, // 可以指定扫二维码还是一维码，默认二者都有 ["barCode"]
+        success: function(res) {
+            var resultStr = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+            if (success) { success(resultStr); }
+        },
+        fail: function(res) {
             if (error) { error(res); }
         }
     });

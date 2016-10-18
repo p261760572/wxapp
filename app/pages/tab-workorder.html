@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="weui-tab page__content">
-        <div class="weui-tab__panel" id="view">
+        <div class="weui-tab__panel" id="view" style="overflow: hidden;">
             <div id="workorder-searchbar" class="weui-search-bar weui-search-bar_focusing search-bar">
                 <!-- <a href="javascript:" class="search-bar__back-btn"><i class="search-bar__icon-back"></i></a> -->
                 <form class="weui-search-bar__form">
@@ -33,8 +33,8 @@
                 </form>
                 <a href="javascript:" class="search-bar__search-btn">搜索</a>
             </div>
-            <div id="infinite" style="overflow: auto; height: 100%;">
-            <div id="workorder-list" class="weui-cells" style="margin-bottom: 44px;">
+            <div id="infinite" style="overflow: auto; height: 100%; box-sizing: border-box; padding-bottom: 44px;">
+            <div id="workorder-list" class="weui-cells">
             </div>
             </div>
         </div>

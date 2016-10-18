@@ -97,7 +97,6 @@ function submitDetail() {
         return false;
     }
 
-    var eiTypeMap = {};
     var data = serializeDetailForm();
 
     if (!hasImage(data.images, '01')) {
@@ -123,7 +122,7 @@ function submitDetail() {
             $.toast('show', {
                 iconCls: 'weui-icon-success-no-circle',
                 callback: function() {
-                    window.location.href = '../index.html';
+                    history.back();
                 }
             });
         }
@@ -227,17 +226,20 @@ $(function() {
     });
 
 
-    if (query.operateType == 'view') {
-        $('#main-page').addClass('page_view').find('input').attr('disabled', 'disabled').removeAttr('placeholder');
+    if (query.operateType == 'create') {
+        var data = $$.getData('detail');
+        if (data) {
+            loadDetailForm(data);
+        }
+    } else {
         $$.request('/action/ms/mchnt-busi/view', query, function(data) {
             if (data.errcode == 0) {
                 loadDetailForm(data);
             }
         });
-    } else {        
-        var data = $$.getData('detail');
-        if (data) {
-            loadDetailForm(data);
-        }
+    }
+
+    if (query.operateType == 'view') {
+        $('#main-page').addClass('page_view').find('input').attr('disabled', 'disabled').removeAttr('placeholder');    
     }
 });

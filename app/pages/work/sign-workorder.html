@@ -7,334 +7,233 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>e通</title>
     <link rel="stylesheet" href="../../lib/weui/style/weui.min.css">
-    <link rel="stylesheet" href="../../lib/weui/weui-extend.css">
+    <link rel="stylesheet" href="../../lib/weuijs/style/weuijs.css">
+    <link rel="stylesheet" href="../../css/ui-base.css">
     <style>
 
     </style>
 </head>
 
-<body>
-    <div class="container">
+<body class="page page_navbar page_active">
+    <div class="navbar">
+        <div class="navbar__inner">
+            <div class="navbar__left">
+                <a href="javascript:history.back()" class="navbar__link">
+                    <i class="icon-back_nav"></i>
+                    <!--  -->
+                </a>
+            </div>
+            <div class="navbar__center">工作单</div>
+            <div class="navbar__right">
+                &#12288;&#12288;
+            </div>
+        </div>
+    </div>
+    <div class="page__content">
         <form id="detail-fm">
             <input type="hidden" name="rec_id">
             <input type="hidden" name="term_no">
-            <!-- <div class="weui-cells_title">收单业务申请</div> -->
-            <div class="weui-cells weui-cells_access weui-cells_form">
+            <div class="weui-cells weui-cells_form">
                 <div class="weui-cell">
-                    <!-- <div class="weui-cell__hd"><label class="weui-label">工商营业执照编码</label></div> -->
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <p>工作单号</p>
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">工作单号</label>
+                    </div>
+                    <div class="weui-cell__bd">
                         <input name="work_order_no" type="text" class="weui-input" readonly>
                     </div>
                 </div>
-                <a id="term-busi-list" class="weui-cell">
-                    <div class="weui-cell__bd weui-cell_primary">
-                      <p>门店名称</p>
-                      <p id="shop_name"></p>
-                      <!--<input name="shop_name" type="text" class="weui-input" readonly>-->
-                    </div>
-                    <div class="weui-cell__ft"></div>
-                  </a>
                 <div class="weui-cell">
-                    <!-- <div class="weui-cell__hd"><label class="weui-label">工商执照有效期</label></div> -->
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <p>工作单类型</p>
-                        <input name="work_order_type" type="text" class="weui-input" readonly>
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">工作单类型</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input name="work_order_tp_nm" type="text" class="weui-input" readonly>
                     </div>
                 </div>
+                <a id="term-busi-list" class="weui-cell weui-cell_access">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">门店名称</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p id="shop_name"></p>
+                        <!--<input name="shop_name" type="text" class="weui-input" readonly>-->
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
                 <div class="weui-cell">
-                    <!-- <div class="weui-cell__hd"><label class="weui-label">组织机构代码证</label></div> -->
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <p>工作单内容</p>
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">工作单内容</label>
+                    </div>
+                    <div class="weui-cell__bd">
                         <input name="work_flag" type="text" class="weui-input" readonly>
                     </div>
                 </div>
+                <!-- <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">押金条号</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input name="deposit_no" type="text" class="weui-input" readonly>
+                    </div>
+                </div>
                 <div class="weui-cell">
-                    <!-- <div class="weui-cell__hd"><label class="weui-label">税务登记证</label></div> -->
-                    <div class="weui-cell__hd weui-cell_primary">是否完成任务</div>
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">押金金额</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input name="deposit_amount" type="text" class="weui-input" readonly>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">通讯费单据号</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input name="expense_no2" type="text" class="weui-input" readonly>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">通讯费金额</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input name="money2" type="text" class="weui-input" readonly>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">销售款单据号</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input name="expense_no3" type="text" class="weui-input" readonly>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">销售款金额</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input name="money3" type="text" class="weui-input" readonly>
+                    </div>
+                </div> -->
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">执行人</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input name="work_name" type="text" class="weui-input">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">派单人</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input name="created_by" type="text" class="weui-input" placeholder="">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">派单时间</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input name="created_time" type="text" class="weui-input" placeholder="">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">处理状态</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input name="proc_st_nm" type="text" class="weui-input weui-cell_warn" placeholder="">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">是否完成任务<span class="required">*</span></div>
                     <div class="weui-cell__ft">
-                        <input class="weui-switch" type="checkbox" name="install_flag" checked>
+                        <input class="weui-switch validate" type="checkbox" name="install_flag" value="1" checked="checked" required="required" title="是否完成任务">
                     </div>
                 </div>
                 <div class="weui-cell">
-                    <!-- <div class="weui-cell__hd"><label class="weui-label">法人代表姓名</label></div> -->
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <p>执行日期</p>
-                        <input name="work_date" type="date" class="weui-input" required="required">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">执行日期<span class="required">*</span></label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input name="work_date" type="date" class="weui-input validate" required="required" title="执行日期">
                     </div>
                 </div>
                 <div class="weui-cell">
-        <!-- <div class="weui-cell__hd"><label class="weui-label">当面付二维码</label></div> -->
-        <div class="weui-cell__bd weui-cell_primary">
-          <p>当面付二维码</p>
-          <input name="dmf_qr_code" type="text" class="weui-input" id="dmf_qr_code" placeholder="请扫入二维码" readonly>
-        </div>
-        <div class="weui-cell__ft">
-          <a href="javascript:;" class="weui-btn weui-btn_plain_primary" onclick="onClickScanQRCode('dmf_qr_code')">扫一扫</a>
-        </div>
-      </div>
-                <div class="weui-cell">
-                    <!-- <div class="weui-cell__hd"><label class="weui-label">法人代表身份证号码</label></div> -->
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <p>备注</p>
-                        <input name="sign_note" type="text" class="weui-input" placeholder="请输入备注">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">备注</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input name="note" type="text" class="weui-input" placeholder="请输入备注">
                     </div>
                 </div>
+                <!-- <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">签收人</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input name="sign_id" type="text" class="weui-input" placeholder="">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">签收时间</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input name="sign_date" type="text" class="weui-input" placeholder="">
+                    </div>
+                </div> -->
             </div>
-            <div class="weui-cells_title">协议照片</div>
+            <div class="weui-cells__title">上传照片</div>
             <div class="weui-cells weui-cells_form">
                 <div class="weui-cell">
-                    <div class="weui-cell__bd weui-cell_primary">
+                    <div class="weui-cell__bd">
                         <div class="weui-uploader">
+                            <div class="weui-uploader__hd">
+                                工作单照片
+                            </div>
                             <div class="weui-uploader__bd">
-                                <ul class="weui-uploader__files" id="agreement-photo">
+                                <ul class="weui-uploader__files" id="gd">
                                 </ul>
                                 <div class="weui-uploader__input-box">
-                                    <input class="weui-uploader__input" type="button" onclick="onClickChooseImage(this)">
+                                    <input class="weui-uploader__input" type="button" value="照片">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <div class="weui-uploader">
+                            <div class="weui-uploader__hd">
+                                协议
+                            </div>
+                            <div class="weui-uploader__bd">
+                                <ul class="weui-uploader__files" id="xy">
+                                </ul>
+                                <div class="weui-uploader__input-box">
+                                    <input class="weui-uploader__input" type="button" value="照片">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="weui-cells_title">工作单照片</div>
-            <div class="weui-cells weui-cells_form">
-                <div class="weui-cell">
-                    <div class="weui-cell__bd weui-cell_primary">
-                        <div class="weui-uploader">
-                            <div class="weui-uploader__bd">
-                                <ul class="weui-uploader__files" id="order-photo">
-                                </ul>
-                                <div class="weui-uploader__input-box">
-                                    <input class="weui-uploader__input" type="button" onclick="onClickChooseImage(this)">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <input type="submit" class="weui-btn weui-btn_primary" value="提交" id="submit-btn">
+            <input type="button" class="weui-btn weui-btn_primary" value="提交" onclick="submitDetail()">
         </form>
     </div>
-    <script type="text/javascript" src="../../lib/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
     <script type="text/javascript" src="../../lib/zepto/zepto.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../../lib/weui/weui.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../../js/tool.js" charset="utf-8"></script>
-    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
+    <script type="text/javascript" src="sign-workorder.js" charset="utf-8"></script>
     <script id="uploader-file-templ" type="text/html">
-        <li class="weui-uploader_file weui-uploader_status" style="background-image:url({{localid}})">
-            <div class="weui-uploader_status_content">
-                <i class="weui-icon_clear" onClick="onClickDeleteImage(this)"></i>
-            </div>
+        <li class="weui-uploader__file" style="background-image:url({{if file_url}} {{file_url}} {{else}} {{localid}} {{/if}})">
         </li>
-    </script>
-    <script id="uploader-file-view-templ" type="text/html">
-        <li class="weui-uploader_file weui-uploader_status" style="background-image:url({{localid}})">
-        </li>
-    </script>
-    <script>
-        var workOrderTypeData = [{
-            "text": "装机单",
-            "value": "1"
-        }, {
-            "text": "维护单",
-            "value": "2"
-        }, {
-            "text": "巡检单",
-            "value": "3"
-        }];
-
-        var query = parseQueryString();
-        requiredWx();
-
-        $(function() {
-            if (query.operateType == 'view') {
-                $('#submit-btn').hide();
-                $('#detail-fm').find('input').attr('readonly', 'readonly');
-            } else {
-                //something
-            }
-            loadDetail(query);
-            $('#detail-fm').submit(submitDetail);
-        });
-
-
-        function submitDetail(e) {
-            e.preventDefault();
-            var data = $(this).serializeObject();
-
-            //照片处理
-            var images = [];
-            $('#order-photo').children('.weui-uploader_file').each(function(index, item) {
-                var fileData = $(item).data('file');
-                fileData.ei_type = 'gd';
-                images.push(fileData);
-            });
-            $('#agreement-photo').children('.weui-uploader_file').each(function(index, item) {
-                var fileData = $(item).data('file');
-                fileData.ei_type = 'xy';
-                images.push(fileData);
-            });
-            data.images = images;
-
-            if (data.install_flag == 'on') {
-                data.install_flag = '1';
-            } else {
-                data.install_flag = '0';
-            }
-
-            wx.getLocation({
-                type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-                success: function(res) {
-                    data.latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-                    data.longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-                    //var speed = res.speed; // 速度，以米/每秒计
-                    data.radius = res.accuracy || null; // 位置精度
-
-
-                    send('/action/ms/workorder/sign', data, function(data) {
-                        if (data.errcode == 0) {
-                            window.location.href = 'msg.html';
-                        }
-                    });
-                }
-            });
-        }
-
-        function loadDetail(query) {
-            if (!query.work_order_no) {
-                return false;
-            }
-            send('/action/ms/workorder/view', query, function(data) {
-                if (data.errcode == 0) {
-                	var container = 
-                    $.each(data.images, function(index, item) {
-                        var html;
-                        if (query.operateType == 'view') {
-                            html = template('uploader-file-view-templ', data.images[index]);
-                        } else {
-                            html = template('uploader-file-templ', data.images[index]);
-                        }
-                        var file = $(html);
-                        if(item.ei_type == 'gd') {
-                        	$('#order-photo').append(file);
-                        } else if(item.ei_type == 'xy'){
-                        	$('#agreement-photo').append(file);
-                        }
-                        file.data('file', data.images[index]);
-                    });
-
-                    data.data.work_order_type = formatField(workOrderTypeData, data.data.work_order_type);
-                    data.data.work_flag = formatWorkFlag(data.data.work_flag);
-                    load('#detail-fm', data.data);
-					$('#shop_name').text(data.data.shop_name);
-					$('#term-busi-list').attr('href', 'term-busi-list.html?term_no=' + data.data.term_no);
-                }
-            });
-        }
-
-
-        function formatWorkFlag(value) {
-            var flag = ['装机', '调单', '移机', '培训', '其它', '换机'];
-            var work_flag = [],
-                i;
-
-            for (i = 0; i < value.length; i++) {
-                if (value.charAt(i) == '1') {
-                    work_flag.push(flag[i]);
-                }
-            }
-
-            return work_flag.join(',');
-        }
-
-        function onClickChooseImage(target) {
-            wx.chooseImage({
-                count: 1, // 默认9
-                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-                success: function(res) {
-                    var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                    var localId = localIds[0];
-
-                    //var container = $(target).closest('.weui-uploader__input-box').hide().prev().show();
-                    var container = $(target).closest('.weui-uploader__input-box').prev();
-                    var html = template('uploader-file-templ', {
-                        localid: localId
-                    });
-                    var file = $(html);
-                    file.appendTo(container);
-
-                    //存储相关数据
-                    file.data('file', {
-                        'app_created_time': new Date().toISOString().substr(0, 19).replace('T', ' '),
-                        'localid': localId
-                    });
-
-                    uploadImage(file);
-
-                    wx.getLocation({
-                        type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-                        success: function(res) {
-                            var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-                            var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-                            var speed = res.speed; // 速度，以米/每秒计
-                            var accuracy = res.accuracy || null; // 位置精度
-
-                            $.extend(file.data('file'), {
-                                'latitude': latitude,
-                                'longitude': longitude,
-                                'radius': accuracy
-                            });
-                        }
-                    });
-                }
-            });
-        }
-
-        function uploadImage(target) {
-            var file = $(target);
-            var fileData = file.data('file');
-
-            wx.uploadImage({
-                localId: fileData.localid, // 需要上传的图片的本地ID，由chooseImage接口获得
-                isShowProgressTips: 1, // 默认为1，显示进度提示
-                success: function(res) {
-                    var serverId = res.serverId; // 返回图片的服务器端ID
-
-                    $.extend(fileData, {
-                        is_new: '1',
-                        serverid: serverId
-                    });
-                }
-            });
-        }
-
-        function onClickDeleteImage(target) {
-            $.confirm('确认要删除照片吗？', function() {
-                var file = $(target).closest('.weui-uploader_file');
-                file.remove();
-            }, function() {});
-        }
-		
-		function onClickScanQRCode(id) {
-		wx.scanQRCode({
-			needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-			scanType: ["barCode"], // 可以指定扫二维码还是一维码，默认二者都有
-			success: function (res) {
-				var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-				var index = result.indexOf(",");
-				if(index >= 0) {
-					result = result.substr(index+1);
-				}
-				$('#'+id).val(result);
-			},
-			fail: function (res) {
-				alert(JSON.stringify(res));
-			}
-		});
-	}
-
     </script>
 </body>
 
