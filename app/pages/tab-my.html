@@ -31,7 +31,7 @@
                             <i class="icon-user"></i>
                         </div>
                         <div class="weui-media-box__bd">
-                            <h4 class="weui-media-box__title" id="nickname">昵称</h4>
+                            <h4 class="weui-media-box__title" id="nickname"></h4>
                             <p class="weui-media-box__desc">查看个人信息</p>
                         </div>
                         <div class="weui-cell__ft">
@@ -47,7 +47,7 @@
                     </div>
                     <div class="weui-grid__label">
                         <p>未结算收益</p>
-                        <p style="color: #999;" id="unsettled_income">￥0.00</p>
+                        <p style="color: #999;">￥<span id="unsettled_income">0.00</span></p>
                     </div>
                 </a>
                 <a href="my/balance.html" class="weui-grid">
@@ -56,7 +56,7 @@
                     </div>
                     <div class="weui-grid__label">
                         <p>余额</p>
-                        <p style="color: #999;" id="balance">￥0.00</p>
+                        <p style="color: #999;">￥<span id="balance">0.00</span></p>
                     </div>
                 </a>
                 <a href="my/bank-card.html" class="weui-grid">
@@ -140,12 +140,15 @@
     $(function() {
         $$.request('/action/user/view', {}, function(data) {
             $$.load({
-                nickname: data.data.login_name
+                nickname:  data.data.nickname || data.data.login_name
             });
         });
 
-        $$.request('/action/ms/account/view', {}, function(data) {
-            $$.load(data.data); //unsettled_income,balance
+        $$.request('/action/user/account/view', {}, function(data) {
+            $$.load({
+                balance: parseFloat(data.data.balance).toFixed(2),
+                unsettled_income: parseFloat(data.data.unsettled_income || 0).toFixed(2),
+            }); //unsettled_income,balance
         });
     });
     </script>

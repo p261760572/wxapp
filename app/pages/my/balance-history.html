@@ -76,7 +76,7 @@
             });
         });
 
-        $$.request('/action/ms/account/view', {}, function(data) {
+        $$.request('/action/user/account/history', {}, function(data) {
             $$.load(data.data); //unsettled_income,balance
         });
     });

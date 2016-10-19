@@ -31,7 +31,7 @@
         <div class="weui-msg">
             <div class="weui-msg__icon-area"><i class="icon-balance" style="width: 100px; height: 100px;"></i></div>
             <div class="weui-msg__text-area">
-                <h2 class="weui-msg__title"><p>余额账户(元)</p><p style="font-size: 28px;" id="balance">￥88.88</p></h2>
+                <h2 class="weui-msg__title"><p>余额账户(元)</p><p style="font-size: 28px;">￥<span id="balance">0.00</span></p></h2>
                 <!-- <p class="weui-msg__desc">内容详情，可根据实际需要安排，如果换行则不超过规定长度，居中展现<a href="javascript:void(0);">文字链接</a></p> -->
             </div>
             <div class="weui-msg__opr-area">
@@ -57,8 +57,10 @@
     <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
     <script type="text/javascript">
     $(function() {
-        $$.request('/action/ms/account/view', {}, function(data) {
-            $$.load(data.data); //unsettled_income,balance
+        $$.request('/action/user/account/view', {}, function(data) {
+            $$.load({
+                balance: parseFloat(data.data.balance).toFixed(2)
+            }); //unsettled_income,balance
         });
     });
     </script>

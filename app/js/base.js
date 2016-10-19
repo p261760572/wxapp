@@ -88,6 +88,7 @@ var baseJs = (function() {
     };
 
 
+    //解析查询字符串
     $$.parseQueryString = function() {
         var query = {};
         var queryString = window.location.search.substr(1);
@@ -104,25 +105,30 @@ var baseJs = (function() {
         return query;
     };
 
+    //存储数据
     $$.setData = function(keyName, data) {
         window.localStorage.setItem(window.location.pathname + ':' + keyName, JSON.stringify(data));
     };
 
+    //获取存储数据
     $$.getData = function(keyName) {
         var data = window.localStorage.getItem(window.location.pathname + ':' + keyName);
         return data && JSON.parse(data);
     };
 
+    //删除存储数据
     $$.removeData = function(keyName) {
         return window.localStorage.removeItem(window.location.pathname + ':' + keyName);
     };
 
+    //根据ID加载数据
     $$.load = function(data) {
         for (var id in data) {
             $('#' + id).text(data[id]);
         }
     };
 
+    //提交表单
     $$.submit = function(formId, success) {
         var fm = $('#' + formId);
         if (!fm.form('validate')) {
@@ -145,6 +151,21 @@ var baseJs = (function() {
             }
         });
     };
+
+    //格式化字段
+    $$.formatField = function(rows, value, valueField, textField) {
+        var i, len;
+        valueField = valueField || 'value';
+        textField = textField || 'text';
+        if (rows) {
+            for (var i = 0; i < rows.length; i++) {
+                if (rows[i][valueField] == value) {
+                    return rows[i][textField];
+                }
+            }
+        }
+        return null;
+    }
 
     return $$;
 })();

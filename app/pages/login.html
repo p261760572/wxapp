@@ -58,38 +58,30 @@
     <script type="text/javascript" src="../js/base.js" charset="utf-8"></script>
     <script>
     $(function() {
-        // if(window.localStorage) {
-        //  var mobile = window.localStorage.getItem('app.mobile');
-        //  var login_pwd = window.localStorage.getItem('app.login_pwd');
-        //  load('#login-fm', {
-        //      mobile: mobile,
-        //      login_pwd: login_pwd
-        //  });
-        // }
+        var data = $$.getData('login');
+        if (data) {
+            $('#login-fm').form('load', data);
+        }
 
         $('#login-fm').submit(function(e) {
             e.preventDefault();
 
             $$.request('/action/user/session', {}, function(data) {
-                // $.toast('hideLoading');
                 if (data.errcode == 0) {
                     var loginData = $('#login-fm').serializeObject();
-                    var mobile = loginData.mobile;
-                    var login_pwd = loginData.login_pwd;
+                    var login_pwd = md5(md5(loginData.mobile + loginData.login_pwd) + data.captcha);
 
-                    loginData.login_pwd = md5(md5(loginData.mobile + loginData.login_pwd) + data.captcha);
-
-                    $$.request('/action/user/login', loginData, function(data) {
+                    $$.request('/action/user/login', {
+                        mobile: loginData.mobile,
+                        login_pwd: login_pwd
+                    }, function(data) {
                         if (data.errcode == 0) {
-                            // window.localStorage.setItem('app.mobile', mobile);
-                            // window.localStorage.setItem('app.login_pwd', login_pwd);
-
+                            $$.setData('login', loginData);
                             window.location.href = 'index.html';
                         }
                     });
                 }
             });
-
         });
     });
     </script>

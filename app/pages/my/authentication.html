@@ -108,6 +108,25 @@
         text-align: center;
         z-index: 999;
     }
+    
+    .badge {
+        background-color: #3879d9;
+        color: #fff;
+        z-index: 1;
+        display: inline-block;
+        padding: 3px 8px;
+        min-width: 10px;
+        border-radius: 10px;
+        vertical-align: baseline;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 12px;
+        line-height: 14px;
+    }
+    
+    .badge_warn {
+        background-color: #ef473a;
+    }
     </style>
 </head>
 
@@ -126,14 +145,28 @@
         </div>
     </div>
     <div class="page__content">
-        <form id="detail-fm" method="post" action="/action/user/apply-auth">
+        <div id="detail-panel" class="weui-panel weui-panel_access" style="display: none;">
+            <!-- <div class="weui-panel__hd">图文组合列表</div> -->
+            <div class="weui-panel__bd">
+                <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+                    <div class="weui-media-box__hd">
+                        <img class="weui-media-box__thumb" src="../../images/id_card.png" alt="">
+                    </div>
+                    <div class="weui-media-box__bd">
+                        <h4 class="weui-media-box__title"><span id="actual_name">熊斌</span><span class="badge" id="auth_st_nm"></span></h4>
+                        <p class="weui-media-box__desc"><span id="id_card_no">111</span></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <form id="detail-fm" method="post" action="/action/user/auth" style="display: none;">
             <div class="weui-cells weui-cells_form">
                 <div class="weui-cell">
                     <div class="weui-cell__hd">
                         <label class="weui-label">真实姓名</label>
                     </div>
                     <div class="weui-cell__bd weui-cell_primary">
-                        <input class="weui-input" type="text" name="actual_name" placeholder="请输入真实姓名">
+                        <input class="weui-input validate" type="text" name="actual_name" placeholder="请输入真实姓名" required="required" title="真实姓名">
                     </div>
                 </div>
                 <div class="weui-cell">
@@ -141,7 +174,7 @@
                         <label class="weui-label">身份证号</label>
                     </div>
                     <div class="weui-cell__bd weui-cell_primary">
-                        <input class="weui-input" type="text" name="id_card_no" placeholder="请输入身份证号">
+                        <input class="weui-input validate" type="text" name="id_card_no" placeholder="请输入身份证号" required="required" title="身份证号">
                     </div>
                 </div>
             </div>
@@ -159,7 +192,7 @@
                 <dl>
                     <dd>
                         <img src="zhengmian.png">
-                        <input type="hidden" id="input_zm_image">
+                        <input type="hidden" id="input_zm_image" class="validate" required="required" title="身份证原件正面">
                     </dd>
                     <dt id="dt_zm_image" style="height: 158px;">
                         <div class="i-chose">
@@ -171,7 +204,7 @@
                 <dl>
                     <dd>
                         <img src="fanmian.png">
-                        <input type="hidden" id="input_fm_image">
+                        <input type="hidden" id="input_fm_image" class="validate" required="required" title="身份证原件反面">
                     </dd>
                     <dt id="dt_fm_image" style="height: 158px;">
                         <div class="i-chose">
@@ -181,7 +214,7 @@
                     </dt>
                 </dl>
             </div>
-            <input type="button" class="weui-btn weui-btn_primary" value="提交申请">
+            <input type="button" class="weui-btn weui-btn_primary" value="提交申请" onclick="submitDetail()">
         </form>
     </div>
     <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
@@ -190,9 +223,55 @@
     <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
     <script type="text/javascript">
+    requiredWx();
+
+    $(function() {
+        //验证
+        $('.validate').validate({
+            // required: true
+        });
+        $('#zm_image').click(function () {
+            uploadImage(['camera'], 'dt_zm_image', 'input_zm_image');
+        });
+
+        $('#fm_image').click(function () {
+            uploadImage(['camera'], 'dt_fm_image', 'input_fm_image');
+        });
+
+
+        $$.request('/action/user/view', {}, function(data) {
+            if (data.data.auth_st != '0') {
+                $('#detail-panel').show();
+                $$.load(data.data);
+            }
+
+            if (data.data.auth_st == '0' || data.data.auth_st == '3') {
+                $('#detail-fm').show();
+            }
+
+            if (data.data.auth_st != '2') {
+                $('#auth_st_nm').addClass('badge_warn');
+            }
+        });
+    });
+
     function submitDetail() {
         $$.submit('detail-fm', function() {
             history.back();
+        });
+    }
+
+    function uploadImage(sourceType, dtId, inputId) {
+        wxChooseImage(sourceType, function(localId) {
+            wxUploadImage(localId, function(serverId) {
+                // data.app_created_time = $$.formatDate(new Date(), 'yyyyMMddhhmmss');
+                //生成html,存储
+                // $(template('uploader-file-templ', data)).appendTo(files).data('file', data);
+                $('#'+dtId).html('<img src="'+localId+'">');
+                $('#'+inputId).val(serverId);
+            }, function(res) {
+                $.toast('show', '上传失败,请重新上传' + JSON.stringify(res));
+            });
         });
     }
     </script>

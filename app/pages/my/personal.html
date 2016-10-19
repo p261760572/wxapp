@@ -31,13 +31,13 @@
                 <div class="weui-cell__bd">
                     <p>昵称</p>
                 </div>
-                <div class="weui-cell__ft"><span id="nickname">测试</span></div>
+                <div class="weui-cell__ft"><span id="nickname"></span></div>
             </a>
             <div class="weui-cell" href="javascript:;">
                 <div class="weui-cell__bd">
                     <p>手机</p>
                 </div>
-                <div class="weui-cell__ft"><span id="mobile">159****8888</span></div>
+                <div class="weui-cell__ft"><span id="mobile"></span></div>
             </div>
         </div>
         <br>
@@ -46,7 +46,7 @@
                 <div class="weui-cell__bd">
                     <p>身份认证</p>
                 </div>
-                <div class="weui-cell__ft"><span id="auth_st_nm"></span>未认证</div>
+                <div class="weui-cell__ft"><span id="auth_st_nm"></span></div>
             </a>
         </div>
         <!-- <a href="javascript:;" class="weui-btn weui-btn_warn" onclick="logout()">退出</a> -->
@@ -59,6 +59,7 @@
     <script type="text/javascript">
     $(function() {
         $$.request('/action/user/view', {}, function(data) {
+            data.data.auth_st_nm = data.data.auth_st_nm || data.data.auth_st;
             $$.load(data.data);
         });
     });

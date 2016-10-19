@@ -41,12 +41,18 @@
             </div>
         </form>
     </div>
-    <script type="text/javascript" src="../../my/lib/jweixin-1.0.0.js"></script>
-    <script type="text/javascript" src="../../my/lib/zepto/zepto.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../../my/lib/art-template/template.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../../my/lib/weuijs/weuijs.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../../my/js/base.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../../lib/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../../../lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../../lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../../lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../../js/base.js" charset="utf-8"></script>
     <script type="text/javascript">
+    $(function() {
+        $$.request('/action/user/view', {}, function(data) {
+            $('#detail-fm').form('load', data.data);
+        });
+    });
+
     function submitDetail() {
         $$.submit('detail-fm', function() {
             history.back();
