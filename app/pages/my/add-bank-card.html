@@ -17,7 +17,6 @@
             <div class="navbar__left">
                 <a href="javascript:history.back()" class="navbar__link">
                     <i class="icon-back_nav"></i>
-                    
                 </a>
             </div>
             <div class="navbar__center">添加银行卡</div>
@@ -27,36 +26,51 @@
         </div>
     </div>
     <div class="page__content">
-        <div class="weui-cells__title">请绑定持卡人本人的银行卡</div>
-        <div class="weui-cells">
-            <div class="weui-cell">
-                <div class="weui-cell__hd">
-                    <label for="" class="weui-label">持卡人</label>
+        <form id="detail-fm" method="post" action="/action/user/card-info/create">
+            <div class="weui-cells__title">请绑定持卡人本人的银行卡</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label for="" class="weui-label">持卡人</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input id="actual_name" class="weui-input" type="text" name="actual_name" placeholder="请输入持卡人" readonly="readonly">
+                    </div>
+                    <div class="weui-cell__ft">
+                        <i class="weui-icon-info"></i>
+                    </div>
                 </div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" value="weui input error" placeholder="请输入持卡人">
-                </div>
-                <div class="weui-cell__ft">
-                    <i class="weui-icon-info"></i>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label for="" class="weui-label">卡号</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="number" name="bank_acct_no" placeholder="请输入银行卡号">
+                    </div>
                 </div>
             </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd">
-                    <label for="" class="weui-label">卡号</label>
-                </div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" value="weui input error" placeholder="请输入银行卡号">
-                </div>
-            </div>
-        </div>
-        <br>
-        <a href="javascript:;" class="weui-btn weui-btn_disabled weui-btn_primary">下一步</a>
+            <br>
+            <a href="javascript:;" class="weui-btn weui-btn_disabled weui-btn_primary">下一步</a>
+        </form>
     </div>
-    <script type="text/javascript" src="../lib/jweixin-1.0.0.js"></script>
-    <script type="text/javascript" src="../lib/zepto/zepto.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../lib/art-template/template.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../lib/weuijs/weuijs.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../js/base.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
+    <script type="text/javascript">
+    $(function() {
+        $$.request('/action/user/view', {}, function(data) {
+            if (data.data.auth_st == '2') {
+                $$.load({
+                    actual_name: data.data.actual_name
+                });
+            } else {
+                window.location.replace('authentication.html');
+            }
+        });
+    });
+    </script>
 </body>
 
 </html>

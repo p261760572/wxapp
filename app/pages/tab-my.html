@@ -56,7 +56,7 @@
                     </div>
                     <div class="weui-grid__label">
                         <p>余额</p>
-                        <p style="color: #999;">￥<span id="balance">0.00</span></p>
+                        <p style="color: #999;">￥<span id="available_balance">0.00</span></p>
                     </div>
                 </a>
                 <a href="my/bank-card.html" class="weui-grid">
@@ -146,7 +146,7 @@
 
         $$.request('/action/user/account/view', {}, function(data) {
             $$.load({
-                balance: parseFloat(data.data.balance).toFixed(2),
+                available_balance: parseFloat(data.data.available_balance).toFixed(2),
                 unsettled_income: parseFloat(data.data.unsettled_income || 0).toFixed(2),
             }); //unsettled_income,balance
         });

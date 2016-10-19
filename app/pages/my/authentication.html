@@ -227,9 +227,7 @@
 
     $(function() {
         //验证
-        $('.validate').validate({
-            // required: true
-        });
+        $('.validate').validate();
         $('#zm_image').click(function () {
             uploadImage(['camera'], 'dt_zm_image', 'input_zm_image');
         });

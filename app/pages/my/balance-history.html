@@ -36,7 +36,7 @@
         </div>
     </div>
     <div class="page__content">
-        <div class="weui-cells cells_access">
+        <!-- <div class="weui-cells cells_access">
             <a class="weui-cell" href="javascript:;">
                 <div class="weui-cell__bd">
                     <p style="color:#000000; font-weight: bold;">充值</p>
@@ -47,7 +47,7 @@
                     <p style="color:#000000; font-weight: bold;">+88.88</p>
                 </div>
             </a>
-        </div>
+        </div> -->
     </div>
     <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
     <script type="text/javascript" src="../../lib/zepto/zepto.min.js" charset="utf-8"></script>
@@ -58,26 +58,20 @@
         {{each rows as row i}}
         <a class="weui-cell" href="javascript:;">
             <div class="weui-cell__bd">
-                <p style="color:#000000; font-weight: bold;">{{row.trans_type}}</p>
-                <p>余额：88.88</p>
+                <p style="color:#000000; font-weight: bold;">{{row.trans_tp_nm}}</p>
+                <p>余额：{{balance}}</p>
             </div>
             <div class="weui-cell__ft">
                 <p>2016-01-01</p>
-                <p style="color:#000000; font-weight: bold;">+88.88</p>
+                <p style="color:#000000; font-weight: bold;">{{row.amount}}</p>
             </div>
         </a>
         {{/each}}
     </script>
     <script type="text/javascript">
     $(function() {
-        $$.request('/action/user/view', {}, function(data) {
-            $$.load({
-                nickname: data.data.login_name
-            });
-        });
-
-        $$.request('/action/user/account/history', {}, function(data) {
-            $$.load(data.data); //unsettled_income,balance
+        $$.request('/action/user/balance/history', {}, function(data) {
+            $('#balance-list').append(template('balance-templ', data));
         });
     });
     </script>
