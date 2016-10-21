@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>e通</title>
+    <link rel="stylesheet" href="../../lib/weui/style/weui.min.css">
+    <link rel="stylesheet" href="../../lib/weuijs/style/weuijs.css">
+    <link rel="stylesheet" href="../../css/ui-base.css">
+    <style type="text/css">
+    .cells_access .weui-cell {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        color: inherit;
+    }
+    
+    .cells_access .weui-cell:active {
+        background-color: #ECECEC;
+    }
+    </style>
+</head>
+
+<body class="page_navbar">
+    <div class="navbar">
+        <div class="navbar__inner">
+            <div class="navbar__left">
+                <a href="javascript:history.back()" class="navbar__link">
+                    <i class="icon-back_nav"></i>
+                </a>
+            </div>
+            <div class="navbar__center">提现明细</div>
+            <div class="navbar__right">
+                &#12288;&#12288;
+            </div>
+        </div>
+    </div>
+    <div class="page__content">
+        <!-- <div class="weui-cells cells_access">
+            <a class="weui-cell" href="javascript:;">
+                <div class="weui-cell__bd">
+                    <p style="color:#000000; font-weight: bold;">充值</p>
+                    <p>余额：88.88</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <p>2016-01-01</p>
+                    <p style="color:#000000; font-weight: bold;">+88.88</p>
+                </div>
+            </a>
+        </div> -->
+    </div>
+    <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
+    <script id="subbranch-templ" type="text/html">
+        {{each rows as row i}}
+        <a class="weui-cell" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p style="color:#000000; font-weight: bold;">{{row.trans_tp_nm}}</p>
+                <p>余额：{{balance}}</p>
+            </div>
+            <div class="weui-cell__ft">
+                <p>2016-01-01</p>
+                <p style="color:#000000; font-weight: bold;">{{row.amount}}</p>
+            </div>
+        </a>
+        {{/each}}
+    </script>
+    <script type="text/javascript">
+    $(function() {
+        $$.request('/action/user/withdraw/history', {}, function(data) {
+            $('#balance-list').append(template('balance-templ', data));
+        });
+    });
+    </script>
+</body>
+
+</html>
