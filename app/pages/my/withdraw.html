@@ -11,73 +11,140 @@
     <link rel="stylesheet" href="../../css/ui-base.css">
 </head>
 
-<body class="page_navbar">
-    <div class="navbar">
-        <div class="navbar__inner">
-            <div class="navbar__left">
-                <a href="javascript:history.back()" class="navbar__link">
-                    <i class="icon-back_nav"></i>
-                </a>
-            </div>
-            <div class="navbar__center">余额提现</div>
-            <div class="navbar__right">
-                <a href="withdraw-history.html" class="navbar__link" style="font-size: 14px;">
-                    <span>提现明细</span>
-                </a>
+<body>
+    <div class="page_navbar">
+        <div class="navbar">
+            <div class="navbar__inner">
+                <div class="navbar__left">
+                    <a href="javascript:history.back()" class="navbar__link">
+                        <i class="icon-back_nav"></i>
+                    </a>
+                </div>
+                <div class="navbar__center">余额提现</div>
+                <div class="navbar__right">
+                    <a href="withdraw-history.html" class="navbar__link" style="font-size: 14px;">
+                        <span>提现明细</span>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="page__content">
-        <form id="detail-fm" method="post" action="/ation/user/withdraw"></form>
-        <div class="weui-panel weui-panel_access">
-            <div class="weui-panel__bd">
-                <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
-                    <div class="weui-media-box__hd">
-                        <img class="weui-media-box__thumb" src="../../images/icon_nav_panel.png" alt="">
-                    </div>
-                    <div class="weui-media-box__bd">
-                        <h4 class="weui-media-box__title">
+        <div class="page__content">
+            <form id="detail-fm" method="post" action="/ation/user/withdraw">
+            <div class="weui-panel weui-panel_access">
+                <div class="weui-panel__bd">
+                    <a id="selected-card" href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" onclick="$('#card-popup').popup('open')">
+                        <!--                         <div class="weui-media-box__hd">
+                            <img class="weui-media-box__thumb" src="../../images/icon_nav_panel.png" alt="">
+                        </div>
+                        <div class="weui-media-box__bd">
+                            <h4 class="weui-media-box__title">
                         <p>长沙银行</p>
                         <p >**** **** **** 8888</p>
                         </h4>
+                        </div> -->
+                        <input type="text" class="validate" name="bank_acct_no" value="" required="required" title="银行卡" style="display: none;">
+                    </a>
+                </div>
+            </div>
+            <div class="weui-cells__title">提现金额</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd">
+                        <label for="" style="padding-right: 15px; font-size: 28px;">￥</label>
                     </div>
-                </a>
-            </div>
-        </div>
-        <div class="weui-cells__title">提现金额</div>
-        <div class="weui-cells">
-            <div class="weui-cell">
-                <div class="weui-cell__hd">
-                    <label for="" style="padding-right: 15px; font-size: 28px;">￥</label>
-                </div>
-                <div class="weui-cell__bd">
-                    <input id="withdraw_amount" class="weui-input" type="number" name="withdraw_amount" pattern="[0-9]*" value="" style="font-size: 28px;">
+                    <div class="weui-cell__bd">
+                        <input id="withdraw_amount" class="weui-input validate" type="number" name="withdraw_amount" pattern="[0-9]*" value="" required="required" title="提现金额" style="font-size: 28px;">
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- <div class="weui-cells__tips">可用余额88.88元<a href="javascript:void(0);">全部提现</a></div> -->
-        <label class="weui-agree">
-            <span class="weui-agree__text">
+            <!-- <div class="weui-cells__tips">可用余额88.88元<a href="javascript:void(0);">全部提现</a></div> -->
+            <label class="weui-agree">
+                <span class="weui-agree__text">
                 可用余额<span id="balance">0.00</span>元,<a href="javascript:void(0);" onclick="withdrawAll()">全部提现</a>
-            </span>
-        </label>
-        <br>
-        <a href="javascript:;" class="weui-btn weui-btn_primary">确认提现</a>
+                </span>
+            </label>
+            <br>
+            <a href="javascript:;" class="weui-btn weui-btn_primary" onclick="submitDetail()">确认提现</a>
+            </form>
+        </div>
+    </div>
+    <div id="card-popup" class="popup page_navbar">
+        <div class="navbar">
+            <div class="navbar__inner">
+                <div class="navbar__left">
+                    <a href="javascript:;" class="navbar__link" onclick="$('#card-popup').popup('close')">
+                        <i class="icon-back_nav"></i>
+                    </a>
+                </div>
+                <div class="navbar__center">选择银行卡</div>
+                <div class="navbar__right">
+                    &#12288;&#12288;
+                </div>
+            </div>
+        </div>
+        <div id="card-list" class="page__content">
+        </div>
     </div>
     <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
     <script type="text/javascript" src="../../lib/zepto/zepto.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
+    <script id="card-templ" type="text/html">
+        {{each rows as row i}}
+        <div class="weui-panel weui-panel_access">
+            <div class="weui-panel__bd">
+                <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+                    <div class="weui-media-box__hd">
+                        <!-- <img class="weui-media-box__thumb" src="../../images/icon_nav_panel.png" alt=""> -->
+                        <i class="icon-bank-card" style="width: 60px; height: 60px;"></i>
+                    </div>
+                    <div class="weui-media-box__bd">
+                        <h4 class="weui-media-box__title">
+                        <p>{{row.bank_nm}}</p>
+                        <p>{{row.bank_acct_no | formatCardNo}}</p>
+                        </h4>
+                    </div>
+                    <input type="text" class="validate" name="bank_acct_no" value="{{row.bank_acct_no}}" required="required" title="银行卡" style="display: none;">
+                </a>
+            </div>
+        </div>
+        {{/each}}
+    </script>
     <script type="text/javascript">
     function withdrawAll() {
         $('#withdraw_amount').val($('#balance').text());
     }
+
     function submitDetail() {
         $$.submit('detail-fm', function() {
             history.back();
         });
     }
+    template.helper('formatCardNo', function(cardNo) {
+        return cardNo.replace(/(\S{4})(?=\S)/g, "$1 ");
+    });
+    $(function() {
+        //验证
+        $('.validate').validate();
+
+        $('#card-list').on('click', '.weui-media-box', function function_name(argument) {
+            $('#selected-card').html($(this).html());
+            $('#card-popup').popup('close');
+        });
+        $$.request('/action/user/card-info/list', {}, function(data) {
+            if (data.rows.length == 0) {
+                $.dialog.confirm('提示', '没有银行卡信息,请先添加银行卡', function(r) {
+                    if (r) {
+                        window.location.href = 'add-bank-card.html';
+                    }
+                });
+            } else {
+                $('#card-list').append(template('card-templ', data));
+                $('#card-list').find('.weui-media-box:first').click();
+            }
+        });
+    });
     </script>
 </body>
 

@@ -46,7 +46,7 @@
                     <div class="weui-media-box__bd">
                         <h4 class="weui-media-box__title">
                         <p>{{row.bank_nm}}</p>
-                        <p>{{row.bank_acct_no}}</p>
+                        <p>{{row.bank_acct_no | formatCardNo}}</p>
                         </h4>
                     </div>
                 </a>
@@ -55,6 +55,9 @@
         {{/each}}
     </script>
     <script type="text/javascript">
+    template.helper('formatCardNo', function (cardNo) {
+        return cardNo.replace(/(\S{4})(?=\S)/g, "$1 ");
+    });
     $(function() {
         $$.request('/action/user/card-info/list', {}, function(data) {
             $('#card-list').append(template('card-templ', data));
