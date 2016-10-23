@@ -59,16 +59,19 @@
         <a class="weui-cell" href="javascript:;">
             <div class="weui-cell__bd">
                 <p style="color:#000000; font-weight: bold;">{{row.trans_tp_nm}}</p>
-                <p>余额：{{balance}}</p>
+                <p>余额：{{row.balance | formatAmount}}</p>
             </div>
             <div class="weui-cell__ft">
-                <p>2016-01-01</p>
-                <p style="color:#000000; font-weight: bold;">{{row.amount}}</p>
+                <p>{{row.created_time}}</p>
+                <p style="color:#000000; font-weight: bold;">{{row.amount | formatAmount}}</p>
             </div>
         </a>
         {{/each}}
     </script>
     <script type="text/javascript">
+    template.helper('formatAmount', function(amount) {
+        return parseFloat(amount).toFixed(2)
+    });
     $(function() {
         $$.request('/action/user/balance/history', {}, function(data) {
             $('#balance-list').append(template('balance-templ', data));

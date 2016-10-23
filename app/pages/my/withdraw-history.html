@@ -36,8 +36,8 @@
         </div>
     </div>
     <div class="page__content">
-        <!-- <div class="weui-cells cells_access">
-            <a class="weui-cell" href="javascript:;">
+        <div id="withdraw-list" class="weui-cells cells_access">
+            <!-- <a class="weui-cell" href="javascript:;">
                 <div class="weui-cell__bd">
                     <p style="color:#000000; font-weight: bold;">充值</p>
                     <p>余额：88.88</p>
@@ -46,32 +46,41 @@
                     <p>2016-01-01</p>
                     <p style="color:#000000; font-weight: bold;">+88.88</p>
                 </div>
-            </a>
-        </div> -->
+            </a> -->
+        </div>
     </div>
     <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
     <script type="text/javascript" src="../../lib/zepto/zepto.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
-    <script id="subbranch-templ" type="text/html">
+    <script id="withdraw-templ" type="text/html">
         {{each rows as row i}}
         <a class="weui-cell" href="javascript:;">
             <div class="weui-cell__bd">
-                <p style="color:#000000; font-weight: bold;">{{row.trans_tp_nm}}</p>
-                <p>余额：{{balance}}</p>
+                <!-- <p style="color:#000000; font-weight: bold;">{{row.bank_nm}}</p> -->
+                <p>
+                    <span>{{row.created_time}}</span>
+                    <span>{{row.bank_nm}}</span>
+                    <span style="color:#000000; font-weight: bold;">{{row.amount | formatAmount}}</span>
+                    <span>{{row.summary}}</span>
+                </p>
+                <!-- <p>c</p> -->
             </div>
             <div class="weui-cell__ft">
-                <p>2016-01-01</p>
-                <p style="color:#000000; font-weight: bold;">{{row.amount}}</p>
+                <!-- <p style="color:#000000; font-weight: bold;">{{row.amount | formatAmount}}</p> -->
+                <p><span class="badge">{{row.proc_st_nm}}</span></p>
             </div>
         </a>
         {{/each}}
     </script>
     <script type="text/javascript">
+    template.helper('formatAmount', function(amount) {
+        return parseFloat(amount).toFixed(2)
+    });
     $(function() {
         $$.request('/action/user/withdraw/history', {}, function(data) {
-            $('#balance-list').append(template('balance-templ', data));
+            $('#withdraw-list').append(template('withdraw-templ', data));
         });
     });
     </script>
