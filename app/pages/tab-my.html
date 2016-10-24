@@ -97,13 +97,13 @@
                 </a>
             </div>
             <div class="weui-cells">
-                <a class="weui-cell weui-cell_access" href="javascript:;" >
+                <!-- <a class="weui-cell weui-cell_access" href="javascript:;" onclick="shareFriend()">
                     <div class="weui-cell__hd"><img src="../images/icon_nav_cell.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
                     <div class="weui-cell__bd weui-cell_primary">
                         <p>邀请好友</p>
                     </div>
                     <span class="weui-cell__ft"></span>
-                </a>
+                </a> -->
                 <a class="weui-cell weui-cell_access" href="my/help.html">
                     <div class="weui-cell__hd"><img src="../images/icon_nav_cell.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
                     <div class="weui-cell__bd weui-cell_primary">
@@ -146,7 +146,7 @@
 
         $$.request('/action/user/account/view', {}, function(data) {
             $$.load({
-                available_balance: parseFloat(data.data.available_balance).toFixed(2),
+                available_balance: parseFloat(data.data.available_balance || 0).toFixed(2),
                 unsettled_income: parseFloat(data.data.unsettled_income || 0).toFixed(2),
             }); //unsettled_income,balance
         });

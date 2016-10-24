@@ -2,7 +2,25 @@ var district = [{ "text": "湖南省", "items": [{ "text": "长沙市", "items":
 
 var query = $$.parseQueryString();
 query.operateType = query.operateType || 'create'; //默认create
-requiredWx();
+requiredWx(function() {
+    if (query.operateType == 'create') {
+        wxLocation(function(res) {
+            var point = new BMap.Point(res.longitude, res.latitude); // 创建坐标点
+            var convertor = new BMap.Convertor();
+            convertor.translate([point], 3, 5, function(data) {
+                if (data.status === 0) {
+                    // 根据坐标得到地址描述
+                    var myGeo = new BMap.Geocoder();
+                    myGeo.getLocation(data.points[0], function(result) {
+                        var addComp = result.addressComponents;
+                        $('#district').val(addComp.province + ' ' + addComp.city + ' ' + addComp.district);
+                        $('#installed_addr').val(addComp.street + addComp.streetNumber);
+                    });
+                }
+            });
+        });
+    }
+});
 
 function searchSubbrach() {
     var processing = false;

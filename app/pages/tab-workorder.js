@@ -51,7 +51,6 @@ function searchWorkorder() {
     var processing = false;
     var data = $(this).serializeObject();
     $('#workorder-list').html('');
-    console.log($('#workorder-list'));
     $('#workorder-list').pagination({
         url: $$.wrapUrl('/action/ms/workorder/search'),
         pageNumber: 1,

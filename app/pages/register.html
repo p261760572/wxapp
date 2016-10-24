@@ -16,7 +16,6 @@
             <div class="navbar__left">
                 <a href="javascript:history.back()" class="navbar__link">
                     <i class="icon-back_nav"></i>
-                    
                 </a>
             </div>
             <div class="navbar__center">注册</div>
@@ -102,7 +101,7 @@
                 data.login_pwd = md5(data.login_pwd + data.captcha);
                 */
 
-            send('/action/user/reg', data, function(data) {
+            $$.request('/action/user/reg', data, function(data) {
                 if (data.errcode == 0) {
                     window.location.href = 'msg.html';
                 }
@@ -129,7 +128,10 @@
 
         var pattern = /^1[34578]\d{9}$/;
         if (!pattern.test(data.mobile)) {
-            alert('请输入正确的手机号')
+            $.toast('show', {
+                plain: true,
+                msg: '请输入正确的手机号'
+            });
             return false;
         }
 
@@ -144,7 +146,7 @@
         }, 1000);
         $(target).addClass('weui-btn_disabled').text('重新获取(' + secord + 's)');
 
-        send('/action/user/reg/sms-captcha', {
+        $$.request('/action/user/reg/sms-captcha', {
             mobile: data.mobile
         }, function(data) {
             if (data.errcode == 0) {

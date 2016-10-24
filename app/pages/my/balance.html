@@ -59,7 +59,7 @@
     $(function() {
         $$.request('/action/user/account/view', {}, function(data) {
             $$.load({
-                available_balance: parseFloat(data.data.available_balance).toFixed(2)
+                available_balance: parseFloat(data.data.available_balance || 0).toFixed(2)
             }); //unsettled_income,balance
         });
     });

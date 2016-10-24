@@ -10,8 +10,7 @@
     <link rel="stylesheet" href="../../lib/weuijs/style/weuijs.css">
     <link rel="stylesheet" href="../../css/ui-base.css">
     <style type="text/css">
-
-       /* .cells_access .weui-cell {
+    /* .cells_access .weui-cell {
           -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
           color: inherit;
         }
@@ -27,7 +26,6 @@
             <div class="navbar__left">
                 <a href="javascript:history.back()" class="navbar__link">
                     <i class="icon-back_nav"></i>
-                    
                 </a>
             </div>
             <div class="navbar__center">我的客户</div>
@@ -36,16 +34,8 @@
             </div>
         </div>
     </div>
-    <div class="page__content">
-        <div class="weui-cells">
-            <a class="weui-cell weui-cell_access" href="income-history-merchant.html">
-                <div class="weui-cell__bd">
-                    <p>客户1</p>
-                </div>
-                <div class="weui-cell__ft">
-                    <p>2016-01-01</p>
-                </div>
-            </a>
+    <div id="infinite" class="page__content">
+        <div id="merchant-list" class="weui-cells">
         </div>
     </div>
     <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
@@ -53,6 +43,64 @@
     <script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
+    <script id="merchant-templ" type="text/html">
+        {{each rows as row i}}
+        <a class="weui-cell weui-cell_access" href="javascript:;" data-id="{{row.mcht_id}}" data-name="{{row.mcht_name}}">
+            <div class="weui-cell__bd">
+                <p>{{row.mcht_name}}</p>
+            </div>
+            <div class="weui-cell__ft">
+                <p>{{row.created_time}}</p>
+            </div>
+        </a>
+        {{/each}}
+    </script>
+    <script type="text/javascript">
+    // template.helper('formatAmount', function(amount) {
+    //     return parseFloat(amount).toFixed(2)
+    // });
+
+    function searchMerchant() {
+        var processing = false;
+        // $('#merchant-list').html('');
+        $('#merchant-list').pagination({
+            url: $$.wrapUrl('/action/user/merchant/list'),
+            pageNumber: 1,
+            queryParams: {},
+            onLoadSuccess: function(data) {
+                processing = false;
+                var html = template('merchant-templ', data);
+                $('#merchant-list').append(html);
+            },
+            onLoadError: function() {
+                processing = false;
+            }
+        })
+
+        $('#infinite').infinite().on('infinite', function() {
+            if (!processing) {
+                processing = true;
+                $('#merchant-list').pagination('next');
+            }
+        });
+    }
+
+    $(function() {
+        //查询
+        searchMerchant();
+
+        $('#merchant-list').on('click', 'a.weui-cell', function() {
+            // showActions(this);
+            var id = $(this).attr('data-id');
+            var name = $(this).attr('data-name');
+
+            window.location.href = 'income-history-merchant.html?' + $.param({
+                userid: id,
+                nickname: name
+            });
+        });
+    });
+    </script>
 </body>
 
 </html>

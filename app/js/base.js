@@ -126,10 +126,10 @@ var baseJs = (function() {
         for (var id in data) {
             var t = $('#' + id);
             var tagName = t.prop('tagName');
-            if(tagName == 'INPUT' || tagName == 'SELECT' || tagName == 'TEXTAREA') {
+            if (tagName == 'INPUT' || tagName == 'SELECT' || tagName == 'TEXTAREA') {
                 t.val(data[id]);
             } else {
-               t.text(data[id]);
+                t.text(data[id]);
             }
         }
     };
@@ -197,7 +197,7 @@ $(document).on('ajaxComplete', function(e, xhr, options) {
 });
 
 
-function requiredWx() {
+function requiredWx(success) {
     $.get('/wx/get-jsapi-signature', {
         url: location.href
     }, function(data) {
@@ -232,6 +232,8 @@ function requiredWx() {
                 }
             }
         });
+
+        if (success) { success(); }
     });
 
     wx.error(function(res) {
@@ -304,18 +306,69 @@ function wxScanQRCode(scanType, success, error) {
     });
 }
 
-function wxShareAppMessage() {
+function wxOnMenuShare(title, link) {
+    wx.onMenuShareTimeline({
+        title: title, // 分享标题
+        link: link, // 分享链接
+        imgUrl: '', // 分享图标
+        success: function() {
+            // 用户确认分享后执行的回调函数
+        },
+        cancel: function() {
+            // 用户取消分享后执行的回调函数
+        }
+    });
+
     wx.onMenuShareAppMessage({
-        title: '', // 分享标题
-        desc: '', // 分享描述
-        link: '', // 分享链接
+        title: title, // 分享标题
+        desc: title, // 分享描述
+        link: link, // 分享链接
         imgUrl: '', // 分享图标
         type: 'link', // 分享类型,music、video或link，不填默认为link
         dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-        success: function () { 
+        success: function() {
             // 用户确认分享后执行的回调函数
         },
-        cancel: function () { 
+        cancel: function() {
+            // 用户取消分享后执行的回调函数
+        }
+    });
+
+    wx.onMenuShareQQ({
+        title: title, // 分享标题
+        desc: title, // 分享描述
+        link: link, // 分享链接
+        imgUrl: link, // 分享图标
+        success: function() {
+            // 用户确认分享后执行的回调函数
+        },
+        cancel: function() {
+            // 用户取消分享后执行的回调函数
+        }
+    });
+
+    wx.onMenuShareWeibo({
+        title: title, // 分享标题
+        desc: title, // 分享描述
+        link: link, // 分享链接
+        imgUrl: '', // 分享图标
+        success: function() {
+            // 用户确认分享后执行的回调函数
+        },
+        cancel: function() {
+            // 用户取消分享后执行的回调函数
+        }
+    });
+
+    wx.onMenuShareQZone({
+        title: title, // 分享标题
+        desc: title, // 分享描述
+        link: link, // 分享链接
+        imgUrl: '', // 分享图标
+        success: function() {
+            // 用户确认分享后执行的回调函数
+        },
+        cancel: function() {
             // 用户取消分享后执行的回调函数
         }
     });
