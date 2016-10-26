@@ -29,7 +29,7 @@ var baseJs = (function() {
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 $.toast('hideLoading');
-                console.log(arguments);
+                // console.log(arguments);
             }
         });
     };
@@ -186,7 +186,7 @@ $(document).on('ajaxComplete', function(e, xhr, options) {
             var data = JSON.parse(xhr.responseText || '{}');
             if (data.errcode == 55) {
                 // window.top.location.href = 'login.html';
-                window.location.href = '/pages/login.html';
+                window.location.href = '/app/pages/login.html';
             } else if (data.errcode != 0) {
                 if (data.errmsg) {
                     $.toast('show', data.errmsg);

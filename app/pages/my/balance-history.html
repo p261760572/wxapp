@@ -35,7 +35,7 @@
             </div>
         </div>
     </div>
-    <div class="page__content">
+    <div id="infinite" class="page__content">
         <div id="balance-list" class="weui-cells cells_access">
             <!-- <a class="weui-cell" href="javascript:;">
                 <div class="weui-cell__bd">
@@ -72,10 +72,36 @@
     template.helper('formatAmount', function(amount) {
         return parseFloat(amount).toFixed(2)
     });
-    $(function() {
-        $$.request('/action/user/balance/history', {}, function(data) {
-            $('#balance-list').append(template('balance-templ', data));
+
+
+    function searchBalance() {
+        var processing = false;
+        var data = {};
+        $('#balance-list').html('');
+        $('#balance-list').pagination({
+            url: $$.wrapUrl('/action/user/balance/history'),
+            pageNumber: 1,
+            queryParams: data,
+            onLoadSuccess: function(data) {
+                processing = false;
+                var html = template('balance-templ', data);
+                $('#balance-list').append(html);
+            },
+            onLoadError: function() {
+                processing = false;
+            }
+        })
+
+        $('#infinite').infinite().on('infinite', function() {
+            if (!processing) {
+                processing = true;
+                $('#balance-list').pagination('next');
+            }
         });
+    }
+
+    $(function() {
+        searchBalance();
     });
     </script>
 </body>

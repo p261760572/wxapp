@@ -14,8 +14,12 @@ requiredWx(function() {
                     var myGeo = new BMap.Geocoder();
                     myGeo.getLocation(data.points[0], function(result) {
                         var addComp = result.addressComponents;
-                        $('#district').val(addComp.province + ' ' + addComp.city + ' ' + addComp.district);
-                        $('#installed_addr').val(addComp.street + addComp.streetNumber);
+                        if(!$('#district').val()) {
+                            $('#district').val(addComp.province + ' ' + addComp.city + ' ' + addComp.district);
+                        }
+                        if(!$('#installed_addr').val()) {
+                            $('#installed_addr').val(addComp.street + addComp.streetNumber);
+                        }
                     });
                 }
             });
@@ -160,6 +164,7 @@ function uploadImage(sourceType, files) {
             $.toast('hideLoading');
             $.extend(data, res);
             wxUploadImage(localId, function(serverId) {
+                data.is_new = '1';
                 data.serverid = serverId;
                 data.app_created_time = $$.formatDate(new Date(), 'yyyyMMddhhmmss');
                 //生成html,存储

@@ -17,61 +17,16 @@
             <div class="navbar__left">
                 <a href="javascript:history.back()" class="navbar__link">
                     <i class="icon-back_nav"></i>
-                    
                 </a>
             </div>
-            <div class="navbar__center">客户1-贡献收益</div>
+            <div class="navbar__center"><span id="mcht_name"></span>-贡献收益</div>
             <div class="navbar__right">
                 &#12288;&#12288;
             </div>
         </div>
     </div>
-    <div class="page__content">
-        <div class="weui-cells">
-            <div class="weui-cells__title">2016年2月</div>
-            <div class="weui-cell" href="javascript:;">
-                <div class="weui-cell__bd">
-                    <p>拓展收益</p>
-                    <!-- <p>余额：88.88</p> -->
-                </div>
-                <div class="weui-cell__ft">
-                    <p></p>
-                    <p>+88.88</p>
-                </div>
-            </div>
-            <div class="weui-cell" href="javascript:;">
-                <div class="weui-cell__bd">
-                    <p>分润收益</p>
-                    <!-- <p>余额：88.88</p> -->
-                </div>
-                <div class="weui-cell__ft">
-                    <p></p>
-                    <p>+88.88</p>
-                </div>
-            </div>            
-        </div>
-        <div class="weui-cells">
-            <div class="weui-cells__title">2016年1月</div>
-            <div class="weui-cell" href="javascript:;">
-                <div class="weui-cell__bd">
-                    <p>拓展收益</p>
-                    <!-- <p>余额：88.88</p> -->
-                </div>
-                <div class="weui-cell__ft">
-                    <p></p>
-                    <p>+88.88</p>
-                </div>
-            </div>
-            <div class="weui-cell" href="javascript:;">
-                <div class="weui-cell__bd">
-                    <p>分润收益</p>
-                    <!-- <p>余额：88.88</p> -->
-                </div>
-                <div class="weui-cell__ft">
-                    <p></p>
-                    <p>+88.88</p>
-                </div>
-            </div>            
+    <div id="infinite" class="page__content">
+        <div id="income-list">
         </div>
     </div>
     <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
@@ -79,6 +34,65 @@
     <script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
+    <script id="income-templ" type="text/html">
+        {{each rows as row i}}
+        <div class="weui-cells">
+            <!-- <div class="weui-cells__title">{{row.settle_mon}}</div> -->
+            <div class="weui-cell" href="javascript:;">
+                <div class="weui-cell__bd">
+                    <p>{{row.settle_mon | formatMonth}} {{row.income_type}}</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <p></p>
+                    <p>{{row.allot_ins_income1}}</p>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </script>
+    <script type="text/javascript">
+    var query = $$.parseQueryString();
+
+    template.helper('formatMonth', function(month) {
+        return month.substr(0, 4) + '-' + month.substr(4);
+    });
+
+    function searchIncome() {
+        var processing = false;
+        var data = {
+            mcht_id: query.mcht_id
+        };
+        $('#income-list').html('');
+        $('#income-list').pagination({
+            url: $$.wrapUrl('/action/user/merchant/income-history'),
+            pageNumber: 1,
+            queryParams: data,
+            onLoadSuccess: function(data) {
+                processing = false;
+                var html = template('income-templ', data);
+                $('#income-list').append(html);
+            },
+            onLoadError: function() {
+                processing = false;
+            }
+        })
+
+        $('#infinite').infinite().on('infinite', function() {
+            if (!processing) {
+                processing = true;
+                $('#income-list').pagination('next');
+            }
+        });
+    }
+
+    $(function() {
+        $$.load({
+            mcht_name: query.mcht_name
+        });
+
+        searchIncome();
+    });
+    </script>
 </body>
 
 </html>

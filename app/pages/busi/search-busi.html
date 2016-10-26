@@ -49,7 +49,7 @@
     <script type="text/javascript" src="search-busi.js" charset="utf-8"></script>
     <script id="busi-templ" type="text/html">
         {{each rows as row i}}
-        <a class="weui-cell weui-cell_access" href="javascript:;" data-id="{{row.apppay_id}}" data-st="{{row.proc_st}}" data-url="{{if row.apptype!='109'}}acq-busi.html{{else if property='个人'}}dmf-busi-no-license.html{{else}}dfm-busi.html{{/if}}">
+        <a class="weui-cell weui-cell_access" href="javascript:;" data-id="{{row.apppay_id}}" data-st="{{row.proc_st}}" data-url="{{if row.apptype!='109'}}acq-busi.html{{else if row.license_flag=='0'}}dmf-busi-no-license.html{{else}}dmf-busi.html{{/if}}">
             <div class="weui-cell__bd weui-cell_primary">
                 <p>{{row.linkman}} {{row.tel_no}} </p>
             </div>

@@ -87,10 +87,7 @@
             var data = $(this).serializeObject();
 
             if (data.login_pwd != data.login_pwd2) {
-                $.toast('show', {
-                    plain: true,
-                    msg: '两次输入的密码不一致'
-                })
+                $.toast('show', '两次输入的密码不一致');
                 return false;
             }
 
@@ -103,7 +100,12 @@
 
             $$.request('/action/user/reg', data, function(data) {
                 if (data.errcode == 0) {
-                    window.location.href = 'msg.html';
+                    $.toast('show', {
+                        iconCls: 'weui-icon-success-no-circle',
+                        callback: function() {
+                            window.history.back();
+                        }
+                    });
                 }
             });
         });
@@ -128,10 +130,7 @@
 
         var pattern = /^1[34578]\d{9}$/;
         if (!pattern.test(data.mobile)) {
-            $.toast('show', {
-                plain: true,
-                msg: '请输入正确的手机号'
-            });
+            $.toast('show', '请输入正确的手机号');
             return false;
         }
 

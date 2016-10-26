@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>e通</title>
+    <link rel="stylesheet" href="lib/weui/style/weui.css">
+    <link rel="stylesheet" href="lib/weuijs/style/weuijs.css">
+    <link rel="stylesheet" href="css/ui-base.css">
+</head>
+
+<body class="page_navbar">
+    <div class="navbar">
+        <div class="navbar__inner">
+            <div class="navbar__left">
+            </div>
+            <div class="navbar__center">首页</div>
+            <div class="navbar__right">
+            </div>
+        </div>
+    </div>
+    <div class="weui-tab page__content">
+        <div class="weui-tab__panel" id="view">
+            <div class="weui-grids">
+                <a href="pages/busi/busi-apply.html" class="weui-grid" data-id="button">
+                    <div class="weui-grid__icon">
+                        <!-- <img src="../images/icon_nav_panel.png" alt=""> -->
+                        <i class="icon-business"></i>
+                    </div>
+                    <p class="weui-grid__label">业务申请</p>
+                </a>
+                <a href="pages/busi/search-busi.html" class="weui-grid" data-id="cell">
+                    <div class="weui-grid__icon">
+                        <!-- <img src="../images/icon_nav_icons.png" alt=""> -->
+                        <i class="icon-history"></i>
+                    </div>
+                    <p class="weui-grid__label">申请记录</p>
+                </a>
+                <a href="javascript:;" class="weui-grid" data-id="toast">
+                    <div class="weui-grid__icon">
+                        <!-- <img src="../images/icon_nav_actionSheet.png" alt=""> -->
+                        <i class="icon-more"></i>
+                    </div>
+                    <p class="weui-grid__label">&nbsp;
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="weui-tabbar">
+        <a href="pages/index.html" class="weui-tabbar__item weui-bar__item_on">
+            <!-- <img src="../images/icon_nav_button.png" alt="" class="weui-tabbar__icon"> -->
+            <i class="icon-home"></i>
+            <p class="weui-tabbar__label">首页</p>
+        </a>
+        <a href="pages/tab-workorder.html" class="weui-tabbar__item">
+            <!-- <img src="../images/icon_nav_article.png" alt="" class="weui-tabbar__icon"> -->
+            <i class="icon-list"></i>
+            <p class="weui-tabbar__label">工作单</p>
+        </a>
+        <a href="pages/tab-my.html" class="weui-tabbar__item">
+            <!-- <img src="../images/icon_nav_cell.png" alt="" class="weui-tabbar__icon"> -->
+            <i class="icon-my"></i>
+            <p class="weui-tabbar__label">我</p>
+        </a>
+    </div>
+    <script type="text/javascript" src="lib/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/base.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(function() {
+            $$.request('/action/user/view', {}, function(data) {
+                if (data.errcode == 0) {}
+            });
+        });
+    </script>
+</body>
+
+</html>
