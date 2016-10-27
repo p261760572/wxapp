@@ -1183,6 +1183,11 @@
 
     $.toptip.methods = {
         show: function(options) {
+            if(typeof options == 'string') {
+                options = {
+                    msg: options
+                };
+            }
             show(options);
         }
     };
