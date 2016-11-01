@@ -67,6 +67,10 @@
                 <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">当面付</li>
                 {{/if}}
             </ul>
+            <ul class="weui-media-box__info" style="margin-top: 0px;">
+                <li class="weui-media-box__info__meta">{{row.last_checked_time}}</li>
+                <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{row.last_checked_by}}</li>
+            </ul>
         </div>
         {{/each}}
     </script>
