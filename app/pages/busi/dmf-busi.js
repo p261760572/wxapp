@@ -162,23 +162,34 @@ function uploadImage(sourceType, files) {
     var data = {};
     wxChooseImage(sourceType, function(localId) {
         data.localid = localId;
-        $.toast('showLoading', {
-            msg: '获取地理位置'
-        });
-        wxLocation(function(res) {
-            $.toast('hideLoading');
-            $.extend(data, res);
-            wxUploadImage(localId, function(serverId) {
-                data.is_new = '1';
-                data.serverid = serverId;
-                data.app_created_time = $$.formatDate(new Date(), 'yyyyMMddhhmmss');
-                //生成html,存储
-                $(template('uploader-file-templ', data)).appendTo(files).data('file', data);
-            }, function(res) {
-                $.toast('show', '上传失败,请重新上传' + JSON.stringify(res));
-            });
+        // $.toast('showLoading', {
+        //     msg: '获取地理位置'
+        // });
+        // wxLocation(function(res) {
+        //     $.toast('hideLoading');
+        //     $.extend(data, res);
+        //     wxUploadImage(localId, function(serverId) {
+        //         data.is_new = '1';
+        //         data.serverid = serverId;
+        //         data.app_created_time = $$.formatDate(new Date(), 'yyyyMMddhhmmss');
+        //         //生成html,存储
+        //         $(template('uploader-file-templ', data)).appendTo(files).data('file', data);
+        //     }, function(res) {
+        //         $.toast('show', '上传失败,请重新上传' + JSON.stringify(res));
+        //     });
+        // }, function(res) {
+        //     $.toast('show', '获取地理位置失败,请重新上传' + JSON.stringify(res));
+        // });
+
+
+        wxUploadImage(localId, function(serverId) {
+            data.is_new = '1';
+            data.serverid = serverId;
+            data.app_created_time = $$.formatDate(new Date(), 'yyyyMMddhhmmss');
+            //生成html,存储
+            $(template('uploader-file-templ', data)).appendTo(files).data('file', data);
         }, function(res) {
-            $.toast('show', '获取地理位置失败,请重新上传' + JSON.stringify(res));
+            $.toast('show', '上传失败,请重新上传' + JSON.stringify(res));
         });
     });
 }
