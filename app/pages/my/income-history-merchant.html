@@ -36,9 +36,9 @@
     <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
     <script id="income-templ" type="text/html">
         {{each rows as row i}}
-        <div class="weui-cells">
+        <a class="weui-cell weui-cell_access" href="javascript:;" data-mon="{{row.settle_mon}}" data-tp="{{row.income_type}}">
             <!-- <div class="weui-cells__title">{{row.settle_mon}}</div> -->
-            <div class="weui-cell" href="javascript:;">
+            <div class="weui-cell weui-cell_access" href="javascript:;">
                 <div class="weui-cell__bd">
                     <p>{{row.settle_mon | formatMonth}} {{row.income_type}}</p>
                 </div>
@@ -47,7 +47,7 @@
                     <p>{{row.allot_ins_income1}}</p>
                 </div>
             </div>
-        </div>
+        </a>
         {{/each}}
     </script>
     <script type="text/javascript">
@@ -91,6 +91,19 @@
         });
 
         searchIncome();
+
+        $('#income-list').on('click', 'a.weui-cell', function() {
+            // showActions(this);
+            var settle_mon = $(this).attr('data-mon');
+            var income_type = $(this).attr('data-tp');
+
+            window.location.href = 'income-history-tp.html?' + $.param({            	
+                mcht_id: query.mcht_id,
+                settle_mon: settle_mon,
+                income_type: income_type,
+                mcht_name: query.mcht_name
+            });
+        });
     });
     </script>
 </body>
