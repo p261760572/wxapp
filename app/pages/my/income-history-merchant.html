@@ -26,7 +26,7 @@
         </div>
     </div>
     <div id="infinite" class="page__content">
-        <div id="income-list">
+        <div id="income-list" class="weui-cells">
         </div>
     </div>
     <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
@@ -36,18 +36,16 @@
     <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
     <script id="income-templ" type="text/html">
         {{each rows as row i}}
-        <a class="weui-cell weui-cell_access" href="javascript:;" data-mon="{{row.settle_mon}}" data-tp="{{row.income_type}}">
+        <div class="weui-cell weui-cell_access" data-mon="{{row.settle_mon}}" data-tp="{{row.income_type}}">
             <!-- <div class="weui-cells__title">{{row.settle_mon}}</div> -->
-            <div class="weui-cell weui-cell_access" href="javascript:;">
-                <div class="weui-cell__bd">
-                    <p>{{row.settle_mon | formatMonth}} {{row.income_type}}</p>
-                </div>
-                <div class="weui-cell__ft">
-                    <p></p>
-                    <p>{{row.allot_ins_income1}}</p>
-                </div>
+            <div class="weui-cell__bd">
+                <p>{{row.settle_mon | formatMonth}} {{row.income_type}}</p>
             </div>
-        </a>
+            <div class="weui-cell__ft">
+                <p></p>
+                <p>{{row.allot_ins_income1}}</p>
+            </div>
+        </div>
         {{/each}}
     </script>
     <script type="text/javascript">
@@ -92,12 +90,15 @@
 
         searchIncome();
 
-        $('#income-list').on('click', 'a.weui-cell', function() {
+        $('#income-list').on('click', 'div.weui-cell.weui-cell_access', function() {
             // showActions(this);
             var settle_mon = $(this).attr('data-mon');
             var income_type = $(this).attr('data-tp');
-
-            window.location.href = 'income-history-tp.html?' + $.param({            	
+            var page = 'income-merchant-tp.html';
+            // if (income_type == '拓展收益') {
+            //     page = 'income-history-tp2.html';
+            // }
+            window.location.href = page + '?' + $.param({
                 mcht_id: query.mcht_id,
                 settle_mon: settle_mon,
                 income_type: income_type,

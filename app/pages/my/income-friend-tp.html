@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>e通</title>
+    <link rel="stylesheet" href="../../lib/weui/style/weui.min.css">
+    <link rel="stylesheet" href="../../lib/weuijs/style/weuijs.css">
+    <link rel="stylesheet" href="../../css/ui-base.css">
+</head>
+
+<body class="page_navbar">
+    <div class="navbar">
+        <div class="navbar__inner">
+            <div class="navbar__left">
+                <a href="javascript:history.back()" class="navbar__link">
+                    <i class="icon-back_nav"></i>
+                </a>
+            </div>
+            <div class="navbar__center"><span id="nickname"></span>-<span id="income_type"></span></div>
+            <div class="navbar__right">
+                &#12288;&#12288;
+            </div>
+        </div>
+    </div>
+    <div id="infinite" class="page__content">
+        <div id="income-list" style="background-color: #f8f8f8;">
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
+<!--     <script id="income-templ" type="text/html">
+        {{each rows as row i}}
+        <div class="weui-cell" href="javascript:;">
+            <div class="weui-cell__bd">
+                {{row.amount}} {{row.mchnt_fee}}
+            </div>
+            <div class="weui-cell__ft">
+                <p>{{row.allot_ins_income1}}</p>
+            </div>
+        </div>
+        {{/each}}
+    </script> -->
+    <script id="allot-income-templ" type="text/html">
+    {{each rows as row i}}
+    <div class="weui-form-preview">
+        <div class="weui-form-preview__hd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">{{row.settle_date | formatDate}}</label>
+                <em class="weui-form-preview__value">¥{{row.allot_ins_income1}}</em>
+            </div>
+        </div>
+        <div class="weui-form-preview__bd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">交易金额</label>
+                <span class="weui-form-preview__value">¥{{row.amount}}</span>
+            </div>
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">通联收益</label>
+                <span class="weui-form-preview__value">¥{{row.tl_income}}</span>
+            </div>
+        </div>
+    </div>
+    <br>
+    {{/each}}
+    </script>
+    <script id="expand-income-templ" type="text/html">
+    {{each rows as row i}}
+    <br>
+    <div class="weui-form-preview">
+        <div class="weui-form-preview__hd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">{{row.settle_mon | formatMonth}}</label>
+                <em class="weui-form-preview__value">¥{{row.allot_ins_income2}}</em>
+            </div>
+        </div>
+        <div class="weui-form-preview__bd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">门店名称</label>
+                <span class="weui-form-preview__value">{{row.shop_name}}</span>
+            </div>
+        </div>
+    </div>    
+    {{/each}}
+    </script>
+    <script type="text/javascript">
+    var query = $$.parseQueryString();
+
+    template.helper('formatDate', function(d) {
+        return d.substr(0, 4) + '-' + d.substr(4, 2) + '-' + d.substr(6, 2);
+    });
+
+    template.helper('formatMonth', function(m) {
+        return m.substr(0, 4) + '-' + m.substr(4, 2);
+    });
+
+    function getUrl() {
+        return (query.income_type == '拓展收益') ? '/action/user/friend/expand-income-history' : '/action/user/friend/allot-income-history';
+    }
+
+    function getTemplate() {
+        return query.income_type == '拓展收益' ? 'expand-income-templ' : 'allot-income-templ';
+    }
+
+    function searchIncome() {
+        var processing = false;
+        var data = {
+            income_type: query.income_type,
+            settle_mon: query.settle_mon,
+            userid: query.userid
+        };
+        
+        $('#income-list').html('');
+        $('#income-list').pagination({
+            url: $$.wrapUrl(getUrl()),
+            pageNumber: 1,
+            queryParams: data,
+            onLoadSuccess: function(data) {
+                processing = false;
+                var html = template(getTemplate(), data);
+                $('#income-list').append(html);
+            },
+            onLoadError: function() {
+                processing = false;
+            }
+        })
+
+        $('#infinite').infinite().on('infinite', function() {
+            if (!processing) {
+                processing = true;
+                $('#income-list').pagination('next');
+            }
+        });
+    }
+
+    $(function() {
+        $$.load({
+            nickname: query.nickname,
+            income_type: query.income_type
+        });
+
+        searchIncome();
+    });
+    </script>
+</body>
+
+</html>
