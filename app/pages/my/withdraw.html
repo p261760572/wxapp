@@ -29,10 +29,10 @@
             </div>
         </div>
         <div class="page__content">
-            <form id="detail-fm" method="post" action="/ation/user/withdraw">
+            <form id="detail-fm" method="post" action="/action/user/withdraw">
             <div class="weui-panel weui-panel_access">
                 <div class="weui-panel__bd">
-                    <a id="selected-card" href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" onclick="$('#card-popup').popup('open')">
+                    <div id="selected-card" class="weui-media-box weui-media-box_appmsg" onclick="$('#card-popup').popup('open')">
                         <!--                         <div class="weui-media-box__hd">
                             <img class="weui-media-box__thumb" src="../../images/icon_nav_panel.png" alt="">
                         </div>
@@ -43,24 +43,24 @@
                         </h4>
                         </div> -->
                         <input type="text" class="validate" name="bank_acct_no" value="" required="required" title="银行卡" style="display: none;">
-                    </a>
+                    </div>
                 </div>
             </div>
             <div class="weui-cells__title">提现金额</div>
             <div class="weui-cells">
                 <div class="weui-cell">
                     <div class="weui-cell__hd">
-                        <label for="" style="padding-right: 15px; font-size: 28px;">￥</label>
+                        <label style="padding-right: 15px; font-size: 28px;">￥</label>
                     </div>
                     <div class="weui-cell__bd">
-                        <input id="withdraw_amount" class="weui-input validate" type="number" name="withdraw_amount" pattern="[0-9]*" value="" required="required" title="提现金额" style="font-size: 28px;">
+                        <input id="withdraw_amount" class="weui-input validate" type="text" name="withdraw_amount" pattern="[0-9]*" value="" required="required" title="提现金额" style="font-size: 28px;">
                     </div>
                 </div>
             </div>
             <!-- <div class="weui-cells__tips">可用余额88.88元<a href="javascript:void(0);">全部提现</a></div> -->
             <label class="weui-agree">
                 <span class="weui-agree__text">
-                可用余额<span id="balance">0.00</span>元,<a href="javascript:void(0);" onclick="withdrawAll()">全部提现</a>
+                可用余额<span id="available_balance">0.00</span>元,<a href="javascript:void(0);" onclick="withdrawAll()">全部提现</a>
                 </span>
             </label>
             <br>
@@ -94,7 +94,7 @@
         {{each rows as row i}}
         <div class="weui-panel weui-panel_access">
             <div class="weui-panel__bd">
-                <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+                <div class="weui-media-box weui-media-box_appmsg">
                     <div class="weui-media-box__hd">
                         <!-- <img class="weui-media-box__thumb" src="../../images/icon_nav_panel.png" alt=""> -->
                         <i class="icon-bank-card" style="width: 60px; height: 60px;"></i>
@@ -105,15 +105,15 @@
                         <p>{{row.bank_acct_no | formatCardNo}}</p>
                         </h4>
                     </div>
-                    <input type="text" class="validate" name="bank_acct_no" value="{{row.bank_acct_no}}" required="required" title="银行卡" style="display: none;">
-                </a>
+                    <input type="text" class="validate" name="rec_id" value="{{row.rec_id}}" required="required" title="银行卡" style="display: none;">
+                </div>
             </div>
         </div>
         {{/each}}
     </script>
     <script type="text/javascript">
     function withdrawAll() {
-        $('#withdraw_amount').val($('#balance').text());
+        $('#withdraw_amount').val($('#available_balance').text());
     }
 
     function submitDetail() {
@@ -143,6 +143,12 @@
                 $('#card-list').append(template('card-templ', data));
                 $('#card-list').find('.weui-media-box:first').click();
             }
+        });
+
+        $$.request('/action/user/account/view', {}, function(data) {
+            $$.load({
+                available_balance: parseFloat(data.data.available_balance || 0).toFixed(2)
+            }); //unsettled_income,balance
         });
     });
     </script>
