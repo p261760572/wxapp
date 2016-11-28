@@ -39,11 +39,10 @@
         <div class="weui-cell weui-cell_access" data-mon="{{row.settle_mon}}" data-tp="{{row.income_type}}">
             <!-- <div class="weui-cells__title">{{row.settle_mon}}</div> -->
             <div class="weui-cell__bd">
-                <p>{{row.settle_mon | formatMonth}} {{row.income_type}}</p>
+                <p>{{row.settle_mon | formatMonth}} {{row.income_type | formatIncomeType}}</p>
             </div>
             <div class="weui-cell__ft">
-                <p></p>
-                <p>{{row.allot_ins_income1}}</p>
+                <p>¥ {{row.allot_ins_income1}}</p>
             </div>
         </div>
         {{/each}}
@@ -51,8 +50,20 @@
     <script type="text/javascript">
     var query = $$.parseQueryString();
 
+    var incomeTypeData = [{
+        value: 'FR',
+        text: '分润收益'
+    }, {
+        value: 'TZ',
+        text: '拓展收益'
+    }];
+
     template.helper('formatMonth', function(month) {
         return month.substr(0, 4) + '-' + month.substr(4);
+    });
+
+    template.helper('formatIncomeType', function(type) {
+        return $$.formatField(incomeTypeData, type);
     });
 
     function searchIncome() {

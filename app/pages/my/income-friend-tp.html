@@ -53,7 +53,7 @@
         <div class="weui-form-preview__hd">
             <div class="weui-form-preview__item">
                 <label class="weui-form-preview__label">{{row.settle_date | formatDate}}</label>
-                <em class="weui-form-preview__value">¥{{row.allot_ins_income1}}</em>
+                <em class="weui-form-preview__value">¥{{row.allot_ins_income2}}</em>
             </div>
         </div>
         <div class="weui-form-preview__bd">
@@ -92,6 +92,14 @@
     <script type="text/javascript">
     var query = $$.parseQueryString();
 
+    var incomeTypeData = [{
+        value: 'FR',
+        text: '分润收益'
+    }, {
+        value: 'TZ',
+        text: '拓展收益'
+    }];
+
     template.helper('formatDate', function(d) {
         return d.substr(0, 4) + '-' + d.substr(4, 2) + '-' + d.substr(6, 2);
     });
@@ -101,11 +109,11 @@
     });
 
     function getUrl() {
-        return (query.income_type == '拓展收益') ? '/action/user/friend/expand-income-history' : '/action/user/friend/allot-income-history';
+        return (query.income_type == 'TZ') ? '/action/user/friend/expand-income-history' : '/action/user/friend/allot-income-history';
     }
 
     function getTemplate() {
-        return query.income_type == '拓展收益' ? 'expand-income-templ' : 'allot-income-templ';
+        return query.income_type == 'TZ' ? 'expand-income-templ' : 'allot-income-templ';
     }
 
     function searchIncome() {
@@ -142,7 +150,7 @@
     $(function() {
         $$.load({
             nickname: query.nickname,
-            income_type: query.income_type
+            income_type: $$.formatField(incomeTypeData, query.income_type)
         });
 
         searchIncome();

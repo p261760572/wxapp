@@ -29,13 +29,12 @@
         <div id="income-list" style="background-color: #f8f8f8;">
         </div>
     </div>
-    
     <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
     <script type="text/javascript" src="../../lib/zepto/zepto.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
-<!--     <script id="income-templ" type="text/html">
+    <!--     <script id="income-templ" type="text/html">
         {{each rows as row i}}
         <div class="weui-cell" href="javascript:;">
             <div class="weui-cell__bd">
@@ -48,49 +47,56 @@
         {{/each}}
     </script> -->
     <script id="allot-income-templ" type="text/html">
-    {{each rows as row i}}
-    <br>
-    <div class="weui-form-preview">
-        <div class="weui-form-preview__hd">
-            <div class="weui-form-preview__item">
-                <label class="weui-form-preview__label">{{row.settle_date | formatDate}}</label>
-                <em class="weui-form-preview__value">¥{{row.allot_ins_income1}}</em>
+        {{each rows as row i}}
+        <br>
+        <div class="weui-form-preview">
+            <div class="weui-form-preview__hd">
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">{{row.settle_date | formatDate}}</label>
+                    <em class="weui-form-preview__value">¥{{row.allot_ins_income1}}</em>
+                </div>
+            </div>
+            <div class="weui-form-preview__bd">
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">交易金额</label>
+                    <span class="weui-form-preview__value">¥{{row.amount}}</span>
+                </div>
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">通联收益</label>
+                    <span class="weui-form-preview__value">¥{{row.tl_income}}</span>
+                </div>
             </div>
         </div>
-        <div class="weui-form-preview__bd">
-            <div class="weui-form-preview__item">
-                <label class="weui-form-preview__label">交易金额</label>
-                <span class="weui-form-preview__value">¥{{row.amount}}</span>
-            </div>
-            <div class="weui-form-preview__item">
-                <label class="weui-form-preview__label">通联收益</label>
-                <span class="weui-form-preview__value">¥{{row.tl_income}}</span>
-            </div>
-        </div>
-    </div>    
-    {{/each}}
+        {{/each}}
     </script>
     <script id="expand-income-templ" type="text/html">
-    {{each rows as row i}}
-    <div class="weui-form-preview">
-        <div class="weui-form-preview__hd">
-            <div class="weui-form-preview__item">
-                <label class="weui-form-preview__label">{{row.settle_mon | formatMonth}}</label>
-                <em class="weui-form-preview__value">¥{{row.allot_ins_income1}}</em>
+        {{each rows as row i}}
+        <div class="weui-form-preview">
+            <div class="weui-form-preview__hd">
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">{{row.settle_mon | formatMonth}}</label>
+                    <em class="weui-form-preview__value">¥{{row.allot_ins_income1}}</em>
+                </div>
+            </div>
+            <div class="weui-form-preview__bd">
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">门店名称</label>
+                    <span class="weui-form-preview__value">{{row.shop_name}}</span>
+                </div>
             </div>
         </div>
-        <div class="weui-form-preview__bd">
-            <div class="weui-form-preview__item">
-                <label class="weui-form-preview__label">门店名称</label>
-                <span class="weui-form-preview__value">{{row.shop_name}}</span>
-            </div>
-        </div>
-    </div>
-    <br>
-    {{/each}}
+        <br> {{/each}}
     </script>
     <script type="text/javascript">
     var query = $$.parseQueryString();
+
+    var incomeTypeData = [{
+        value: 'FR',
+        text: '分润收益'
+    }, {
+        value: 'TZ',
+        text: '拓展收益'
+    }];
 
     template.helper('formatDate', function(d) {
         return d.substr(0, 4) + '-' + d.substr(4, 2) + '-' + d.substr(6, 2);
@@ -101,11 +107,11 @@
     });
 
     function getUrl() {
-        return (query.income_type == '拓展收益') ? '/action/user/merchant/expand-income-history' : '/action/user/merchant/allot-income-history';
+        return (query.income_type == 'TZ') ? '/action/user/merchant/expand-income-history' : '/action/user/merchant/allot-income-history';
     }
 
     function getTemplate() {
-        return query.income_type == '拓展收益' ? 'expand-income-templ' : 'allot-income-templ';
+        return query.income_type == 'TZ' ? 'expand-income-templ' : 'allot-income-templ';
     }
 
     function searchIncome() {
@@ -115,7 +121,7 @@
             settle_mon: query.settle_mon,
             mcht_id: query.mcht_id
         };
-        
+
         $('#income-list').html('');
         $('#income-list').pagination({
             url: $$.wrapUrl(getUrl()),
@@ -142,7 +148,7 @@
     $(function() {
         $$.load({
             mcht_name: query.mcht_name,
-            income_type: query.income_type
+            income_type: $$.formatField(incomeTypeData, query.income_type)
         });
 
         searchIncome();
