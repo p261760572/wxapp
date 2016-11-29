@@ -58,12 +58,12 @@
         {{each rows as row i}}
         <a class="weui-cell" href="javascript:;">
             <div class="weui-cell__bd">
-                <p style="color:#000000; font-weight: bold;">{{row.trans_tp_nm}}</p>
+                <p style="color:#000000; font-weight: bold;">{{row.trans_tp_nm}}-{{row.summary}}</p>
                 <p>余额：{{row.balance | formatAmount}}</p>
             </div>
             <div class="weui-cell__ft">
                 <p>{{row.created_time}}</p>
-                <p style="color:#000000; font-weight: bold;">{{row.amount | formatAmount}}</p>
+                <p style="color:#000000; font-weight: bold;">{{row.debit_credit_flag | formatDebitCreditFlag}}{{row.amount | formatAmount}}</p>
             </div>
         </a>
         {{/each}}
@@ -71,6 +71,14 @@
     <script type="text/javascript">
     template.helper('formatAmount', function(amount) {
         return parseFloat(amount).toFixed(2)
+    });
+
+    template.helper('formatDebitCreditFlag', function(debit_credit_flag) {
+        if(debit_credit_flag = 'C') {
+            return '+';
+        } else if(debit_credit_flag = 'D') {
+            return '-';
+        } 
     });
 
 
