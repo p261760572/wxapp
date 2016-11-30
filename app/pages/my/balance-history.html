@@ -58,7 +58,7 @@
         {{each rows as row i}}
         <a class="weui-cell" href="javascript:;">
             <div class="weui-cell__bd">
-                <p style="color:#000000; font-weight: bold;">{{row.trans_tp_nm}}-{{row.summary}}</p>
+                <p style="color:#000000; font-weight: bold;">{{row.trans_tp_nm_fd}}-{{row.summary}}</p>
                 <p>余额：{{row.balance | formatAmount}}</p>
             </div>
             <div class="weui-cell__ft">
@@ -74,9 +74,9 @@
     });
 
     template.helper('formatDebitCreditFlag', function(debit_credit_flag) {
-        if(debit_credit_flag = 'C') {
+        if(debit_credit_flag == 'C') {
             return '+';
-        } else if(debit_credit_flag = 'D') {
+        } else if(debit_credit_flag == 'D') {
             return '-';
         } 
     });
