@@ -30,41 +30,31 @@
         </div>
         <div class="page__content">
             <form id="detail-fm" method="post" action="/action/user/withdraw">
-            <div class="weui-panel weui-panel_access">
-                <div class="weui-panel__bd">
-                    <div id="selected-card" class="weui-media-box weui-media-box_appmsg" onclick="$('#card-popup').popup('open')">
-                        <!--                         <div class="weui-media-box__hd">
-                            <img class="weui-media-box__thumb" src="../../images/icon_nav_panel.png" alt="">
+                <div class="weui-panel weui-panel_access">
+                    <div class="weui-panel__bd">
+                        <div id="selected-card" class="weui-media-box weui-media-box_appmsg" onclick="$('#card-popup').popup('open')">
                         </div>
-                        <div class="weui-media-box__bd">
-                            <h4 class="weui-media-box__title">
-                        <p>长沙银行</p>
-                        <p >**** **** **** 8888</p>
-                        </h4>
-                        </div> -->
-                        <input type="text" class="validate" name="bank_acct_no" value="" required="required" title="银行卡" style="display: none;">
                     </div>
                 </div>
-            </div>
-            <div class="weui-cells__title">提现金额</div>
-            <div class="weui-cells">
-                <div class="weui-cell">
-                    <div class="weui-cell__hd">
-                        <label style="padding-right: 15px; font-size: 28px;">￥</label>
-                    </div>
-                    <div class="weui-cell__bd">
-                        <input id="withdraw_amount" class="weui-input validate" type="text" name="withdraw_amount" pattern="[0-9]*" value="" required="required" title="提现金额" style="font-size: 28px;">
+                <div class="weui-cells__title">提现金额</div>
+                <div class="weui-cells">
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">
+                            <label style="padding-right: 15px; font-size: 28px;">￥</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input id="withdraw_amount" class="weui-input validate" type="text" name="withdraw_amount" pattern="[0-9]*" value="" required="required" title="提现金额" style="font-size: 28px;">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- <div class="weui-cells__tips">可用余额88.88元<a href="javascript:void(0);">全部提现</a></div> -->
-            <label class="weui-agree">
-                <span class="weui-agree__text">
+                <!-- <div class="weui-cells__tips">可用余额88.88元<a href="javascript:void(0);">全部提现</a></div> -->
+                <label class="weui-agree">
+                    <span class="weui-agree__text">
                 可用余额<span id="available_balance">0.00</span>元,<a href="javascript:void(0);" onclick="withdrawAll()">全部提现</a>
-                </span>
-            </label>
-            <br>
-            <a href="javascript:;" class="weui-btn weui-btn_primary" onclick="submitDetail()">确认提现</a>
+                    </span>
+                </label>
+                <br>
+                <a href="javascript:;" class="weui-btn weui-btn_primary" onclick="submitDetail()">确认提现</a>
             </form>
         </div>
     </div>
