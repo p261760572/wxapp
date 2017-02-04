@@ -210,7 +210,8 @@ $(function() {
     });
 
     $('#subbranch-list').on('click', '.weui-cell', function() {
-        $('#subbranch_name').val($(this).attr('data-text'));
+        //$('#subbranch_name').val($(this).attr('data-text'));
+		$('#'+$('#pop-id').val()).val($(this).attr('data-text'));
         $('#subbranch-popup').popup('close');
     });
 

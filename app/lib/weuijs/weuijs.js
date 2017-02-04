@@ -785,6 +785,7 @@
 
     function bindEvents(target) {
         var state = $(target).data('select');
+        var opts = state.options;
 
         $(target).off('click').on('click', function(e) {
             open(target);
@@ -821,6 +822,10 @@
 
                 $(target).val(text).attr('data-values', values);
                 close(target);
+            }
+
+            if (opts.onChange) {
+                opts.onChange.call(target, value);
             }
         });
     }

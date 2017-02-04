@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>e通</title>
+    <link rel="stylesheet" href="../../lib/weui/style/weui.min.css">
+    <link rel="stylesheet" href="../../lib/weuijs/style/weuijs.css">
+    <link rel="stylesheet" href="../../css/ui-base.css">
+</head>
+
+<body class="page_navbar">
+    <div class="navbar">
+        <div class="navbar__inner">
+            <div class="navbar__left">
+                <a href="javascript:history.back()" class="navbar__link">
+                    <i class="icon-back_nav"></i>
+                </a>
+            </div>
+            <div class="navbar__center">信息变更</div>
+            <div class="navbar__right">
+                &#12288;&#12288;
+            </div>
+        </div>
+    </div>
+    <div class="page__content">
+        <div id="busi-searchbar" class="weui-search-bar weui-search-bar_focusing search-bar">
+            <!-- <a href="javascript:" class="search-bar__back-btn"><i class="search-bar__icon-back"></i></a> -->
+            <form class="weui-search-bar__form">
+                <div class="weui-search-bar__box">
+                    <i class="weui-icon-search"></i>
+                    <input type="search" class="weui-search-bar__input" name="search" placeholder="支持联系人、商户号、商户名称" required>
+                </div>
+            </form>
+            <a href="javascript:" class="search-bar__btn search-bar__search-btn">搜索</a>
+        </div>
+        <div id="infinite" style="overflow: auto; height: 100%;">
+            <div class="weui-cells" id="busi-list" style="margin-bottom: 44px;">
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
+    <script type="text/javascript" src="modify-busi.js" charset="utf-8"></script>
+    <script id="busi-templ" type="text/html">
+        {{each rows as row i}}
+        <a class="weui-cell weui-cell_access" href="javascript:;" data-id="{{row.apppay_id}}" data-st="{{row.proc_st}}" data-url="modifyItems.html,term-info.html,new-term.html">
+            <div class="weui-cell__bd weui-cell_primary">
+                <p>{{row.linkman}} {{row.tel_no}} </p>
+            </div>
+            <div class="weui-cell__ft" style="color:#f6383a;">{{row.proc_st_nm}}</div>
+        </a>
+        <div class="weui-media-box weui-media-box_text">
+            <div class="weui-media-box__desc">{{row.subbranch_name}}</div>
+            <div class="weui-media-box__desc">{{row.installed_addr}}</div>
+            <div class="weui-media-box__desc">{{row.remark}} </div>
+            <div class="weui-media-box__desc">{{row.mchnt_cd}}</div>
+            <ul class="weui-media-box__info">
+                <li class="weui-media-box__info__meta">{{row.created_time}}</li>
+                <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{row.created_by}}</li>
+                {{if row.apptype=='109'}}
+                <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">当面付</li>
+                {{/if}}
+            </ul>
+            <ul class="weui-media-box__info" style="margin-top: 0px;">
+                <li class="weui-media-box__info__meta">{{row.last_checked_time}}</li>
+                <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{row.last_checked_by}}</li>
+            </ul>
+        </div>
+        {{/each}}
+    </script>
+</body>
+
+</html>

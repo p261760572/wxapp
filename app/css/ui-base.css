@@ -129,6 +129,18 @@ span.required {
     background-image: url('业务.svg');
 }
 
+.icon-process {
+    width: 28px;
+    height: 28px;
+    background-image: url('dna.svg');
+}
+
+.icon-modify {
+    width: 28px;
+    height: 28px;
+    background-image: url('笔记.svg');
+}
+
 .icon-history {
     width: 28px;
     height: 28px;
