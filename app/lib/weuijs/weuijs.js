@@ -825,7 +825,11 @@
             }
 
             if (opts.onChange) {
+<<<<<<< HEAD
                 opts.onChange.call(target, value);
+=======
+                opts.onChange.apply(target, value);
+>>>>>>> d8120fa9269baca94c51a63a495674c260d444e4
             }
         });
     }
