@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>e通</title>
+    <link rel="stylesheet" href="../../lib/weui/style/weui.min.css">
+    <link rel="stylesheet" href="../../lib/weuijs/style/weuijs.css">
+    <link rel="stylesheet" href="../../css/ui-base.css">
+    <style type="text/css">
+    .show-more {
+        display: none;
+    }
+    
+    .page_more .show-more {
+        display: block;
+    }
+    
+    .page_more .hide-more {
+        display: none;
+    }
+    
+    .page_view .hide-view {
+        display: none;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="main-page" class="page page_navbar page_active">
+        <div class="navbar">
+            <div class="navbar__inner">
+                <div class="navbar__left">
+                    <a href="javascript:history.back()" class="navbar__link">
+                        <i class="icon-back_nav"></i>
+                    </a>
+                </div>
+                <div class="navbar__center">新增终端</div>
+                <div class="navbar__right">
+                    &#12288;&#12288;
+                </div>
+            </div>
+        </div>
+        <div class="page__content">
+            <form id="detail-fm">
+                <!-- <div class="weui-cells_title">收单业务申请</div> -->
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">联系人<span class="required">*</span></label>
+                        </div>
+                        <div class="weui-cell__bd">
+                                <input name="linkman" type="text" class="weui-input validate" placeholder="请输入联系人" required title="联系人">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">联系人手机<span class="required">*</span></label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input name="mobile" type="text" class="weui-input validate" placeholder="请输入联系人手机" required title="联系人手机">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">联系电话</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input name="tel_no" type="text" class="weui-input" placeholder="请输入联系电话">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">装机地区<span class="required">*</span></label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input id="district" name="district_name" type="text" class="weui-input validate" placeholder="请选择装机地区" required title="装机地区" readonly>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">装机详细地址<span class="required">*</span></label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input name="installed_addr" type="text" id="installed_addr" class="weui-input validate" placeholder="请输入详细地址(需核对)" required title="装机详细地址">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">
+                            <label for="" class="weui-label">机具类型<span class="required">*</span></label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <!-- <select id="equi_type" class="weui-select validate" name="equi_type" required="required" title="机具类型">
+                            </select> -->
+                            <input name="equi_type" type="text" class="weui-input validate" placeholder="请选择机具类型" id="equi_type" required>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">增机数量<span class="required">*</span></label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input name="num_term" type="number" class="weui-input validate" placeholder="请输入增机数量" value="1" required title="增机数量">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">押金</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input name="deposit_amount" type="number" class="weui-input" placeholder="请输入押金">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">通讯费</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input name="traffic_amount" type="number" class="weui-input" placeholder="请输入通讯费">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">销售款</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input name="sale_amount" type="number" class="weui-input" placeholder="请输入销售款">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">备注</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input name="remark" type="text" class="weui-input" placeholder="请输入备注">
+                        </div>
+                    </div>
+                </div>
+                <input type="button" class="weui-btn weui-btn_primary hide-view" value="提交" onclick="submitDetail()">
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../../lib/zepto/zepto.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?ak=kKuGiC4LbGgwrcfd1pQKq7M5Ax2GAnCy&v=2.0&s=1"></script>
+    <script type="text/javascript" src="new-term.js" charset="utf-8"></script>
+</body>
+
+</html>

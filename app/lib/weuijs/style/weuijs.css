@@ -317,11 +317,12 @@
 .select__content {
     overflow: auto;
     height: 100%;
+    
 }
 
-.select__content .weui_cells {
+.select__content .weui-cells {
     margin-top: 0;
-    margin-bottom: 2.2rem;
+    margin-bottom: 2.8em;
 }
 
 .select_toggle {

@@ -825,7 +825,7 @@
             }
 
             if (opts.onChange) {
-                opts.onChange.apply(target, value);
+                opts.onChange.call(target, value);
             }
         });
     }
