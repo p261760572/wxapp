@@ -1,257 +1,192 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>e通</title>
-    <link rel="stylesheet" href="../../lib/weui/style/weui.min.css">
-    <link rel="stylesheet" href="../../lib/weuijs/style/weuijs.css">
-    <link rel="stylesheet" href="../../css/ui-base.css">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>业务变更</title>
+    <link rel="stylesheet" href="../js/lib/weuijs/style/weuijs.css">
     <style type="text/css">
-		.show-more {
-			display: block;
-		}
-		.hide-more {
-			display: none;	
-		}
-		.part {
-			font:blod 12px "宋体";
-			font-size:120%;
-		}
-		.title {
-			color: red;
-			font:blod 12px "宋体";
-			text-align:center;
-		}
-		.border-outer {
-			margin: 10px;
-			border: #7093DB; 
-			border-style: solid;
-			border-widht:1px;
-		}
-		.border-inner {
-			border: #7093DB; 
-			border-widht:1px;
-			padding: 5px; 5px;
-		}
-	</style>
+    body {
+        background-color: #f8f8f8;
+    }
+    
+    .weui-cell__bd {
+        position: relative;
+    }
+    </style>
 </head>
 
-<body class="page_navbar">
-    <div class="navbar">
-        <div class="navbar__inner">
-            <div class="navbar__left">
-                <a href="javascript:history.back()" class="navbar__link">
-                    <i class="icon-back_nav"></i>
-                </a>
+<body>
+    <div class="page page_show">
+    <form method="post" action="">
+        <div class="weui-cells weui-cells_form" id="demo-form">
+            <!--
+        <div class="weui-cell weui-cell_select weui-cell_select-after">
+            <div class="weui-cell__hd">
+                <label for="" class="weui-label">账户类型</label>
             </div>
-            <div class="navbar__center">参数编辑</div>
-            <div class="navbar__right">
-                &#12288;&#12288;
-            </div>
-        </div>
-    </div>
-    <div class="page__content">
-        <form id="detail-fm">
-            <div class="weui-cells weui-cells_form">
-            	<div class="weui-cells__title part">信息区</div>
-                <div class="border-outer">
-                    <div class="weui-cell border-inner">
-                    	<div class="weui-cell__hd">
-                        </div>
-                        <div class="weui-cell__bd">
-                            <input name="fielditem" type="text" class="weui-input title validate" placeholder="修改选项" data-options="view:#src1, edit:#update1" readonly/>
-                        </div>
-                    </div>
-                    <div class="weui-cell border-inner hide-more">
-                        <div class="weui-cell__bd">
-                            <input id="src1" name="src" type="text" style="color:grey;" class="weui-input" disabled/>
-                        </div>
-                    </div>
-                    <div class="weui-cell hide-more">
-                        <div class="weui-cell__bd">
-                            <input id="update1" name="update" type="text" placeholder="编辑区域" class="weui-input"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="border-outer">
-                    <div class="weui-cell border-inner">
-                        <div class="weui-cell__hd">
-                        </div>
-                        <div class="weui-cell__bd">
-                            <input name="fielditem" type="text" class="weui-input title" placeholder="修改选项" data-options="view:#src2, edit:#update2"readonly/>
-                        </div>
-                    </div>
-                    <div class="weui-cell border-inner hide-more">
-                        <div class="weui-cell__hd">
-                        </div>
-                        <div class="weui-cell__bd">
-                            <input id="src2" name="src" type="text" style="color:grey;" class="weui-input" disabled/>
-                        </div>
-                    </div>
-                    <div class="weui-cell hide-more">
-                        <div class="weui-cell__hd">
-                        </div>
-                        <div class="weui-cell__bd">
-                            <input id="update2" name="update" type="text" placeholder="编辑区域" class="weui-input"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="border-outer">
-                    <div class="weui-cell border-inner">
-                        <div class="weui-cell__hd">
-                        </div>
-                        <div class="weui-cell__bd">
-                            <input name="fielditem" type="text" class="weui-input title" placeholder="修改选项" data-options="view:#src3, edit:#update3" readonly/>
-                        </div>
-                    </div>
-                    <div class="weui-cell border-inner hide-more">
-                        <div class="weui-cell__hd">
-                        </div>
-                        <div class="weui-cell__bd">
-                            <input id="src3" name="src" type="text" style="color:grey;" class="weui-input" disabled/>
-                        </div>
-                    </div>
-                    <div class="weui-cell hide-more">
-                        <div class="weui-cell__hd">
-                        </div>
-                        <div class="weui-cell__bd">
-                            <input id="update3" name="update" type="text" placeholder="编辑区域" class="weui-input"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="border-outer">
-                    <div class="weui-cell border-inner">
-                        <div class="weui-cell__hd">
-                        </div>
-                        <div class="weui-cell__bd">
-                            <input name="fielditem" type="text" class="weui-input title" placeholder="修改选项" data-options="view:#src4, edit:#update4" readonly/>
-                        </div>
-                    </div>
-                    <div class="weui-cell border-inner hide-more">
-                        <div class="weui-cell__hd">
-                        </div>
-                        <div class="weui-cell__bd">
-                            <input id="src4" name="src" type="text" style="color:grey;" class="weui-input" disabled/>
-                        </div>
-                    </div>
-                    <div class="weui-cell hide-more">
-                        <div class="weui-cell__hd">
-                        </div>
-                        <div class="weui-cell__bd">
-                            <input id="update4" name="update" type="text" placeholder="编辑区域" class="weui-input"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="border-outer">
-                    <div class="weui-cell border-inner">
-                        <div class="weui-cell__hd">
-                        </div>
-                        <div class="weui-cell__bd">
-                            <input name="fielditem" type="text" class="weui-input title" placeholder="修改选项" data-options="view:#src5,edit:#update5" readonly/>
-                        </div>
-                    </div>
-                    <div class="weui-cell border-inner hide-more">
-                        <div class="weui-cell__hd">
-                        </div>
-                        <div class="weui-cell__bd">
-                            <input id="src5" name="src" type="text" style="color:grey;" class="weui-input" disabled/>
-                        </div>
-                    </div>
-                    <div class="weui-cell hide-more">
-                        <div class="weui-cell__hd">
-                        </div>
-                        <div class="weui-cell__bd">
-                            <input id="update5" name="update" type="text" placeholder="编辑区域" class="weui-input"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="busi-picture" class="weui-cells weui-cells_form hide-more">
-                <div class="weui-cells__title part">影印件区</div>
-                    <div class="weui-cell">
-                    	<div class="weui-cell__bd">
-                            <div class="weui-uploader border-inner">
-                                <div class="weui-uploader__hd">
-                                    <input name="photocopy-id" type="text" style="color:red;" placeholder="影印件类型" class="weui-input">
-                                </div>
-                                <div class="weui-uploader__bd">
-                                    <div class="weui-uploader__file hide-more" style="background-image:"">
-                                    </div>
-                                    <div class="weui-uploader__input-box">
-                                        <!-- <input class="weui-uploader__input" type="button" value="照片"> -->
-                                      <!--   <input class="weui-uploader__input" type="button" value="照片"> -->
-                                        <select class="weui-uploader__input">
-                                        	<option>1</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="weui-uploader border-inner">
-                                <div class="weui-uploader__hd">
-                                    <input name="photocopy-id" type="text" style="color:red;" placeholder="影印件类型" class="weui-input">
-                                </div>
-                                <div class="weui-uploader__bd">
-                                    <div class="weui-uploader__file hide-more" style="background-image:"">
-                                    </div>
-                                    <div class="weui-uploader__input-box">
-                                        <input class="weui-uploader__input" type="button" value="照片">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="weui-uploader border-inner">
-                                <div class="weui-uploader__hd">
-                                    <input name="photocopy-id" type="text" style="color:red;" placeholder="影印件类型" class="weui-input">
-                                </div>
-                                <div class="weui-uploader__bd">
-                                    <div class="weui-uploader__file hide-more" style="background-image:"">
-                                    </div>
-                                    <div class="weui-uploader__input-box">
-                                        <input class="weui-uploader__input" type="button" value="照片">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            </div>
-            <input type="button" class="weui-btn weui-btn_primary" value="提交" onclick="submitDetail()">
-        </form>
-    </div>
-    <div id="popup" class="popup">
-        <div id="searchbar" class="weui-search-bar weui-search-bar_focusing search-bar">
-            <a href="javascript:$('#popup').popup('close');" class="search-bar__btn search-bar__back-btn"><i class="search-bar__icon-back"></i></a>
-            <form class="weui-search-bar__form">
-                <div class="weui-search-bar__box">
-                    <i class="weui-icon-search"></i>
-                    <input type="search" class="weui-search-bar__input" name="search_name" required>
-                </div>
-            </form>
-            <a href="javascript:;" class="search-bar__btn search-bar__search-btn">搜索</a>
-        </div>
-        <div id="infinite" class="popup__bd">
-            <div id="list" class="weui-cells" style="margin-bottom: 44px;">
-            </div>
-        </div>
-    </div>
-
-<script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
-<script type="text/javascript" src="../../lib/zepto/zepto.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="../../lib/art-template/template.js" charset="utf-8"></script>
-<script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
-<script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
-<script type="text/javascript" src="modifyItems.js" charset="utf-8"></script>
-<script id="templ" type="text/html">
-    {{each rows as row i}}
-        <a class="weui-cell weui-cell_access" href="javascript:;" data-text="{{row.text}}">
             <div class="weui-cell__bd">
-                <p>{{row.text}}</p>
+                <select class="weui-select" name="select2">
+                    <option value="1">对公账户</option>
+                    <option value="2">对私账户</option>
+                </select>
             </div>
-            <div class="weui-cell__ft"></div>
-        </a>
-    {{/each}}
-</script>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd">
+                <label class="weui-label">开户名称</label>
+            </div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="请输入开户名称">
+            </div>
+        </div>
+-->
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <div class="weui-uploader">
+                        <div class="weui-uploader__hd">
+                            <p class="weui-uploader__title">照片</p>
+                        </div>
+                        <div class="weui-uploader__bd">
+                            <ul class="weui-uploader__files">
+                                <!-- <li class="weui-uploader__file" style="background-image:url(./images/pic_160.png)"></li>
+                        <li class="weui-uploader__file" style="background-image:url(./images/pic_160.png)"></li>-->
+                            </ul>
+                            <div class="weui-uploader__input-box">
+                                <!-- <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple> -->
+                                <input type="button" class="weui-uploader__input" onclick="showChooseActions()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+    <div id="page2" class="page">
+        <div class="weui-cells__title" style="margin: 1em auto; text-align: center; font-size: 18px; color: #000;">选择照片类型</div>
+        <div id="photo-cells" class="weui-cells">
+            <!-- <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__bd">
+                    <p>营业执照照片</p>
+                </div>
+                <div class="weui-cell__ft">
+                </div>
+            </div> -->
+        </div>
+        <div class="weui-btn-area">
+            <a href="javascript:" class="weui-btn weui-btn_default" onclick="weui.page.back()">返回</a>
+        </div>
+    </div>
+    <script type="text/javascript" src="../js/lib/zepto.js"></script>
+    <script type="text/javascript" src="../js/lib/weuijs/weuijs.js"></script>
+    <script id="demo-input" type="text/html">
+        <div class="weui-cell weui-cell_access">
+            <div class="weui-cell__hd">
+                <label class="weui-label">
+                    <%=$data.text%>
+                </label>
+            </div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="请输入<%=$data.text%>" name="<%=$data.value%>" <%if($data.readonly){%>readonly
+                <%}%>>
+            </div>
+            <%if(!$data.readonly){%>
+                <div class="weui-cell__ft">
+                </div>
+                <%}%>
+        </div>
+    </script>
+    <script id="demo-select" type="text/html">
+        <div class="weui-cell weui-cell_select weui-cell_select-after">
+            <div class="weui-cell__hd">
+                <label for="" class="weui-label">账户类型</label>
+            </div>
+            <div class="weui-cell__bd">
+                <select class="weui-select" name="select2">
+                    <option value="1">对公账户</option>
+                    <option value="2">对私账户</option>
+                </select>
+            </div>
+        </div>
+    </script>
+    <script id="demo" type="text/html">
+        <div class="weui-cells weui-cells_form">
+            <%for(var i = 0; i < rows.length; i++) { var row = rows[i];%>
+                <%=render(row)%>
+                    <%}%>
+        </div>
+    </script>
+    <script id="photo-template" type="text/html">
+        <%for(var i = 0; i < $data.length; i++) { var row = $data[i];%>
+        <div class="weui-cell weui-cell_access" data-id="<%=row.value%>">
+            <div class="weui-cell__bd">
+                <p><%=row.text%></p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </div>
+        <%}%>
+    </script>
+    <script>
+    var query = $.parseQueryString();
+
+    $.template.helper('render', function(field) {
+        return $.template('demo-input', field);
+    });
+
+
+    var photocopy = [
+    {
+        value:'01',
+        text: '营业执照照片'
+    },{
+        value:'03',
+        text: '法人身份证照片'
+    },{
+        value:'16',
+        text: '结算账户(银行卡)照片'
+    },{
+        value:'02',
+        text: '税务登记证照片'
+    }];
+
+    $('#photo-cells').append($.template('photo-template', photocopy)).on('click', '.weui-cell', function () {
+        alert($(this).attr('data-id'));
+        weui.page.back();
+    });
+
+    $.ajax({
+        url: '/app/action/ms/parameter/list',
+        type: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify({
+            fielditem: '1',
+            selected: '1',
+            table_name: query.table_name
+        }),
+        error: function() {
+            console.log(arguments);
+            searchPage.loaded(false);
+        },
+        success: function(data) {
+            console.log(arguments);
+            var html = $.template('demo', data);
+
+            $('#demo-form').prepend(html);
+        },
+        complete: function() {
+            // loading.hide();
+        }
+    });
+
+    function showChooseActions() {
+        weui.page.show('#page2');
+    }
+    </script>
 </body>
+
 </html>
