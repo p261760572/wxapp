@@ -129,16 +129,10 @@ span.required {
     background-image: url('业务.svg');
 }
 
-.icon-process {
+.icon-edit {
     width: 28px;
     height: 28px;
-    background-image: url('dna.svg');
-}
-
-.icon-modify {
-    width: 28px;
-    height: 28px;
-    background-image: url('笔记.svg');
+    background-image: url('编辑.svg');
 }
 
 .icon-history {
@@ -152,3 +146,10 @@ span.required {
     height: 28px;
     background-image: url('更多.svg');
 }
+
+.icon-history-b {
+    width: 28px;
+    height: 28px;
+    background-image: url('历史B.svg');
+}
+

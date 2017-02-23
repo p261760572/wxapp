@@ -42,7 +42,7 @@
  -->
     <script id="busi-templ" type="text/html">
         {{each rows as row i}}
-        <a class="weui-cell weui-cell_access" href="javascript:;" data-id="{{row.apppay_id}}" data-st="{{row.proc_st}}" data-url="modifyItems.html,term-info.html,new-term.html">
+        <a class="weui-cell weui-cell_access" href="javascript:;" data-id="{{row.apppay_id}}" data-st="{{row.proc_st}}">
             <div class="weui-cell__bd weui-cell_primary">
                 <p>{{row.linkman}} {{row.tel_no}} </p>
             </div>
@@ -104,10 +104,8 @@
     function showActions(target) {
         var apppay_id = $(target).attr('data-id');
         var proc_st = $(target).attr('data-st');
-        var page = $(target).attr('data-url').split(',');
 
         var params = $.param({
-            key_id: 'apppay_id',
             apppay_id: apppay_id
         });
 
@@ -115,19 +113,19 @@
             label: "变更业务",
             className: "color_primary",
             onClick: function() {
-                window.location.href = page[0] + '?table_name=mchnt_busi&' + params;
+                window.location.href = 'info-change.html?form_id=change_busi&' + params;
             }
         }, {
             label: "变更终端",
             className: "color_primary",
             onClick: function() {
-                window.location.href = page[1] + '?' + params;
+                window.location.href = 'search-term-info.html?' + params;
             }
         }, {
             label: "新增终端",
             className: "color_primary",
             onClick: function() {
-                window.location.href = page[2] + '?' + params;
+                window.location.href = '?' + params;
             }
         }];
 

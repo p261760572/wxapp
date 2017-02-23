@@ -3054,6 +3054,54 @@ a {
     font-size: 14px
 }
 
+.color_primary {
+    color: #1AAD19;
+}
+
+.color_primary-dark {
+    color: #179B16;
+}
+
+.color_primary-light {
+    color: #9ED99D;
+}
+
+.color_warn {
+    color: #E64340;
+}
+
+.color_warn-dark {
+    color: #CE3C39;
+}
+
+.color_warn-light {
+    color: #EC8B89;
+}
+
+.bg_primary {
+    background-color: #1AAD19;
+}
+
+.bg_primary-dark {
+    background-color: #179B16;
+}
+
+.bg_primary-light {
+    background-color: #9ED99D;
+}
+
+.bg_warn {
+    background-color: #E64340;
+}
+
+.bg_warn-dark {
+    background-color: #CE3C39;
+}
+
+.bg_warn-light {
+    background-color: #EC8B89;
+}
+
 .search-bar__btn {
     margin-right: 10px;
     line-height: 28px;

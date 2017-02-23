@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>信息变更</title>
+    <title>选择终端</title>
     <link rel="stylesheet" href="../../js/lib/weuijs/style/weuijs.css">
     <link rel="stylesheet" href="../../css/ui-base.css">
 </head>
@@ -13,16 +13,16 @@
 <body>
     <div id="page1" class="page page_show">
         <div class="weui-search-bar">
-            <!-- <a href="javascript:" class="search-bar__btn" onclick="weui.page.show('#page2')">新增</a> -->
+            <a href="javascript:" class="search-bar__btn" onclick="window.history.go(-1)">返回</a>
             <form class="weui-search-bar__form" method="post" action="">
                 <div class="weui-search-bar__box">
                     <i class="weui-icon-search"></i>
-                    <input type="search" class="weui-search-bar__input" name="search" placeholder="支持联系人、商户号、商户名称">
+                    <input type="search" class="weui-search-bar__input" name="search" placeholder="支持联系人、终端号、装机地址">
                     <a href="javascript:" class="weui-icon-clear"></a>
                 </div>
                 <label class="weui-search-bar__label">
                     <i class="weui-icon-search"></i>
-                    <span>支持联系人、商户号、商户名称</span> </label>
+                    <span>支持联系人、终端号、装机地址</span> </label>
             </form>
             <a href="javascript:" class="weui-search-bar__cancel-btn">取消</a>
         </div>
@@ -37,29 +37,22 @@
     <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
     <script type="text/javascript" src="../../js/lib/zepto.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../js/lib/weuijs/weuijs.js" charset="utf-8"></script>
-    <!--     <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
-    <script type="text/javascript" src="modify-busi.js" charset="utf-8"></script>
- -->
-    <script id="busi-templ" type="text/html">
+    <script id="term-templ" type="text/html">
         {{each rows as row i}}
-        <a class="weui-cell weui-cell_access" href="javascript:;" data-id="{{row.apppay_id}}" data-st="{{row.proc_st}}" data-url="modifyItems.html,term-info.html,new-term.html">
+        <a class="weui-cell weui-cell_access" href="javascript:;" data-id="{{row.term_no}}" data-st="{{row.proc_st}}">
             <div class="weui-cell__bd weui-cell_primary">
-                <p>{{row.linkman}} {{row.tel_no}} </p>
+                <p>{{row.man}} {{row.tel_no}} </p>
             </div>
             <div class="weui-cell__ft" style="color:#f6383a;">{{row.proc_st_nm}}</div>
         </a>
         <div class="weui-media-box weui-media-box_text">
-            <div class="weui-media-box__desc">{{row.marchant_name}}</div>
-            <div class="weui-media-box__desc">{{row.subbranch_name}}</div>
+            <div class="weui-media-box__desc">{{row.comm_type}}</div>
             <div class="weui-media-box__desc">{{row.installed_addr}}</div>
             <div class="weui-media-box__desc">{{row.remark}} </div>
-            <div class="weui-media-box__desc">{{row.mchnt_cd}}</div>
+            <div class="weui-media-box__desc" style="color:#f6383a;">{{row.term_no}}</div>
             <ul class="weui-media-box__info">
                 <li class="weui-media-box__info__meta">{{row.created_time}}</li>
                 <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{row.created_by}}</li>
-                {{if row.apptype=='109'}}
-                <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">当面付</li>
-                {{/if}}
             </ul>
             <ul class="weui-media-box__info" style="margin-top: 0px;">
                 <li class="weui-media-box__info__meta">{{row.last_checked_time}}</li>
@@ -70,6 +63,7 @@
     </script>
     <script type="text/javascript">
     window.basedir = '/app';
+    var query = $$.parseQueryString();
 
     var searchPage = weui.searchPage('#page1', {
         onSearch: function($searchBarResult, queryParams) {
@@ -82,15 +76,15 @@
     }).search();
 
     function search($searchBarResult, queryParams) {
-
-        $$.request('/action/ms/mchnt-busi/search-change', queryParams, {
+        var params = $.extend({}, query, queryParams);
+        $$.request('/action/ms/term-info/search-change', params, {
             error: function() {
                 console.log(arguments);
                 searchPage.loaded(false);
             },
             success: function(data) {
                 console.log(arguments);
-                var html = $.template('busi-templ', data);
+                var html = $.template('term-templ', data);
                 $searchBarResult.append(html);
                 searchPage.loaded(data.rows.length < queryParams.rows ? false : true);
                 $searchBarResult.off('click', '.weui-cell')
@@ -102,34 +96,21 @@
     }
 
     function showActions(target) {
-        var apppay_id = $(target).attr('data-id');
+        var term_no = $(target).attr('data-id');
         var proc_st = $(target).attr('data-st');
-        var page = $(target).attr('data-url').split(',');
 
+        var url = 'info-change.html';
         var params = $.param({
-            key_id: 'apppay_id',
-            apppay_id: apppay_id
+            term_no: term_no
         });
 
         var actions = [{
-            label: "变更业务",
-            className: "color_primary",
-            onClick: function() {
-                window.location.href = page[0] + '?table_name=mchnt_busi&' + params;
-            }
-        }, {
-            label: "变更终端",
-            className: "color_primary",
-            onClick: function() {
-                window.location.href = page[1] + '?' + params;
-            }
-        }, {
-            label: "新增终端",
-            className: "color_primary",
-            onClick: function() {
-                window.location.href = page[2] + '?' + params;
-            }
-        }];
+                label: "变更",
+                className: "color_primary",
+                onClick: function() {
+                    window.location.href = url + '?form_id=change_term&' + params;;
+                }
+            }];
 
         weui.actionSheet(actions, [{
             label: '取消',

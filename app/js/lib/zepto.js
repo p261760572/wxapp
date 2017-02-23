@@ -2243,6 +2243,40 @@ window.$ === undefined && (window.$ = Zepto)
         return ({}).toString.call(obj) === '[object Array]';
     };
 
+    function toString(value) {
+
+        if (typeof value !== 'string') {
+
+            var type = typeof value;
+            if (type === 'number') {
+                value += '';
+            } else if (type === 'function') {
+                value = toString(value.call(value));
+            } else {
+                value = '';
+            }
+        }
+
+        return value;
+    };
+
+    var escapeMap = {
+        '<': '&#60;',
+        '>': '&#62;',
+        '"': '&#34;',
+        "'": '&#39;',
+        '&': '&#38;'
+    };
+
+    var escapeFn = function(s) {
+        return escapeMap[s];
+    };
+
+    var escapeHTML = function(content) {
+        return toString(content)
+            .replace(/&(?![\w#]+;)|[<>"']/g, escapeFn);
+    };
+
     function each(data, callback) {
         var i, len;
         if (isArray(data)) {
@@ -2258,6 +2292,9 @@ window.$ === undefined && (window.$ = Zepto)
 
     var utils = {
         $helpers: {},
+        $include: template,
+        $string: toString,
+        $escape: escapeHTML,
         $each: each
     };
 
@@ -2331,12 +2368,14 @@ window.$ === undefined && (window.$ = Zepto)
             $line: true
         };
 
+        var include = "function(id, data) {data = data || $data; var text = $utils.$include(id, data); $out.push(text); }";
+
         var headerCode = "var $utils=this,$helpers=$utils.$helpers,";
         var mainCode = "$out=[];"
         var footerCode = "return new String($out.join(''));"
 
-        each(source.split('<%'), function(code) {
-            code = code.split('%>');
+        each(source.split('{{'), function(code) {
+            code = code.split('}}');
 
             if (code.length === 1) {
                 // code: [html]
@@ -2356,7 +2395,7 @@ window.$ === undefined && (window.$ = Zepto)
         var Render = new Function("$data", code);
         Render.prototype = utils;
 
-        return function (data) {
+        return function(data) {
             //set this=utils
             return new Render(data) + '';
         };
@@ -2366,8 +2405,31 @@ window.$ === undefined && (window.$ = Zepto)
         }
 
         function logic(code) {
+            code = parser(code);
+
+            // 输出语句. 编码: <%=value%> 不编码:<%=#value%>
             if (code.indexOf('=') === 0) {
-                code = "$out.push(" + code.substr(1) + ");"
+
+                var escape = !/^=#/.test(code);
+
+                // 清理代码两端
+                code = code.replace(/^=[#]?|[\s;]*$/g, '');
+
+                // 对内容编码
+                if (escape) {
+                    var name = code.replace(/\s*\([^\)]+\)/, '');
+
+                    // 排除 utils.* | include
+                    if (!utils[name] && !/^include$/.test(name)) {
+                        code = "$escape(" + code + ")";
+                    }
+
+                    // 不编码
+                } else {
+                    code = "$string(" + code + ")";
+                }
+
+                code = "$out.push(" + code + ");"
             }
 
             each(getVariable(code), function(name) {
@@ -2377,8 +2439,12 @@ window.$ === undefined && (window.$ = Zepto)
                 }
 
                 // 声明模板变量
+                // 赋值优先级:
+                // include > utils > helpers > data
                 var value;
-                if (utils[name]) {
+                if (name === 'include') {
+                    value = include;
+                } else if (utils[name]) {
                     value = "$utils." + name;
                 } else if (helpers[name]) {
                     value = "$helpers." + name;
@@ -2392,6 +2458,106 @@ window.$ === undefined && (window.$ = Zepto)
 
             return code;
         }
+
+        function filtered(js, filter) {
+            var parts = filter.split(':');
+            var name = parts.shift();
+            var args = parts.join(':') || '';
+
+            if (args) {
+                args = ', ' + args;
+            }
+
+            return '$helpers.' + name + '(' + js + args + ')';
+        }
+
+        // 语法解析器
+        function parser(code) {
+
+            code = code.replace(/^\s/, '');
+
+            var split = code.split(' ');
+            var key = split.shift();
+            var args = split.join(' ');
+
+            switch (key) {
+                case 'if':
+                    code = 'if(' + args + '){';
+                    break;
+
+                case 'else':
+                    if (split.shift() === 'if') {
+                        split = ' if(' + split.join(' ') + ')';
+                    } else {
+                        split = '';
+                    }
+
+                    code = '}else' + split + '{';
+                    break;
+
+                case '/if':
+                    code = '}';
+                    break;
+
+                case 'each':
+                    var object = split[0] || '$data';
+                    var as = split[1] || 'as';
+                    var value = split[2] || '$value';
+                    var index = split[3] || '$index';
+
+                    var param = value + ',' + index;
+
+                    if (as !== 'as') {
+                        object = '[]';
+                    }
+
+                    code = '$each(' + object + ',function(' + param + '){';
+                    break;
+
+                case '/each':
+                    code = '});';
+                    break;
+
+                case 'include':
+                    code = key + '(' + split.join(',') + ');';
+                    break;
+
+                default:
+                    // 过滤器（辅助方法）
+                    // {{value | filterA:'abcd' | filterB}}
+                    // >>> $helpers.filterB($helpers.filterA(value, 'abcd'))
+                    // TODO: {{ddd||aaa}} 不包含空格
+                    if (/^\s*\|\s*[\w\$]/.test(args)) {
+
+                        var escape = true;
+
+                        // {{#value | link}}
+                        if (code.indexOf('#') === 0) {
+                            code = code.substr(1);
+                            escape = false;
+                        }
+
+                        var i = 0;
+                        var array = code.split('|');
+                        var len = array.length;
+                        var val = array[i++];
+
+                        for (; i < len; i++) {
+                            val = filtered(val, array[i]);
+                        }
+
+                        code = (escape ? '=' : '=#') + val;
+
+                        // 内容直接输出 {{value}}
+                    } else {
+                        code = '=' + code;
+                    }
+
+                    break;
+            }
+
+            return code;
+        };
     }
 
     $.template = template;
@@ -2399,10 +2565,81 @@ window.$ === undefined && (window.$ = Zepto)
 })(Zepto);
 
 /*!
- * $.parseQueryString
+ * $$
  */
-(function($) {
-    $.parseQueryString = function() {
+(function() {
+    window.$$ = {};
+
+    $$.wrapUrl = function(url) {
+        return window.basedir ? window.basedir + url : url;
+    }
+
+    //POST请求
+    $$.request = function(url, data, options) {
+        options = options || {};
+
+        var loading;
+
+        options = $.extend({
+            url: $$.wrapUrl(url),
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(data),
+            beforeSend: function(xhr, settings) {
+                loading = weui.loading('加载中...');
+            },
+            complete: function(xhr, status) {
+                if(loading) loading.hide();
+            }
+        }, options);
+
+
+        $.ajax(options);
+    };
+
+
+    //格式化日期
+    $$.formatDate = function(date, format) {
+        var o = {
+            "M+": date.getMonth() + 1, //month
+            "d+": date.getDate(), //day
+            "h+": date.getHours(), //hour
+            "m+": date.getMinutes(), //minute
+            "s+": date.getSeconds(), //second
+            "q+": Math.floor((date.getMonth() + 3) / 3), //quarter
+            "S": date.getMilliseconds() //millisecond
+        }
+        if (/(y+)/.test(format))
+            format = format.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(format))
+                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+        return format;
+    };
+
+    //解析日期
+    $$.parseDate = function(format) {
+        var date = new Date();
+        var o = {
+            "y+": 'setFullYear', //year
+            "M+": 'setMonth', //month
+            "d+": 'setDate', //day
+            "h+": 'setHours', //hour
+            "m+": 'setMinutes', //minute
+            "s+": 'setSeconds', //second
+            "S": 'setMilliseconds' //millisecond
+        }
+
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(format))
+                date[o[k]](RegExp.$1);
+        return date;
+    };
+
+
+    //解析查询字符串
+    $$.parseQueryString = function() {
         var query = {};
         var queryString = window.location.search.substr(1);
         if (queryString.length > 0) {
@@ -2417,4 +2654,49 @@ window.$ === undefined && (window.$ = Zepto)
         }
         return query;
     };
-})(Zepto);
+
+    //存储数据
+    $$.setData = function(keyName, data) {
+        window.localStorage.setItem(window.location.pathname + ':' + keyName, JSON.stringify(data));
+    };
+
+    //获取存储数据
+    $$.getData = function(keyName) {
+        var data = window.localStorage.getItem(window.location.pathname + ':' + keyName);
+        return data && JSON.parse(data);
+    };
+
+    //删除存储数据
+    $$.removeData = function(keyName) {
+        return window.localStorage.removeItem(window.location.pathname + ':' + keyName);
+    };
+
+    //根据ID加载数据
+    $$.load = function(data) {
+        for (var id in data) {
+            var t = $('#' + id);
+            var tagName = t.prop('tagName');
+            if (tagName == 'INPUT' || tagName == 'SELECT' || tagName == 'TEXTAREA') {
+                t.val(data[id]);
+            } else {
+                t.text(data[id]);
+            }
+        }
+    };
+
+
+    //格式化字段
+    $$.formatField = function(rows, value, valueField, textField) {
+        var i, len;
+        valueField = valueField || 'value';
+        textField = textField || 'text';
+        if (rows) {
+            for (var i = 0; i < rows.length; i++) {
+                if (rows[i][valueField] == value) {
+                    return rows[i][textField];
+                }
+            }
+        }
+        return null;
+    }
+})();

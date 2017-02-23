@@ -1,6 +1,6 @@
 (function() {
     var _sington;
-    var tpl = '<div class="<% if(isAndroid){ %>weui-skin_android <% } %><%= className %>"><div class="weui-mask"></div><div class="weui-actionsheet"><div class="weui-actionsheet__menu"><% for(var i = 0; i < menus.length; i++){ %><div class="weui-actionsheet__cell"><%= menus[i].label %></div><% } %></div><div class="weui-actionsheet__action"><% for(var j = 0; j < actions.length; j++){ %><div class="weui-actionsheet__cell"><%= actions[j].label %></div><% } %></div></div></div>';
+    var tpl = '<div class="{{if isAndroid}}weui-skin_android {{/if}}{{className}}"><div class="weui-mask"></div><div class="weui-actionsheet"><div class="weui-actionsheet__menu">{{each menus as menu}}<div class="weui-actionsheet__cell {{menu.className}}">{{menu.label }}</div>{{/each}}</div><div class="weui-actionsheet__action">{{each actions as action}}<div class="weui-actionsheet__cell {{action.className}}">{{action.label}}</div>{{/each}}</div></div></div>';
 
     /**
      * actionsheet 弹出式菜单
@@ -235,7 +235,7 @@
 
 (function() {
     var _sington;
-    var tpl = '<div class="<%=className%>"><div class="weui-mask"></div><div class="weui-dialog <% if(isAndroid){ %> weui-skin_android <% } %>"><% if(title){ %><div class="weui-dialog__hd"><strong class="weui-dialog__title"><%=title%></strong></div><% } %><div class="weui-dialog__bd"><%=content%></div><div class="weui-dialog__ft"><% for(var i = 0; i < buttons.length; i++){ %><a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_<%=buttons[i][\'type\']%>"><%=buttons[i][\'label\']%></a><% } %></div></div></div>';
+    var tpl = '<div class="{{className}}"><div class="weui-mask"></div><div class="weui-dialog {{if isAndroid}} weui-skin_android{{/if}}">{{if title}}<div class="weui-dialog__hd"><strong class="weui-dialog__title">{{title}}</strong></div>{{/if}}<div class="weui-dialog__bd">{{content}}</div><div class="weui-dialog__ft">{{each buttons as button}}<a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_{{button.type}}">{{button.label}}</a>{{/each}}</div></div></div>';
 
     /**
      * dialog，弹窗，alert和confirm的父类
@@ -325,8 +325,8 @@
 
 (function() {
     var _sington;
-    var tpl = '<div class="weui-wepay-flow"><div class="weui-wepay-flow__bd"><%for(var i=0; i < steps.length; i++) {%><div class="weui-wepay-flow__li" data-index="<%=i%>"><div class="weui-wepay-flow__state"><%=i+1%></div><p class="weui-wepay-flow__title-<%if(i%2==0){%>bottom<%}else{%>top<%}%>"><%=steps[i].title%></p></div><%if(i != steps.length-1) {%><div class="weui-wepay-flow__line" data-index="<%=i+1%>"><div class="weui-wepay-flow__process"></div></div><%}%><%}%></div></div>';
-    var actionsTpl = '<div class="weui-btn-area btn-area"><a class="weui-btn weui-btn_default flow__btn_previous" href="javascript:;"><%=previousText%></a><a class="weui-btn weui-btn_primary flow__btn_next" href="javascript:"><%=nextText%></a><a class="weui-btn weui-btn_primary flow__btn_finish" href="javascript:"><%=finishText%></a></div>';
+    var tpl = '<div class="weui-wepay-flow"><div class="weui-wepay-flow__bd">{{each steps as step i}}<div class="weui-wepay-flow__li" data-index="{{i}}"><div class="weui-wepay-flow__state">{{i+1}}</div><p class="weui-wepay-flow__title-{{if i%2==0}}bottom{{else}}top{{/if}}">{{step.title}}</p></div>{{if i != steps.length-1}}<div class="weui-wepay-flow__line" data-index="{{i+1}}"><div class="weui-wepay-flow__process"></div></div>{{/if}}{{/each}}</div></div>';
+    var actionsTpl = '<div class="weui-btn-area btn-area"><a class="weui-btn weui-btn_default flow__btn_previous" href="javascript:;">{{previousText}}</a><a class="weui-btn weui-btn_primary flow__btn_next" href="javascript:">{{nextText}}</a><a class="weui-btn weui-btn_primary flow__btn_finish" href="javascript:">{{finishText}}</a></div>';
 
     /**
      * flow 流程
@@ -363,6 +363,13 @@
     function flow(selector, options) {
         options = options || {};
         var $ele = $(selector);
+        var $steps = $ele.children('.flow__step');
+        var steps = [];
+        for (var i = 0; i < $steps.length; i++) {
+            steps.push({
+                title: $steps[i].title
+            });
+        }
         options = $.extend({
             finishText: '完成',
             nextText: '下一步',
@@ -372,12 +379,11 @@
             onFinishing: $.noop,
             onFinished: $.noop
         }, options, {
-            steps: $ele.children('.flow__step')
+            steps: steps
         });
         var $flow = $($.render(tpl, options));
         var $actions = $($.render(actionsTpl, options));
         var currentIndex = 0;
-        var $steps = options.steps;
 
         function _stepChange(newIndex) {
             if(options.onStepChanging(currentIndex, newIndex) == false) return;
@@ -466,76 +472,52 @@
 
 (function() {
 
-    function _validate($input, $form, regexp) {
+    function _validate($input, $form, rules) {
         var input = $input[0],
             val = $input.val();
 
         if (input.tagName == 'INPUT' || input.tagName == 'TEXTAREA') {
-            var reg = input.getAttribute('pattern') || '';
+            var reg = $input.attr('pattern') || '';
+            var validType = $input.attr('validtype') || '';
 
             if (input.type == 'radio') {
-                var radioInputs = $form.find('input[type="radio"][name="' + input.name + '"]');
-                for (var i = 0, len = radioInputs.length; i < len; ++i) {
-                    if (radioInputs[i].checked) return null;
+                // radio支持required
+                var $radioInputs = $form.find('input[type="radio"][name="' + input.name + '"]');
+                for (var i = 0, len = $radioInputs.length; i < len; ++i) {
+                    if ($radioInputs[i].checked) return null;
                 }
-                return 'empty';
+                return 'missing';
             } else if (input.type == 'checkbox') {
-                var checkboxInputs = $form.find('input[type="checkbox"][name="' + input.name + '"]');
-                if (reg) {
-                    var regs = reg.replace(/[{\s}]/g, '').split(',');
-                    var count = 0;
+                // checkbox支持required、pattern
+                var $checkboxInputs = $form.find('input[type="checkbox"][name="' + input.name + '"]');
 
-                    if (regs.length != 2) {
-                        throw input.outerHTML + ' regexp is wrong.';
-                    }
-
-                    checkboxInputs.forEach(function(checkboxInput) {
-                        if (checkboxInput.checked) ++count;
-                    });
-
-                    if (!count) return 'empty';
-
-                    if (regs[1] === '') { // {0,}
-                        if (count >= parseInt(regs[0])) {
-                            return null;
-                        } else {
-                            return 'notMatch';
-                        }
-                    } else { // {0,2}
-                        if (parseInt(regs[0]) <= count && count <= parseInt(regs[1])) {
-                            return null;
-                        } else {
-                            return 'notMatch';
-                        }
-                    }
-                } else {
-                    for (var i = 0, len = checkboxInputs.length; i < len; ++i) {
-                        if (checkboxInputs[i].checked) return null;
-                    }
-                    return 'empty';
+                var count = '';
+                for (var i = 0, len = $checkboxInputs.length; i < len; ++i) {
+                    if ($checkboxInputs[i].checked) count += '1';
                 }
+
+                if ($input.is('[required]') && !count.length) return 'missing';
+
+                return new RegExp('^1' + reg + '$').test(count) ? null : 'invalid';
             } else if ($input.is('[required]') && !val.length) {
-                return 'empty';
-            } else if (val.length && reg) {
-                if (/^REG_/.test(reg)) {
-                    if (!regexp) throw 'RegExp ' + reg + ' is empty.';
-
-                    reg = reg.replace(/^REG_/, '');
-                    if (!regexp[reg]) throw 'RegExp ' + reg + ' has not found.';
-
-                    reg = regexp[reg];
+                return 'missing';
+            } else if (val.length) {
+                var result = null;
+                if (reg) result = new RegExp(reg).test(val) ? null : 'invalid';
+                if (validType) {
+                    var arr = /(\w+)(.*)/.exec(validType);
+                    var rule = rules[arr[1]];
+                    if (rule) {
+                        var param = eval(arr[2]);
+                        result = rule(val, param) ? null : 'invalid';
+                    }
                 }
-                if (typeof reg == 'function') {
-                    return reg(val) ? null : 'notMatch';
-                } else {
-                    return new RegExp(reg).test(val) ? null : 'notMatch';
-                }
-            } else {
-                return null;
+
+                return result;
             }
         } else if ($input.is('[required]') && !val.length) {
             // 没有输入值
-            return 'empty';
+            return 'missing';
         }
 
         return null;
@@ -564,12 +546,13 @@
      * @example
      * ##### 普通input的HTML
      * ```html
-     * <input type="tel" required pattern="[0-9]{11}" placeholder="输入你现在的手机号" emptyTips="请输入手机号" notMatchTips="请输入正确的手机号">
-     * <input type="text" required pattern="REG_IDNUM" placeholder="输入你的身份证号码" emptyTips="请输入身份证号码" notMatchTips="请输入正确的身份证号码">
+     * <input type="tel" required pattern="[0-9]{11}" placeholder="输入你现在的手机号" missingTips="请输入手机号" invalidTips="请输入正确的手机号">
+     * <input type="text" required validType="idnum" placeholder="输入你的身份证号码" missingTips="请输入身份证号码" invalidTips="请输入正确的身份证号码">
      * ```
      * - required 表示需要校验
-     * - pattern 表示校验的正则，不填则进行为空校验。当以REG_开头时，则获取校验时传入的正则。如`pattern="REG_IDNUM"`，则需要在调用相应方法时传入`{regexp:{IDNUM: /(?:^\d{15}$)|(?:^\d{18}$)|^\d{17}[\dXx]$/}}`，详情请看下面`checkIfBlur`和`validate`
-     * - 报错的wording会从 emptyTips | notMatchTips | tips | placeholder 里获得
+     * - pattern 表示校验的正则，不填则进行为空校验。
+     * - validType 校验类型。如`validType="idnum"`，则需要在调用相应方法时传入`{rules: {idnum: function(value) {return /(?:^\d{15}$)|(?:^\d{18}$)|^\d{17}[\dXx]$/.test(value); } } }`，详情请看下面`checkIfBlur`和`validate`
+     * - 报错的wording会从 missingTips | invalidTips | tips | placeholder 里获得
      * <br>
      *
      * ##### radio
@@ -582,7 +565,7 @@
      *
      * ##### checkbox
      * checkbox需要校验，只需把参数写在同一表单下，同name的第一个元素即可。
-     * pattern 规定选择个数，用法与正则一致，例如：
+     * pattern 规定选择个数，例如：
      * ```html
      * <input type="checkbox" name="assistance" value="黄药师" required pattern="{1,2}" tips="请勾选1-2个敲码助手" />
      * <input type="checkbox" name="assistance" value="欧阳锋" />
@@ -601,9 +584,10 @@
      *         console.log(error); // error: {dom:[Object], msg:[String]}
      *         // return true; // 当return true时，不会显示错误
      *     },
-     *     regexp: {
-     *         IDNUM: /(?:^\d{15}$)|(?:^\d{18}$)|^\d{17}[\dXx]$/,
-     *         VCODE: /^.{4}$/
+     *     rules: {
+     *         idnum: function(value) {
+     *             return /(?:^\d{15}$)|(?:^\d{18}$)|^\d{17}[\dXx]$/.test(value);
+     *         }
      *     }
      * });
      * ```
@@ -617,15 +601,12 @@
         var result = true;
         $eles.each(function(index, ele) {
             var $form = $(ele);
-            var $requireds = $form.find('[required],[pattern]') ;
-            // $requireds.forEach(function(ele) {
-            //     $(ele).closest('.weui-cell').removeClass('weui-cell_warn');
-            // });
+            var $fields = $form.find('[required],[pattern],[validType]');
 
-            for (var i = 0, len = $requireds.length; i < len; ++i) {
-                var $required = $requireds.eq(i),
-                    errorMsg = _validate($required, $form, options.regexp),
-                    error = { ele: $required[0], msg: errorMsg };
+            for (var i = 0, len = $fields.length; i < len; ++i) {
+                var $field = $fields.eq(i),
+                    errorMsg = _validate($field, $form, options.rules),
+                    error = { ele: $field[0], msg: errorMsg };
                 if (errorMsg) {
                     if (!options.callback(error)) _showErrorMsg(error);
                     result = false;
@@ -645,9 +626,10 @@
      *
      * @example
      * weui.form.checkIfBlur('#form', {
-     *     regexp: {
-     *         IDNUM: /(?:^\d{15}$)|(?:^\d{18}$)|^\d{17}[\dXx]$/,
-     *         VCODE: /^.{4}$/
+     *     rules: {
+     *         idnum: function(value) {
+     *             return /(?:^\d{15}$)|(?:^\d{18}$)|^\d{17}[\dXx]$/.test(value);
+     *         }
      *     }
      * });
      */
@@ -658,14 +640,14 @@
 
         $eles.forEach(function(ele) {
             var $form = $(ele);
-            $form.find('[required],[pattern]').on('blur', function() {
+            $form.find('[required],[pattern],[validType]').on('blur', function() {
                 // checkbox 和 radio 不做blur检测，以免误触发
                 if (this.type == 'checkbox' || this.type == 'radio') return;
 
                 var $this = $(this);
                 if ($this.val().length < 1) return; // 当空的时候不校验，以防不断弹出toptips
 
-                var errorMsg = _validate($this, $form, options.regexp);
+                var errorMsg = _validate($this, $form, options.rules);
                 if (errorMsg) {
                     _showErrorMsg({
                         ele: $this[0],
@@ -676,8 +658,6 @@
                 $(this).closest('.weui-cell').removeClass('weui-cell_warn');
             });
         });
-
-        return this;
     }
 
     /**
@@ -757,7 +737,7 @@
             }
         });
     }
-  
+
 
     window.weui = window.weui || {};
     window.weui.form = {
@@ -771,7 +751,7 @@
 
 (function() {
     var _sington;
-    var tpl = '<div class="weui-gallery <%= className %>"><span class="weui-gallery__img" style="background-image: url(<%= url %>); <% if(!deletable){ %>bottom: 0;<% } %>"><%= url %></span><% if(deletable){ %><div class="weui-gallery__opr"><a href="javascript:" class="weui-gallery__del"><i class="weui-icon-delete weui-icon_gallery-delete"></i></a></div><% } %></div>';
+    var tpl = '<div class="weui-gallery {{className}}"><span class="weui-gallery__img" style="background-image: url({{url}}); {{if !deletable}}bottom: 0;{{/if}}">{{url}}</span>{{if deletable}}<div class="weui-gallery__opr"><a href="javascript:" class="weui-gallery__del"><i class="weui-icon-delete weui-icon_gallery-delete"></i></a></div>{{/if}}</div>';
 
     /**
      * gallery 带删除按钮的图片预览，主要是配合图片上传使用
@@ -824,8 +804,9 @@
 
         $gallery.show().addClass('weui-animate-fade-in');
 
-        _sington = $gallery[0];
-        _sington.hide = hide;
+        _sington = {
+            hide: hide
+        };
         return _sington;
     }
 
@@ -836,7 +817,7 @@
 
 (function() {
     var _sington;
-    var tpl = '<div class="weui-loading_toast <%= className %>"><div class="weui-mask_transparent"></div><div class="weui-toast"><i class="weui-loading weui-icon_toast"></i><p class="weui-toast__content"><%=content%></p></div></div>';
+    var tpl = '<div class="weui-loading_toast {{className}}"><div class="weui-mask_transparent"></div><div class="weui-toast"><i class="weui-loading weui-icon_toast"></i><p class="weui-toast__content">{{content}}</p></div></div>';
 
     /**
      * loading
@@ -895,7 +876,7 @@
 })();
 
 (function() {
-    var tpl = '<div class="<%= className %>" style="display: none;"><div class="weui-footer" style="margin:1.5em auto;"><p class="weui-footer__links"><a href="javascript:void(0);" class="weui-footer__link">加载更多数据</a></p></div><div class="weui-loadmore"><i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span></div><div class="weui-loadmore weui-loadmore_line"><span class="weui-loadmore__tips">我是有底线的</span></div></div>';
+    var tpl = '<div class="{{className}}" style="display: none;"><div class="weui-footer" style="margin:1.5em auto;"><p class="weui-footer__links"><a href="javascript:void(0);" class="weui-footer__link">加载更多数据</a></p></div><div class="weui-loadmore"><i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span></div><div class="weui-loadmore weui-loadmore_line"><span class="weui-loadmore__tips">暂无更多数据</span></div></div>';
 
     /**
      * loadmore 加载更多
@@ -1427,7 +1408,7 @@ $.fn.scroll = function(options) {
 };
 
 
-    var pickerTpl = '<div class="<%= className %>"><div class="weui-mask"></div><div class="weui-picker"><div class="weui-picker__hd"><a href="javascript:;" data-action="cancel" class="weui-picker__action">取消</a><a href="javascript:;" data-action="select" class="weui-picker__action" id="weui-picker-confirm">确定</a></div><div class="weui-picker__bd"></div></div></div>';
+    var pickerTpl = '<div class="{{className}}"><div class="weui-mask"></div><div class="weui-picker"><div class="weui-picker__hd"><a href="javascript:;" data-action="cancel" class="weui-picker__action">取消</a><a href="javascript:;" data-action="select" class="weui-picker__action" id="weui-picker-confirm">确定</a></div><div class="weui-picker__bd"></div></div></div>';
     var groupTpl = '<div class="weui-picker__group"><div class="weui-picker__mask"></div><div class="weui-picker__indicator"></div><div class="weui-picker__content"></div></div>';
 
     function Result(item) {
@@ -1442,7 +1423,7 @@ $.fn.scroll = function(options) {
     };
 
     var _sington;
-    var temp = {}; // temp 存在上一次滑动的位置
+    // var temp = {}; // temp 存在上一次滑动的位置
 
     /**
      * picker 多列选择器。
@@ -1611,9 +1592,9 @@ $.fn.scroll = function(options) {
         }
 
         // 获取缓存
-        temp[defaults.id] = temp[defaults.id] || [];
+        // temp[defaults.id] = temp[defaults.id] || [];
         var result = [];
-        var lineTemp = temp[defaults.id];
+        var lineTemp = []; //temp[defaults.id];
         var $picker = $($.render(pickerTpl, defaults));
         var depth = options.depth || (isMulti ? items.length : depthOf(items[0])),
             groups = '';
@@ -2188,7 +2169,7 @@ $.fn.scroll = function(options) {
 
 (function() {
     var _sington;
-    var tpl = '<div class="<%= className %>"><div class="weui-mask_transparent"></div><div class="weui-toast"><i class="weui-icon_toast weui-icon-success-no-circle"></i><p class="weui-toast__content"><%=content%></p></div></div>';
+    var tpl = '<div class="{{className}}"><div class="weui-mask_transparent"></div><div class="weui-toast"><i class="weui-icon_toast weui-icon-success-no-circle"></i><p class="weui-toast__content">{{content}}</p></div></div>';
 
     /**
      * toast 一般用于操作成功时的提示场景
@@ -2257,7 +2238,7 @@ $.fn.scroll = function(options) {
 
 (function() {
     var _toptips = null;
-    var tpl = '<div class="weui-toptips weui-toptips_warn <%= className %>" style="display: block;"><%= content %></div>';
+    var tpl = '<div class="weui-toptips weui-toptips_warn {{className}}" style="display: block;">{{content}}</div>';
 
     /**
      * toptips 顶部报错提示
@@ -2528,7 +2509,7 @@ function compress(file, options, callback) {
 }
 
 
-    var tplItem = '<li class="weui-uploader__file weui-uploader__file_status" data-id="<%= id %>"><div class="weui-uploader__file-content"><i class="weui-loading" style="width: 30px;height: 30px;"></i></div></li>';
+    var tplItem = '<li class="weui-uploader__file weui-uploader__file_status" data-id="{{id}}"><div class="weui-uploader__file-content"><i class="weui-loading" style="width: 30px;height: 30px;"></i></div></li>';
 
     var _id = 0;
 

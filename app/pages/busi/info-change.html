@@ -1,0 +1,369 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>业务变更</title>
+    <link rel="stylesheet" href="../../js/lib/weuijs/style/weuijs.css">
+    <style type="text/css">
+    body {
+        background-color: #f8f8f8;
+    }
+    
+    .weui-cell__bd {
+        position: relative;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="page page_show">
+        <form method="post" action="">
+            <div class="weui-cells weui-cells_form" id="fields-form">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <div class="weui-uploader">
+                            <div class="weui-uploader__hd">
+                                <p class="weui-uploader__title">照片</p>
+                            </div>
+                            <div class="weui-uploader__bd">
+                                <ul class="weui-uploader__files">
+                                    <!-- <li class="weui-uploader__file" style="background-image:url(./images/pic_160.png)"></li> -->
+                                </ul>
+                                <div class="weui-uploader__input-box">
+                                    <!-- <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple> -->
+                                    <input type="button" class="weui-uploader__input" onclick="showChooseCopyType()">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-btn-area">
+                <a class="weui-btn weui-btn_primary" href="javascript:" onclick="submitChange()">提交</a>
+            </div>
+        </form>
+    </div>
+    <div id="page2" class="page">
+        <div class="weui-cells__title" style="margin: 1em auto; text-align: center; font-size: 18px; color: #000;">选择照片类型</div>
+        <div id="photo-cells" class="weui-cells">
+        </div>
+        <div class="weui-btn-area">
+            <a href="javascript:" class="weui-btn weui-btn_default" onclick="weui.page.back()">返回</a>
+        </div>
+    </div>
+    <script type="text/javascript" src="../../js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../../js/lib/zepto.js"></script>
+    <script type="text/javascript" src="../../js/lib/weuijs/weuijs.js"></script>
+    <script type="text/javascript" src="../../js/wx.js"></script>
+    <script type="text/javascript" src="district.js"></script>
+    <script id="input-template" type="text/html">
+        <div class="weui-cell weui-cell_access">
+            <div class="weui-cell__hd">
+                <label class="weui-label">
+                    {{$data.column_desc}}
+                </label>
+            </div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="请输入{{$data.column_desc}}" name="{{$data.alias_name}}" data-id="{{$data.field_id}}" {{if $data.type_id=='0' }}readonly{{/if}}>
+            </div>
+            {{if $data.type_id!='0'}}
+            <div class="weui-cell__ft">
+            </div>
+            {{/if}}
+        </div>
+    </script>
+    <script id="select-template" type="text/html">
+        <div class="weui-cell weui-cell_select weui-cell_select-after">
+            <div class="weui-cell__hd">
+                <label for="" class="weui-label">账户类型</label>
+            </div>
+            <div class="weui-cell__bd">
+                <select class="weui-select" name="select2">
+                    <option value="1">对公账户</option>
+                    <option value="2">对私账户</option>
+                </select>
+            </div>
+        </div>
+    </script>
+    <script id="fields-template" type="text/html">
+        <div class="weui-cells weui-cells_form">
+            {{each rows as row}} {{include 'input-template' row}} {{/each}}
+        </div>
+    </script>
+    <script id="photo-template" type="text/html">
+        {{each $data as row}}
+        <div class="weui-cell weui-cell_access" data-id="{{row.value}}">
+            <div class="weui-cell__bd">
+                <p>{{row.text}}</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </div>
+        {{/each}}
+    </script>
+    <script>
+    window.basedir = '/app';
+    var query = $$.parseQueryString();
+    var viewUrl, createUrl;
+    if (query.form_id == 'change_busi') {
+        viewUrl = '/action/ms/mchnt-busi/view-change';
+        createUrl = '/action/ms/changelog/create-busi';
+    } else if (query.form_id == 'change_term') {
+        viewUrl = '/action/ms/term-info/view-change';
+        createUrl = '/action/ms/changelog/create-term';
+    } else if (query.form_id == 'add_term') {
+        viewUrl = '/action/ms/term-info/view-change';
+        createUrl = '/action/ms/changelog/create-term';
+    }
+
+    wxConfig({
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 'startRecord', 'stopRecord', 'onVoiceRecordEnd', 'playVoice', 'pauseVoice', 'stopVoice', 'onVoicePlayEnd', 'uploadVoice', 'downloadVoice', 'chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'translateVoice', 'getNetworkType', 'openLocation', 'getLocation', 'hideOptionMenu', 'showOptionMenu', 'hideMenuItems', 'showMenuItems', 'hideAllNonBaseMenuItem', 'showAllNonBaseMenuItem', 'closeWindow', 'scanQRCode', 'chooseWXPay', 'openProductSpecificView', 'addCard', 'chooseCard', 'openCard']
+    });
+
+
+    function showCityPicker(target) {
+        $target = $(target);
+        return weui.picker(districtData, {
+            defaultValue: $target.attr('data-value').split(','),
+            onChange: function(result) {
+                var label = result.map(function(item) {
+                    return item.label;
+                });
+                $target.val(label.join(' '));
+            },
+            onConfirm: function(result) {
+                var label = result.map(function(item) {
+                    return item.label;
+                });
+
+                var value = result.map(function(item) {
+                    return item.value;
+                });
+                $target.val(label.join(' ')).attr('data-value', value.join(','));
+            },
+            id: $target.attr('id')
+        });
+    }
+
+    function showPicker(target, data) {
+        $target = $(target);
+        return weui.picker(data, {
+            defaultValue: $target.attr('data-value'),
+            onChange: function(result) {
+                var label = result.map(function(item) {
+                    return item.label;
+                });
+                $target.val(label.join(' '));
+            },
+            onConfirm: function(result) {
+                var label = result.map(function(item) {
+                    return item.label;
+                });
+
+                var value = result.map(function(item) {
+                    return item.value;
+                });
+                $target.val(label.join(' ')).attr('data-value', value.join(','));
+            },
+            id: $target.attr('id')
+        });
+    }
+
+    var uploader = weuiUploader('.weui-uploader');
+
+    function initCopyType(data) {
+        $('#photo-cells').append($.template('photo-template', data)).on('click', '.weui-cell', function() {
+            var photoType = $(this).attr('data-id');
+            weui.page.back();
+            wxChooseImage({
+                success: function(res) {
+                    var localIds = res.localIds;
+                    wxUploadImage({
+                        localId: localIds[0],
+                        success: function(res) {
+                            var serverId = res.serverId;
+                            uploader.append(localIds[0], {
+                                ei_type: photoType,
+                                localidd: localIds[0],
+                                serverid: serverId
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    function showChooseCopyType() {
+        weui.page.show('#page2');
+    }
+
+    function weuiUploader(selector) {
+        var $ele = $(selector);
+        var $files = $ele.find('.weui-uploader__files');
+
+        function append(url, data) {
+            var $file = $('<li class="weui-uploader__file" style="background-image:url(' + url + ')"></li>');
+            $files.append($file);
+            $file.data('data', data);
+        }
+
+        $files.on('click', '.weui-uploader__file', function() {
+            var target = $(this);
+            var url = target.attr('style');
+
+            // console.log(url);
+            if (url) {
+                url = url.match(/url\((.*?)\)/)[1].replace(/"/g, '');
+            }
+            var gallery = weui.gallery(url, {
+                // deletable: false,
+                onDelete: function() {
+                    weui.confirm('确定删除该图片？', function() {
+                        target.remove();
+                        gallery.hide();
+                    });
+                }
+            });
+        });
+
+        var _obj = {
+            append: append
+        };
+        return _obj;
+    }
+
+    function submitChange() {
+        var data = $.extend({}, query, {
+            update: [],
+            images: []
+        });
+        $('#fields-form').find('[data-id]').forEach(function(item) {
+            var target = $(item);
+            var value = $(target).val();
+            if ($(target).attr('name') == 'license_no') {
+                value = value.toUpperCase();
+            }
+
+            data.update.push({
+                'field_id': target.attr('data-id'),
+                'original_value': target.attr('data-val'),
+                'new_value': value
+            });
+        });
+
+        $('.weui-uploader').find('.weui-uploader__file').forEach(function(item) {
+            data.images.push($(item).data('data'));
+        });
+
+        $$.request(createUrl, data, {
+            success: function(data) {
+                if (data.errcode == 0) {
+                    weui.toast('操作成功', {
+                        callback: function() {
+                            window.history.go(-1);
+                        }
+                    });
+                } else {
+                    weui.alert(data.errmsg);
+                }
+            }
+        });
+    }
+
+    function getCascadeLabel(items, value) {
+        var label = [];
+
+        function getLabel(items, value, level) {
+            var index = 0,
+                len = items.length;
+            for (; index < len; ++index) {
+                if (value[level] == items[index].value) break;
+            }
+
+            if (index < len) {
+                label.push(items[index].label);
+                if (items[index].children) {
+                    getLabel(items[index].children, value, level + 1);
+                }
+            }
+        }
+
+        getLabel(items, value, 0);
+
+        return label.join(' ');
+    }
+
+    function loadDetail(data) {
+        if (!data) return;
+        var $form = $('#fields-form');
+        weui.form.load($form, data.data);
+        for (var name in data.data) {
+            var val = data.data[name];
+            $form.find('input[name="' + name + '"]').attr('data-val', val);
+            $form.find('select[name="' + name + '"]').attr('data-val', val);
+        }
+
+        var $target, value;
+        //地区选择
+        $target = $('[data-id="19"]');
+        value = data.data[$target.attr('name')];
+        $target.attr('data-value', value);
+        $target.val(getCascadeLabel(districtData, value.split(',')));
+
+        $target.on('click', function() {
+            showCityPicker(this);
+        });
+
+        //机具类型
+        $target = $('[data-id="21"]');
+        value = data.data[$target.attr('name')];
+        $target.attr('data-value', value);
+        $target.val(getCascadeLabel([{"label": "固定POS", "value": "1"}, {"label": "移动POS", "value": "2"}, {"label": "网络POS", "value": "3"}, {"label": "分体POS", "value": "4"}, {"label": "其他类型POS", "value": "5"}, {"label": "MPOS", "value": "6"}, {"label": "固定POS+扫描枪", "value": "A"}, {"label": "移动POS+扫描枪", "value": "B"}, {"label": "网络POS+扫描枪", "value": "C"}, {"label": "分体POS+扫描枪", "value": "D"}, {"label": "无机具", "value": "9"}], value.split(',')));
+
+        $target.on('click', function() {
+            showPicker(this, [{"label": "固定POS", "value": "1"}, {"label": "移动POS", "value": "2"}, {"label": "网络POS", "value": "3"}, {"label": "分体POS", "value": "4"}, {"label": "其他类型POS", "value": "5"}, {"label": "MPOS", "value": "6"}, {"label": "固定POS+扫描枪", "value": "A"}, {"label": "移动POS+扫描枪", "value": "B"}, {"label": "网络POS+扫描枪", "value": "C"}, {"label": "分体POS+扫描枪", "value": "D"}, {"label": "无机具", "value": "9"}]);
+        });
+    }
+
+    $(function() {
+        var fieldsData;
+        //显示字段
+        $$.request('/action/ms/change-field/list', query, {
+            success: function(data) {
+                console.log(arguments);
+                var html = $.template('fields-template', data);
+
+                $('#fields-form').prepend(html);
+
+                loadDetail(fieldsData);
+            }
+        });
+
+        //影印件类型
+        $$.request('/action/ms/parameter/list', {
+            copy_type: '1'
+        }, {
+            success: function(data) {
+                initCopyType(data.copy_type);
+            }
+        });
+
+        $$.request(viewUrl, query, {
+            success: function(data) {
+                if (data.errcode == 0) {
+                    fieldsData = data;
+                    loadDetail(data);
+                } else {
+                    weui.alert(data.errmsg);
+                }
+            }
+        });
+    });
+    </script>
+</body>
+
+</html>
