@@ -40,9 +40,9 @@
     <!--     <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
     <script type="text/javascript" src="modify-busi.js" charset="utf-8"></script>
  -->
-    <script id="busi-templ" type="text/html">
+    <script id="busi-template" type="text/html">
         {{each rows as row i}}
-        <a class="weui-cell weui-cell_access" href="javascript:;" data-id="{{row.apppay_id}}" data-st="{{row.proc_st}}">
+        <a class="weui-cell weui-cell_access searchbar-result__item" href="javascript:;" data-index="{{total+i}}">
             <div class="weui-cell__bd weui-cell_primary">
                 <p>{{row.linkman}} {{row.tel_no}} </p>
             </div>
@@ -72,38 +72,41 @@
     window.basedir = '/app';
 
     var searchPage = weui.searchPage('#page1', {
-        onSearch: function($searchBarResult, queryParams) {
-            console.log('onSearch');
-            search($searchBarResult, queryParams);
+        resultTpl: '#busi-template',
+        loader: onSearch,
+        onInput: function() {
+            console.log(this, arguments);
         },
-        onCancelSearch: function() {
-            console.log('onCancelSearch');
+        onClickItem: function(row) {
+            console.log(this, arguments);
+            showActions(row);
         }
     }).search();
 
-    function search($searchBarResult, queryParams) {
+    function onSearch(param, success, error) {
+        console.log(this, arguments);
 
-        $$.request('/action/ms/mchnt-busi/search-change', queryParams, {
+        $$.request('/action/ms/mchnt-busi/search-change', param, {
             error: function() {
-                console.log(arguments);
-                searchPage.loaded(false);
+                console.log(this, arguments);
+                error();
             },
             success: function(data) {
-                console.log(arguments);
-                var html = $.template('busi-templ', data);
-                $searchBarResult.append(html);
-                searchPage.loaded(data.rows.length < queryParams.rows ? false : true);
-                $searchBarResult.off('click', '.weui-cell')
-                    .on('click', '.weui-cell', function() {
-                        showActions(this);
+                console.log(this, arguments);
+                if(data.errcode == 0) {
+                    success(data.rows);
+                } else {
+                    weui.alert(data.errmsg, function () {
+                        error();
                     });
+                }
             }
         });
     }
 
-    function showActions(target) {
-        var apppay_id = $(target).attr('data-id');
-        var proc_st = $(target).attr('data-st');
+    function showActions(row) {
+        var apppay_id = row.apppay_id;
+        var proc_st = row.proc_st;
 
         var params = $.param({
             apppay_id: apppay_id
@@ -113,18 +116,21 @@
             label: "变更业务",
             className: "color_primary",
             onClick: function() {
+                console.log(this, arguments);
                 window.location.href = 'info-change.html?form_id=change_busi&' + params;
             }
         }, {
             label: "变更终端",
             className: "color_primary",
             onClick: function() {
+                console.log(this, arguments);
                 window.location.href = 'search-term-info.html?' + params;
             }
         }, {
             label: "新增终端",
             className: "color_primary",
             onClick: function() {
+                console.log(this, arguments);
                 window.location.href = '?' + params;
             }
         }];
@@ -132,7 +138,7 @@
         weui.actionSheet(actions, [{
             label: '取消',
             onClick: function() {
-                // console.log('取消');
+                console.log(this, arguments);
             }
         }]);
     }

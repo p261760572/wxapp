@@ -882,6 +882,8 @@
      * loadmore 加载更多
      * @param {string} selector 显示loadmore的selector
      * @param {Object=} options 配置项
+     * @param {number=} pageNumber 页码
+     * @param {number=} pageSize 页大小
      * @param {function=} options.onLoad 加载数据回调
      *
      * @example
@@ -902,12 +904,12 @@
         var isLoading = false;
 
         function _hide() {
-            _hide = $.noop; // 防止二次调用导致报错
-
-            $loadmoreWrap.remove();
+            $loadmoreWrap.hide(); //只做hide不做remove
         }
 
-        function hide() { _hide(); }
+        function hide() {
+            _hide(); 
+        }
 
         function _loading() {
             if (isLoading) return;
@@ -930,7 +932,7 @@
             if (hasMore == true) {
                 options.pageNumber++;
                 $loadmoreWrap.find('.weui-footer').show();
-            } else if (hasMore == false) {
+            } else {
                 $loadmoreWrap.find('.weui-loadmore_line').show();
             }
         }
@@ -1245,6 +1247,8 @@ function getMin(offset, rowHeight, length) {
 
 $.fn.scroll = function(options) {
     var defaults = $.extend({
+        valueField: 'value',
+        textField: 'label',
         items: [], // 数据
         scrollable: '.weui-picker__content', // 滚动的元素
         offset: 3, // 列表初始化时的偏移量（列表初始化时，选项是聚焦在中间的，通过offset强制往上挪3项，以达到初始选项是为顶部的那项）
@@ -1254,7 +1258,7 @@ $.fn.scroll = function(options) {
         bodyHeight: 7 * 34 // picker的高度，用于辅助点击滚动的计算
     }, options);
     var items = defaults.items.map(function(item) {
-        return '<div class="weui-picker__item' + (item.disabled ? ' weui-picker__item_disabled' : '') + '">' + item.label + '</div>';
+        return '<div class="weui-picker__item' + (item.disabled ? ' weui-picker__item_disabled' : '') + '">' + item[defaults.textField] + '</div>';
     }).join('');
     $(this).find('.weui-picker__content').html(items);
 
@@ -1411,17 +1415,6 @@ $.fn.scroll = function(options) {
     var pickerTpl = '<div class="{{className}}"><div class="weui-mask"></div><div class="weui-picker"><div class="weui-picker__hd"><a href="javascript:;" data-action="cancel" class="weui-picker__action">取消</a><a href="javascript:;" data-action="select" class="weui-picker__action" id="weui-picker-confirm">确定</a></div><div class="weui-picker__bd"></div></div></div>';
     var groupTpl = '<div class="weui-picker__group"><div class="weui-picker__mask"></div><div class="weui-picker__indicator"></div><div class="weui-picker__content"></div></div>';
 
-    function Result(item) {
-        this.label = item.label;
-        this.value = item.value;
-    }
-    Result.prototype.toString = function() {
-        return this.value
-    };
-    Result.prototype.valueOf = function() {
-        return this.value
-    };
-
     var _sington;
     // var temp = {}; // temp 存在上一次滑动的位置
 
@@ -1573,6 +1566,8 @@ $.fn.scroll = function(options) {
         var defaults = $.extend({
             id: 'default',
             className: '',
+            valueField: 'value',
+            textField: 'label',
             onChange: $.noop,
             onConfirm: $.noop
         }, options);
@@ -1591,10 +1586,8 @@ $.fn.scroll = function(options) {
             items = arguments[0];
         }
 
-        // 获取缓存
-        // temp[defaults.id] = temp[defaults.id] || [];
         var result = [];
-        var lineTemp = []; //temp[defaults.id];
+        var lineTemp = []; //存储索引
         var $picker = $($.render(pickerTpl, defaults));
         var depth = options.depth || (isMulti ? items.length : depthOf(items[0])),
             groups = '';
@@ -1641,12 +1634,14 @@ $.fn.scroll = function(options) {
                 }
             }
             $picker.find('.weui-picker__group').eq(level).scroll({
+                valueField: defaults.valueField,
+                textField: defaults.textField,
                 items: items,
                 temp: lineTemp[level],
                 onChange: function(item, index) {
                     //为当前的result赋值。
                     if (item) {
-                        result[level] = new Result(item);
+                        result[level] = item;
                     } else {
                         result[level] = null;
                     }
@@ -1681,8 +1676,7 @@ $.fn.scroll = function(options) {
                             defaults.onChange(result);
                         }
                     }
-                },
-                onConfirm: defaults.onConfirm
+                }
             });
         }
 
@@ -1862,16 +1856,16 @@ $.fn.scroll = function(options) {
      * searchbar 搜索框，主要实现搜索框组件一些显隐逻辑
      * @param {string} selector searchbar的selector
      * @param {function=} onSearch 搜索提交回调
-     * @param {function=} onCancelSearch 搜索取消回调
+     * @param {function=} onInput 搜索输入变化回调
      *
      * @example
      * weui.searchBar('#searchBar');
      */
-    function searchBar(selector, onSearch, onCancelSearch) {
-        var $eles = $(selector);
-
+    function searchBar(selector, onSearch, onInput) {
         onSearch = onSearch || $.noop;
-        onCancelSearch = onCancelSearch || $.noop;
+        onInput = onInput || $.noop;
+
+        var $eles = $(selector);
 
         $eles.forEach(function(ele) {
             var $searchBar = $(ele);
@@ -1884,15 +1878,16 @@ $.fn.scroll = function(options) {
             function cancelSearch() {
                 $searchInput.val('');
                 $searchBar.removeClass('weui-search-bar_focusing');
-                onCancelSearch();
             }
 
             $searchLabel.on('click', function() {
                 $searchBar.addClass('weui-search-bar_focusing');
                 $searchInput[0].focus();
             });
-            $searchInput.on('blur', function() {
+            $searchInput.on('blur', function(evt) {
                 if (!this.value.length) cancelSearch();
+            }).on('input', function() {
+                onInput(this.value);
             });
             $searchClear.on('click', function() {
                 $searchInput.val('');
@@ -1900,11 +1895,12 @@ $.fn.scroll = function(options) {
             });
             $searchCancel.on('click', function() {
                 cancelSearch();
+                onInput(null); //取消值为null
                 $searchInput[0].blur();
             });
             $searchForm.on('submit', function(evt) {
                 evt.preventDefault();
-                onSearch();
+                onSearch($searchInput.val());
             });
         });
 
@@ -1924,55 +1920,115 @@ $.fn.scroll = function(options) {
      * searchPage 搜索页
      * @param {string} selector searchPage的selector
      * @param {object=} options 配置项
-     * @param {function=} options.onSearch 搜索页搜索回调
-     * @param {function=} options.onCancelSearch 搜索页取消搜索回调
-     *
+     * @param {string=} options.resultTpl 结果模板, 支持#id获取
+     * @param {array=} options.data 加载的本地数据
+     * @param {function=} options.loader 远程加载数据
+     * @param {function=} options.onInput 搜索输入变化回调
+     * @param {function=} options.onClickItem 点击结果项的回调
      * @example
-     * weui.searchPage('#searchPage');
+     * weui.searchPage('#searchPage', {
+     *     resultTpl: '#tpl'
+     * });
      */
+
     function searchPage(selector, options) {
         options = options || {};
+        options = $.extend({
+            resultTpl: null,
+            data: null,
+            filter: $.noop,
+            loader: $.noop,
+            onInput: $.noop,
+            onClickItem: $.noop
+        }, options);
+
+        var resultTpl = options.resultTpl;
+        if (resultTpl.indexOf('#') === 0) {
+            resultTpl = $(options.resultTpl).html();
+        }
+        var mode = options.data ? 'local' : 'remote';
+        var temp = []; //存储显示的所有数据
 
         var $ele = $(selector);
         var $searchBar = $ele.children('.weui-search-bar');
         var $searchForm = $searchBar.children('form');
         var $searchBarResult = $ele.children('.searchbar-result');
 
-        options = $.extend({
-            onSearch: $.noop,
-            onCancelSearch: $.noop
-        }, options);
+        if (mode == 'local') {
+            weui.searchBar($searchBar, $.noop, function(q) {
+                _clear();
+                loadData(filter(q));
+                options.onInput.apply(this, arguments);
+            });
 
-        var loadmore = weui.loadmore($ele, {
-            onLoad: function(pageNumber, pageSize) {
-                var queryParams = $searchForm.serializeObject();
-                $.extend(queryParams, {
-                    page: pageNumber,
-                    rows: pageSize
-                });
-                console.log(queryParams);
-                options.onSearch($searchBarResult, queryParams);
-            }
-        });
+            loadData(options.data);
+        } else {
+            var loadmore = weui.loadmore($ele, {
+                onLoad: function(pageNumber, pageSize) {
+                    var queryParams = $searchForm.serializeObject();
+                    $.extend(queryParams, {
+                        page: pageNumber,
+                        rows: pageSize,
+                        total: temp.length
+                    });
+                    options.loader(queryParams, function(data) {
+                        loadData(data);
+                        loadmore.loaded(data.length < pageSize ? false : true);
+                    }, function() {
+                        loadmore.hide();
+                    });
+                }
+            });
 
-        weui.searchBar($searchBar, function() {
-            $searchBarResult.html('');
-            loadmore.loading();
-        }, function() {
-            options.onCancelSearch();
-        });
-
-        function _clear() {
-            loadmore.loaded(); //不显示loadmore
-            weui.form.clear($searchForm);
-            $searchBarResult.html('');
+            weui.searchBar($searchBar, function() {
+                _clear();
+                loadmore.loading();
+            }, function() {
+                options.onInput.apply(this, arguments);
+            });
         }
 
-        function show() {
-            weui.page.show(selector);
-            _clear();
+        function loadData(data) {
+            var html = $.render(resultTpl, $.extend({}, options, {
+                rows: data,
+                total: temp.length
+            }));
+            $searchBarResult.append(html);
+            temp = temp.concat(data);
 
-            return _obj;
+            //事件
+            $searchBarResult.off('click', '.searchbar-result__item')
+                .on('click', '.searchbar-result__item', function() {
+                    var index = parseInt($(this).attr('data-index'));
+                    var row = isNaN(index) ? null : temp[index];
+                    if (options.onClickItem.call(this, row) != false) {
+                        //TODO
+                    }
+                });
+        }
+
+        function filter(q) {
+            if (q) {
+                var rows = [];
+                for (var i = 0; i < options.data.length; i++) {
+                    if (options.filter(q, options.data[i])) {
+                        rows.push(options.data[i]);
+                    }
+                }
+                return rows;
+            }
+            return options.data;
+        }
+
+        function _clear() {
+            if (mode == 'remote') loadmore.hide(); //不显示loadmore
+            $searchBarResult.html('');
+            temp = [];
+        }
+
+        function clear() {
+            _clear();
+            weui.form.clear($searchForm);
         }
 
         function loaded(hasMore) {
@@ -1981,14 +2037,17 @@ $.fn.scroll = function(options) {
             return _obj;
         }
 
-        function search() {
+        function search(param) {
+            if(param) {
+                weui.form.load($searchForm, param);
+            }
             $searchForm.submit();
 
             return _obj;
         }
 
         var _obj = {
-            show: show,
+            clear: clear,
             loaded: loaded,
             search: search
         }
@@ -1998,6 +2057,109 @@ $.fn.scroll = function(options) {
 
     window.weui = window.weui || {};
     window.weui.searchPage = searchPage;
+
+})();
+
+(function() {
+
+    var searchTpl = '<div class="select2"><div class="weui-search-bar"><a href="javascript:" class="search-bar__btn select2__back-btn">返回</a><form class="weui-search-bar__form" method="post" action=""><div class="weui-search-bar__box"><i class="weui-icon-search"></i><input type="search" class="weui-search-bar__input" name="q" placeholder="{{title}}"><a href="javascript:" class="weui-icon-clear"></a></div><label class="weui-search-bar__label"><i class="weui-icon-search"></i><span>{{title}}</span> </label></form><a href="javascript:" class="weui-search-bar__cancel-btn">取消</a></div><div class="weui-cells searchbar-result"></div></div>';
+    var resultTpl = '{{each rows as row i}}<div class="weui-cell weui-cell_access searchbar-result__item" data-index="{{total+i}}"><div class="weui-cell__bd weui-cell_primary"><p>{{row[textField]}}</p></div><div class="weui-cell__ft"></div></div>{{/each}}';
+
+    /**
+     * select2 列表框, searchPage的扩展
+     * @param {object=} options 配置项
+     * @param {string=} options.title 搜索框标题
+     * @param {string=} options.valueField 数据值名称
+     * @param {string=} options.textField 数据字段名称
+     * @param {string=} options.resultTpl 结果模板, 支持#id获取
+     * @param {array=} options.data 加载的本地数据
+     * @param {function=} options.loader 远程加载数据
+     * @param {function=} options.onInput 搜索输入变化回调
+     * @param {function=} options.onClickItem 选择结果项的回调，返回false阻止hide
+     *
+     * @example
+     * weui.select2({
+     *     valueField: 'value',
+     *     textField: 'text',
+     *     data: [],
+     *     filter: function(q, row) {
+     *         return true;
+     *     },
+     *     loader: function(param, success, error) {
+     *         $.ajax({
+     *             url: 'url',
+     *             type: 'GET',
+     *             dataType: 'json',
+     *             data: param,
+     *             success: function(data) {
+     *                 success(data.rows);
+     *             },
+     *             error: function(error) {
+     *                 error();
+     *             }
+     *         });
+     *     },
+     *     onClickItem: function(row) {
+     *     }
+     * });
+     */
+    function select2(options) {
+        options = options || {};
+
+        options = $.extend({
+            //新增配置
+            title: '搜索',
+            valueField: 'value',
+            textField: 'text',
+            onClickItem: $.noop,
+            //修改默认配置
+            resultTpl: resultTpl,
+            filter: function(q, row) {
+                return row[options.textField].indexOf(q) >= 0;
+            }
+        }, options);
+
+        //点击
+        var onClickItem = options.onClickItem;
+        options.onClickItem = function(row) {
+            if (onClickItem(row) != false) {
+                hide();
+            }
+        };
+
+        var $ele = $($.render(searchTpl, options));
+        var searchPage = weui.searchPage($ele, options);
+
+        $('body').append($ele);
+        $ele.on('click', '.select2__back-btn', function(event) {
+            hide();
+        });
+
+        function _hide() {
+            _hide = $.noop; // 防止二次调用导致报错
+
+            $ele.addClass('weui-animate-fade-out').on('animationend webkitAnimationEnd', function() {
+                $ele.remove();
+            });
+        }
+
+        function hide() { _hide(); }
+
+        function search(param) {
+            searchPage.search(param);
+            return _obj;
+        }
+
+        var _obj = {
+            search: searchPage.search,
+            hide: hide,
+            options: options
+        }
+        return _obj;
+    }
+
+    window.weui = window.weui || {};
+    window.weui.select2 = select2;
 
 })();
 
@@ -2412,10 +2574,8 @@ function compress(file, options, callback) {
                     callback(file);
                 }else{
                     var blob = dataURItoBlob(dataURL);
-                    blob.id = file.id;
                     blob.name = file.name;
                     blob.lastModified = file.lastModified;
-                    blob.lastModifiedDate = file.lastModifiedDate;
                     callback(blob);
                 }
             }else{
@@ -2434,89 +2594,83 @@ function compress(file, options, callback) {
     reader.readAsDataURL(file);
 }
 
-    function upload(options) {
-    var url = options.url;
-    var file = options.file;
-    var fileVal = options.fileVal;
-    var onBeforeSend = options.onBeforeSend;
-    var onProgress = options.onProgress;
-    var onError = options.onError;
-    var onSuccess = options.onSuccess;
 
-    var name = file.name;
-    var type = file.type;
-    var lastModifiedDate = file.lastModifiedDate;;
-    var data = {
-        name: name,
-        type: type,
-        size: options.type == 'file' ? file.size : file.base64.length,
-        lastModifiedDate: lastModifiedDate
-    };
-    var headers = {};
-
-    if (onBeforeSend(file, data, headers) === false) return;
-
-    file.status = 'progress';
-
-    onProgress(file, 0);
-
-    var formData = new FormData();
-    var xhr = new XMLHttpRequest();
-
-    file.xhr = xhr;
-
-    // 设置参数
-    Object.keys(data).forEach(function(key) {
-        formData.append(key, data[key]);
-    });
-    if (options.type == 'file') {
-        formData.append(fileVal, file, name);
-    } else {
-        formData.append(fileVal, file.base64);
-    }
-
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4) {
-            if (xhr.status == 200) {
-                try {
-                    // 只支持json
-                    var ret = JSON.parse(xhr.responseText);
-                    onSuccess(file, ret);
-                } catch (err) {
-                    onError(file, err);
-                }
-            } else {
-                onError(file, new Error('XMLHttpRequest response status is ' + xhr.status));
-            }
-        }
-    };
-    xhr.upload.addEventListener('progress', function(evt) {
-        if (evt.total == 0) return;
-
-        var percent = Math.ceil(evt.loaded / evt.total) * 100;
-
-        onProgress(file, percent);
-    }, false);
-
-    xhr.open('POST', url);
-
-    // 设置头部信息
-    Object.keys(headers).forEach(function(key) {
-        xhr.setRequestHeader(key, headers[key]);
-    });
-
-    xhr.send(formData);
-}
-
-
-    var tplItem = '<li class="weui-uploader__file weui-uploader__file_status" data-id="{{id}}"><div class="weui-uploader__file-content"><i class="weui-loading" style="width: 30px;height: 30px;"></i></div></li>';
+    var itemTpl = '<li class="weui-uploader__file weui-uploader__file_status" data-id="{{id}}"><div class="weui-uploader__file-content"><i class="weui-loading" style="width: 30px;height: 30px;"></i></div></li>';
 
     var _id = 0;
 
+    /**
+     * uploader 上传组件
+     * @param {string} selector 上传组件的selector
+     *
+     * @example
+     * weui.uploader('#uploader');
+     */
+    function uploader(selector) {
+        var $uploader = $(selector);
+
+        function appendFile(url) {
+            var id = ++_id;
+            var $file = $($.render(itemTpl, {
+                id: id
+            }));
+            $uploader.find('.weui-uploader__files').append($file);
+            $file.css({
+                backgroundImage: 'url("' + url + '")'
+            });
+
+            return id;
+        }
+
+        // 设置上传状态, 找到DOM里file-content，若无，则插入一个。
+        function setFileStatus(id, content) {
+            var $file = $uploader.find('[data-id="' + id + '"]');
+            var $fileCtn = $file.find('.weui-uploader__file-content');
+
+            if (!$fileCtn.length) {
+                $fileCtn = $('<div class="weui-uploader__file-content"></div>');
+                $file.append($fileCtn);
+            }
+            $file.addClass('weui-uploader__file_status');
+            $fileCtn.html(content);
+        }
+
+        // 清除DOM里的上传状态
+        function clearFileStatus(id) {
+            var $file = $uploader.find('[data-id="' + id + '"]').removeClass('weui-uploader__file_status');
+            $file.find('.weui-uploader__file-content').remove();
+        }
+
+        // gallery
+        $uploader.on('click', '.weui-uploader__file', function() {
+            var target = $(this);
+            var url = target.attr('style');
+
+            console.log(url);
+            if (url) {
+                url = url.match(/url\((.*?)\)/)[1].replace(/"/g, '');
+            }
+            var gallery = weui.gallery(url, {
+                onDelete: function() {
+                    weui.confirm('确定删除该图片？', function() {
+                        target.remove();
+                        gallery.hide();
+                    });
+                }
+            });
+        });
+
+        var _obj = {
+            appendFile: appendFile,
+            setFileStatus: setFileStatus,
+            clearFileStatus: clearFileStatus
+        };
+        return _obj;
+    }
 
 
     /**
-     * uploader 上传组件
+     * ajaxUploader ajax上传组件
      * @param {string} selector 上传组件的selector
      * @param {object} options 配置项
      * @param {string} [options.url] 上传的url，返回值需要使用json格式
@@ -2527,28 +2681,25 @@ function compress(file, options, callback) {
      * @param {number=} [options.compress.width=1600] 图片的最大宽度
      * @param {number=} [options.compress.height=1600] 图片的最大高度
      * @param {number=} [options.compress.quality=.8] 压缩质量, 取值范围 0 ~ 1
-     * @param {function=} [options.onBeforeQueued] 文件添加前的回调，return false则不添加
-     * @param {function=} [options.onQueued] 文件添加成功的回调
-     * @param {function=} [options.onBeforeSend] 文件上传前调用，具体参数看example
+     * @param {function=} [options.onBeforeSend] 文件上传前调用，返回false阻止上传
      * @param {function=} [options.onSuccess] 上传成功的回调
      * @param {function=} [options.onProgress] 上传进度的回调
      * @param {function=} [options.onError] 上传失败的回调
      *
      * @example
      * var uploadCount = 0;
-     * weui.uploader('#uploader', {
+     * weui.ajaxUploader('#uploader', {
      *    url: 'http://localhost:8081',
      *    auto: true,
      *    type: 'file',
-     *    fileVal: 'fileVal',
+     *    fileVal: 'file',
      *    compress: {
      *        width: 1600,
      *        height: 1600,
      *        quality: .8
      *    },
-     *    onBeforeQueued: function(files) {
-     *        // `this` 是轮询到的文件, `files` 是所有文件
-     *
+     *    onBeforeSend: function(data, headers){
+     *        console.log(this, data, headers, files);
      *        if(["image/jpg", "image/jpeg", "image/png", "image/gif"].indexOf(this.type) < 0){
      *            weui.alert('请上传图片');
      *            return false; // 阻止文件添加
@@ -2561,28 +2712,7 @@ function compress(file, options, callback) {
      *            weui.alert('最多只能上传5张图片，请重新选择');
      *            return false;
      *        }
-     *        if (uploadCount + 1 > 5) {
-     *            weui.alert('最多只能上传5张图片');
-     *            return false;
-     *        }
-     *
-     *        ++uploadCount;
-     *
-     *        // return true; // 阻止默认行为，不插入预览图的框架
-     *    },
-     *    onQueued: function(){
-     *        console.log(this);
-     *
-     *        // console.log(this.status); // 文件的状态：'ready', 'progress', 'success', 'fail'
-     *        // console.log(this.base64); // 如果是base64上传，file.base64可以获得文件的base64
-     *
-     *        // this.upload(); // 如果是手动上传，这里可以通过调用upload来实现；也可以用它来实现重传。
-     *        // this.stop(); // 中断上传
-     *
-     *        // return true; // 阻止默认行为，不显示预览图的图像
-     *    },
-     *    onBeforeSend: function(data, headers){
-     *        console.log(this, data, headers);
+     *        
      *        // $.extend(data, { test: 1 }); // 可以扩展此对象来控制上传参数
      *        // $.extend(headers, { Origin: 'http://127.0.0.1' }); // 可以扩展此对象来控制上传头部
      *
@@ -2602,54 +2732,15 @@ function compress(file, options, callback) {
      *    }
      * });
      */
-    function uploader(selector, options) {
+    function ajaxUploader(selector, options) {
+        var uploader = weui.uploader(selector);
         var $uploader = $(selector);
-        var URL = window.URL || window.webkitURL || window.mozURL;
-
-        // 找到DOM里file-content，若无，则插入一个。
-        function findFileCtn($uploader, id) {
-            var $file = $uploader.find('[data-id="' + id + '"]');
-            var $fileCtn = $file.find('.weui-uploader__file-content');
-
-            if (!$fileCtn.length) {
-                $fileCtn = $('<div class="weui-uploader__file-content"></div>');
-                $file.append($fileCtn);
-            }
-            $file.addClass('weui-uploader__file_status');
-            return $fileCtn;
-        }
-
-        // 清除DOM里的上传状态
-        function clearFileStatus($uploader, id) {
-            var $file = $uploader.find('[data-id="' + id + '"]').removeClass('weui-uploader__file_status');
-            $file.find('.weui-uploader__file-content').remove();
-        }
-
-        // 设置上传
-        function setUploadFile(file) {
-            file.url = URL.createObjectURL(file);
-            file.status = 'ready';
-            file.upload = function() {
-                upload($.extend({
-                    $uploader: $uploader,
-                    file: file
-                }, options));
-            };
-            file.stop = function(){
-                this.xhr.abort();
-            };
-
-            options.onQueued(file);
-            if (options.auto) file.upload();
-        }
 
         options = $.extend({
             url: '',
             auto: true,
             type: 'file',
             fileVal: 'file',
-            onBeforeQueued: $.noop,
-            onQueued: $.noop,
             onBeforeSend: $.noop,
             onSuccess: $.noop,
             onProgress: $.noop,
@@ -2664,73 +2755,94 @@ function compress(file, options, callback) {
             }, options.compress);
         }
 
-        if (options.onBeforeQueued) {
-            var onBeforeQueued = options.onBeforeQueued;
-            options.onBeforeQueued = function(file, files) {
-                var ret = onBeforeQueued.call(file, files);
-                if (ret === false) {
-                    return false;
-                }
-                if (ret === true) {
-                    return;
-                }
-
-                var $item = $($.render(tplItem, {
-                    id: file.id
-                }));
-                $uploader.find('.weui-uploader__files').append($item);
-            };
-        }
-        if (options.onQueued) {
-            var onQueued = options.onQueued;
-            options.onQueued = function(file) {
-                if (!onQueued.call(file)) {
-                    var $file = $uploader.find('[data-id="' + file.id + '"]');
-                    $file.css({
-                        backgroundImage: 'url("' + (file.base64 || file.url) + '")'
-                    });
-                    if (!options.auto) {
-                        clearFileStatus($uploader, file.id);
-                    }
-                }
-            };
-        }
         if (options.onBeforeSend) {
             var onBeforeSend = options.onBeforeSend;
-            options.onBeforeSend = function(file, data, headers) {
-                var ret = onBeforeSend.call(file, data, headers);
-                if (ret === false) {
+            options.onBeforeSend = function(file, data, headers, files) {
+                if (onBeforeSend.call(file, data, headers, files) === false) {
                     return false;
+                }
+                file.url = URL.createObjectURL(file);
+                file.id = uploader.appendFile(file.base64 || file.url);
+
+                if (!options.auto) {
+                    uploader.clearFileStatus(file.id);
                 }
             };
         }
+
         if (options.onSuccess) {
             var onSuccess = options.onSuccess;
             options.onSuccess = function(file, ret) {
-                file.status = 'success';
                 if (!onSuccess.call(file, ret)) {
-                    clearFileStatus($uploader, file.id);
+                    uploader.clearFileStatus(file.id);
                 }
             };
         }
+
         if (options.onProgress) {
             var onProgress = options.onProgress;
             options.onProgress = function(file, percent) {
                 if (!onProgress.call(file, percent)) {
-                    findFileCtn($uploader, file.id).html(percent + '%');
-                }
-            };
-        }
-        if (options.onError) {
-            var onError = options.onError;
-            options.onError = function(file, err) {
-                file.status = 'fail';
-                if (!onError.call(file, err)) {
-                    findFileCtn($uploader, file.id).html('<i class="weui-icon-warn"></i>');
+                    uploader.setFileStatus(file.id, percent + '%');
                 }
             };
         }
 
+        if (options.onError) {
+            var onError = options.onError;
+            options.onError = function(file, err) {
+                if (!onError.call(file, err)) {
+                    uploader.setFileStatus(file.id, '<i class="weui-icon-warn"></i>');
+                }
+            };
+        }
+
+        function upload(file, files) {
+            var data = {
+                name: file.name,
+                type: file.type,
+                size: options.type == 'file' ? file.size : file.base64.length
+            };
+            var headers = {};
+
+            if (options.onBeforeSend(file, data, headers, files) === false) return false;
+            options.onProgress(file, 0);
+
+            var formData = new FormData();
+            // 设置参数
+            Object.keys(data).forEach(function(key) {
+                formData.append(key, data[key]);
+            });
+            if (options.type == 'file') {
+                formData.append(options.fileVal, file, file.name);
+            } else {
+                formData.append(options.fileVal, file.base64);
+            }
+
+            $.ajax({
+                url: options.url,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                beforeSend: function(xhr, settings) {
+                    $.extend(settings.headers, headers);
+                    xhr.upload.addEventListener('progress', function(evt) {
+                        if (evt.total == 0) return;
+                        var percent = Math.ceil(evt.loaded / evt.total) * 100;
+                        options.onProgress(file, percent);
+                    }, false);
+                },
+                success: function(data) {
+                    options.onSuccess(file, data);
+                },
+                error: function(xhr, errorType, error) {
+                    options.onError(file, error);
+                }
+            });
+        }
+
+        // 文件选择
         $uploader.find('input[type="file"]').on('change', function(evt) {
             var files = evt.target.files;
 
@@ -2740,24 +2852,20 @@ function compress(file, options, callback) {
 
             if (options.compress === false && options.type == 'file') {
                 // 以原文件方式上传
-                Array.prototype.forEach.call(files, function(file) {
-                    file.id = ++_id;
-
-                    if (options.onBeforeQueued(file, files) === false) return;
-
-                    setUploadFile(file);
-                });
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    if (options.auto) upload(file, files);
+                }
             } else {
                 // base64上传 和 压缩上传
-                Array.prototype.forEach.call(files, function(file) {
-                    file.id = ++_id;
-
-                    if (options.onBeforeQueued(file, files) === false) return;
-
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
                     compress(file, options, function(blob) {
-                        if (blob) setUploadFile(blob);
+                        if (blob) {
+                            if (options.auto) upload(blob, files);
+                        }
                     });
-                });
+                }
             }
 
             this.value = '';
@@ -2766,5 +2874,6 @@ function compress(file, options, callback) {
 
     window.weui = window.weui || {};
     window.weui.uploader = uploader;
+    window.weui.ajaxUploader = ajaxUploader;
 
 })();

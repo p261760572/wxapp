@@ -34,7 +34,7 @@
                                 </ul>
                                 <div class="weui-uploader__input-box">
                                     <!-- <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple> -->
-                                    <input type="button" class="weui-uploader__input" onclick="showChooseCopyType()">
+                                    <input id="copy-type-btn" type="button" class="weui-uploader__input">
                                 </div>
                             </div>
                         </div>
@@ -67,42 +67,33 @@
                 </label>
             </div>
             <div class="weui-cell__bd">
-                <input class="weui-input" type="text" placeholder="请输入{{$data.column_desc}}" name="{{$data.alias_name}}" data-id="{{$data.field_id}}" {{if $data.type_id=='0' }}readonly{{/if}}>
+                <input class="weui-input" type="text" placeholder="请输入{{$data.column_desc}}" name="{{$data.alias_name}}" {{if $data.readonly=='1' }}readonly{{/if}}>
             </div>
-            {{if $data.type_id!='0'}}
+            {{if $data.readonly!='1'}}
             <div class="weui-cell__ft">
             </div>
             {{/if}}
         </div>
     </script>
-    <script id="select-template" type="text/html">
-        <div class="weui-cell weui-cell_select weui-cell_select-after">
+    <script id="select2-template" type="text/html">
+        <div class="weui-cell weui-cell_access">
             <div class="weui-cell__hd">
-                <label for="" class="weui-label">账户类型</label>
+                <label class="weui-label">
+                    {{$data.column_desc}}
+                </label>
             </div>
             <div class="weui-cell__bd">
-                <select class="weui-select" name="select2">
-                    <option value="1">对公账户</option>
-                    <option value="2">对私账户</option>
-                </select>
+                <input class="weui-input" type="text" placeholder="请选择{{$data.column_desc}}" id="{{$data.id}}" name="{{$data.options.select2Name}}" readonly>
+                <input type="hidden" name="{{$data.alias_name}}">
+            </div>
+            <div class="weui-cell__ft">
             </div>
         </div>
     </script>
     <script id="fields-template" type="text/html">
         <div class="weui-cells weui-cells_form">
-            {{each rows as row}} {{include 'input-template' row}} {{/each}}
+            {{each rows as row}} {{include row.component+'-template' row}} {{/each}}
         </div>
-    </script>
-    <script id="photo-template" type="text/html">
-        {{each $data as row}}
-        <div class="weui-cell weui-cell_access" data-id="{{row.value}}">
-            <div class="weui-cell__bd">
-                <p>{{row.text}}</p>
-            </div>
-            <div class="weui-cell__ft">
-            </div>
-        </div>
-        {{/each}}
     </script>
     <script>
     window.basedir = '/app';
@@ -172,28 +163,34 @@
         });
     }
 
-    var uploader = weuiUploader('.weui-uploader');
+    var uploader = weui.uploader('.weui-uploader');
+    var uploaderData = [];
 
     function initCopyType(data) {
-        $('#photo-cells').append($.template('photo-template', data)).on('click', '.weui-cell', function() {
-            var photoType = $(this).attr('data-id');
-            weui.page.back();
-            wxChooseImage({
-                success: function(res) {
-                    var localIds = res.localIds;
-                    wxUploadImage({
-                        localId: localIds[0],
+        $('#copy-type-btn').on('click', function() {
+            var select2 = weui.select2({
+                data: data,
+                onClickItem: function(row) {
+                    wxChooseImage({
                         success: function(res) {
-                            var serverId = res.serverId;
-                            uploader.append(localIds[0], {
-                                ei_type: photoType,
-                                localidd: localIds[0],
-                                serverid: serverId
+                            var localIds = res.localIds;
+                            var id = uploader.appendFile(localIds[0]);
+                            wxUploadImage({
+                                localId: localIds[0],
+                                success: function(res) {
+                                    var serverId = res.serverId;
+                                    uploader.clearFileStatus(id);
+                                    uploaderData[id] = {
+                                        ei_type: row[select2.options.valueField],
+                                        localid: localIds[0],
+                                        serverid: serverId
+                                    }
+                                }
                             });
                         }
                     });
                 }
-            });
+            })
         });
     }
 
@@ -201,40 +198,6 @@
         weui.page.show('#page2');
     }
 
-    function weuiUploader(selector) {
-        var $ele = $(selector);
-        var $files = $ele.find('.weui-uploader__files');
-
-        function append(url, data) {
-            var $file = $('<li class="weui-uploader__file" style="background-image:url(' + url + ')"></li>');
-            $files.append($file);
-            $file.data('data', data);
-        }
-
-        $files.on('click', '.weui-uploader__file', function() {
-            var target = $(this);
-            var url = target.attr('style');
-
-            // console.log(url);
-            if (url) {
-                url = url.match(/url\((.*?)\)/)[1].replace(/"/g, '');
-            }
-            var gallery = weui.gallery(url, {
-                // deletable: false,
-                onDelete: function() {
-                    weui.confirm('确定删除该图片？', function() {
-                        target.remove();
-                        gallery.hide();
-                    });
-                }
-            });
-        });
-
-        var _obj = {
-            append: append
-        };
-        return _obj;
-    }
 
     function submitChange() {
         var data = $.extend({}, query, {
@@ -256,7 +219,8 @@
         });
 
         $('.weui-uploader').find('.weui-uploader__file').forEach(function(item) {
-            data.images.push($(item).data('data'));
+            var id = parseInt($(item).attr('data-id'));
+            data.images.push(uploaderData[id]);
         });
 
         $$.request(createUrl, data, {
@@ -306,39 +270,63 @@
             $form.find('input[name="' + name + '"]').attr('data-val', val);
             $form.find('select[name="' + name + '"]').attr('data-val', val);
         }
+    }
 
-        var $target, value;
-        //地区选择
-        $target = $('[data-id="19"]');
-        value = data.data[$target.attr('name')];
-        $target.attr('data-value', value);
-        $target.val(getCascadeLabel(districtData, value.split(',')));
+    function initSelect2(row) {
+        var id = row.id;
+        var options = row.options || {};
 
-        $target.on('click', function() {
-            showCityPicker(this);
-        });
-
-        //机具类型
-        $target = $('[data-id="21"]');
-        value = data.data[$target.attr('name')];
-        $target.attr('data-value', value);
-        $target.val(getCascadeLabel([{"label": "固定POS", "value": "1"}, {"label": "移动POS", "value": "2"}, {"label": "网络POS", "value": "3"}, {"label": "分体POS", "value": "4"}, {"label": "其他类型POS", "value": "5"}, {"label": "MPOS", "value": "6"}, {"label": "固定POS+扫描枪", "value": "A"}, {"label": "移动POS+扫描枪", "value": "B"}, {"label": "网络POS+扫描枪", "value": "C"}, {"label": "分体POS+扫描枪", "value": "D"}, {"label": "无机具", "value": "9"}], value.split(',')));
-
-        $target.on('click', function() {
-            showPicker(this, [{"label": "固定POS", "value": "1"}, {"label": "移动POS", "value": "2"}, {"label": "网络POS", "value": "3"}, {"label": "分体POS", "value": "4"}, {"label": "其他类型POS", "value": "5"}, {"label": "MPOS", "value": "6"}, {"label": "固定POS+扫描枪", "value": "A"}, {"label": "移动POS+扫描枪", "value": "B"}, {"label": "网络POS+扫描枪", "value": "C"}, {"label": "分体POS+扫描枪", "value": "D"}, {"label": "无机具", "value": "9"}]);
+        $('#' + id).on('click', function() {
+            var select2 = weui.select2($.extend(options, {
+                loader: function(param, success, error) {
+                    console.log(this, arguments);
+                    $$.request(options.url, param, {
+                        success: function(data) {
+                            if (data.errcode == 0) {
+                                success(data[options.output || 'rows']);
+                            } else {
+                                weui.alert(data.errmsg, function() {
+                                    error();
+                                });
+                            }
+                        }
+                    });
+                },
+                onClickItem: function(row) {
+                    console.log(this, arguments);
+                    $('#' + id).val(row[select2.options.textField]).next().val(row[select2.options.valueField]);
+                }
+            }));
+            select2.search({
+                q: $(this).val()
+            });
         });
     }
+
 
     $(function() {
         var fieldsData;
         //显示字段
         $$.request('/action/ms/change-field/list', query, {
             success: function(data) {
-                console.log(arguments);
+                console.log(this, arguments);
+                //解析配置项
+                for (var i = 0; i < data.rows.length; i++) {
+                    var row = data.rows[i];
+                    if (row.params) {
+                        row.options = JSON.parse('{' + row.params + '}');
+                    }
+                }
                 var html = $.template('fields-template', data);
-
                 $('#fields-form').prepend(html);
 
+                //组件初始化
+                for (var i = 0; i < data.rows.length; i++) {
+                    var row = data.rows[i];
+                    if (row.component == 'select2') {
+                        initSelect2(row);
+                    }
+                }
                 loadDetail(fieldsData);
             }
         });

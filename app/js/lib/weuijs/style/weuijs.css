@@ -3108,3 +3108,18 @@ a {
     color: #09BB07;
     white-space: nowrap;
 }
+.select2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.select2 {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    /*opacity: 0;*/
+    z-index: 1;
+    background: #fff;
+}
