@@ -20,8 +20,8 @@
 
 <body>
     <div class="page page_show">
-        <form method="post" action="">
-            <div class="weui-cells weui-cells_form" id="fields-form">
+        <form method="post" action="" id="form">
+            <div class="weui-cells weui-cells_form" id="cells-form">
                 <div class="weui-cell">
                     <div class="weui-cell__bd">
                         <div class="weui-uploader">
@@ -67,7 +67,7 @@
                 </label>
             </div>
             <div class="weui-cell__bd">
-                <input class="weui-input" type="text" placeholder="请输入{{$data.column_desc}}" name="{{$data.alias_name}}" {{if $data.readonly=='1' }}readonly{{/if}}>
+                <input class="weui-input" type="text" placeholder="请输入{{$data.column_desc}}" name="{{$data.alias_name}}" {{if $data.required=='1' }}required{{/if}} {{if $data.readonly=='1' }}readonly{{/if}}>
             </div>
             {{if $data.readonly!='1'}}
             <div class="weui-cell__ft">
@@ -83,7 +83,7 @@
                 </label>
             </div>
             <div class="weui-cell__bd">
-                <input class="weui-input" type="text" placeholder="请选择{{$data.column_desc}}" id="{{$data.id}}" name="{{$data.options.select2Name}}" readonly>
+                <input class="weui-input" type="text" placeholder="请选择{{$data.column_desc}}" id="{{$data.id}}" name="{{$data.options.select2Name}}" {{if $data.required=='1' }}required{{/if}} readonly>
                 <input type="hidden" name="{{$data.alias_name}}">
             </div>
             <div class="weui-cell__ft">
@@ -113,55 +113,6 @@
     wxConfig({
         jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 'startRecord', 'stopRecord', 'onVoiceRecordEnd', 'playVoice', 'pauseVoice', 'stopVoice', 'onVoicePlayEnd', 'uploadVoice', 'downloadVoice', 'chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'translateVoice', 'getNetworkType', 'openLocation', 'getLocation', 'hideOptionMenu', 'showOptionMenu', 'hideMenuItems', 'showMenuItems', 'hideAllNonBaseMenuItem', 'showAllNonBaseMenuItem', 'closeWindow', 'scanQRCode', 'chooseWXPay', 'openProductSpecificView', 'addCard', 'chooseCard', 'openCard']
     });
-
-
-    function showCityPicker(target) {
-        $target = $(target);
-        return weui.picker(districtData, {
-            defaultValue: $target.attr('data-value').split(','),
-            onChange: function(result) {
-                var label = result.map(function(item) {
-                    return item.label;
-                });
-                $target.val(label.join(' '));
-            },
-            onConfirm: function(result) {
-                var label = result.map(function(item) {
-                    return item.label;
-                });
-
-                var value = result.map(function(item) {
-                    return item.value;
-                });
-                $target.val(label.join(' ')).attr('data-value', value.join(','));
-            },
-            id: $target.attr('id')
-        });
-    }
-
-    function showPicker(target, data) {
-        $target = $(target);
-        return weui.picker(data, {
-            defaultValue: $target.attr('data-value'),
-            onChange: function(result) {
-                var label = result.map(function(item) {
-                    return item.label;
-                });
-                $target.val(label.join(' '));
-            },
-            onConfirm: function(result) {
-                var label = result.map(function(item) {
-                    return item.label;
-                });
-
-                var value = result.map(function(item) {
-                    return item.value;
-                });
-                $target.val(label.join(' ')).attr('data-value', value.join(','));
-            },
-            id: $target.attr('id')
-        });
-    }
 
     var uploader = weui.uploader('.weui-uploader');
     var uploaderData = [];
@@ -200,11 +151,13 @@
 
 
     function submitChange() {
+        if(!weui.form.validate('#form')) return;
+
         var data = $.extend({}, query, {
             update: [],
             images: []
         });
-        $('#fields-form').find('[data-id]').forEach(function(item) {
+        $('#form').find('input[name],select[name]').forEach(function(item) {
             var target = $(item);
             var value = $(target).val();
             if ($(target).attr('name') == 'license_no') {
@@ -212,7 +165,7 @@
             }
 
             data.update.push({
-                'field_id': target.attr('data-id'),
+                'alias_name': target.attr('name'),
                 'original_value': target.attr('data-val'),
                 'new_value': value
             });
@@ -263,7 +216,7 @@
 
     function loadDetail(data) {
         if (!data) return;
-        var $form = $('#fields-form');
+        var $form = $('#form');
         weui.form.load($form, data.data);
         for (var name in data.data) {
             var val = data.data[name];
@@ -303,7 +256,7 @@
         });
     }
 
-
+    weui.form.checkIfBlur('#form');
     $(function() {
         var fieldsData;
         //显示字段
@@ -318,7 +271,7 @@
                     }
                 }
                 var html = $.template('fields-template', data);
-                $('#fields-form').prepend(html);
+                $('#cells-form').prepend(html);
 
                 //组件初始化
                 for (var i = 0; i < data.rows.length; i++) {

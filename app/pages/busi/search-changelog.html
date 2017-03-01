@@ -37,11 +37,11 @@
     <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
     <script type="text/javascript" src="../../js/lib/zepto.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../js/lib/weuijs/weuijs.js" charset="utf-8"></script>
-    <script id="change-templ" type="text/html">
+    <script id="change-template" type="text/html">
         {{each rows as row i}}
-        <a class="weui-cell weui-cell_access" href="javascript:;" data-id="{{row.changelog_id}}" data-st="{{row.proc_st}}" data-nm="{{row.res_name}}">
+        <a class="weui-cell weui-cell_access searchbar-result__item" href="javascript:;" data-index="{{total+i}}">
             <div class="weui-cell__bd weui-cell_primary">
-                <p>{{row.res_desc}}</p>
+                <p>{{row.form_desc}}</p>
             </div>
             <div class="weui-cell__ft" style="color:#f6383a;">{{row.proc_st_nm}}</div>
         </a>
@@ -63,38 +63,42 @@
     window.basedir = '/app';
 
     var searchPage = weui.searchPage('#page1', {
-        onSearch: function($searchBarResult, queryParams) {
-            console.log('onSearch');
-            search($searchBarResult, queryParams);
+        resultTpl: '#change-template',
+        loader: onSearch,
+        onInput: function() {
+            console.log(this, arguments);
         },
-        onCancelSearch: function() {
-            console.log('onCancelSearch');
+        onClickItem: function(row) {
+            console.log(this, arguments);
+            showActions(row);
         }
     }).search();
 
-    function search($searchBarResult, queryParams) {
 
-        $$.request('/action/ms/changelog/search', queryParams, {
+    function onSearch(param, success, error) {
+        console.log(this, arguments);
+
+        $$.request('/action/ms/changelog/search', param, {
             error: function() {
-                console.log(arguments);
-                searchPage.loaded(false);
+                console.log(this, arguments);
+                error();
             },
             success: function(data) {
-                console.log(arguments);
-                var html = $.template('change-templ', data);
-                $searchBarResult.append(html);
-                searchPage.loaded(data.rows.length < queryParams.rows ? false : true);
-                $searchBarResult.off('click', '.weui-cell')
-                    .on('click', '.weui-cell', function() {
-                        showActions(this);
+                console.log(this, arguments);
+                if(data.errcode == 0) {
+                    success(data.rows);
+                } else {
+                    weui.alert(data.errmsg, function () {
+                        error();
                     });
+                }
             }
         });
     }
 
-    function showActions(target) {
-        var changelog_id = $(target).attr('data-id');
-        var proc_st = $(target).attr('data-st');
+    function showActions(row) {
+        var changelog_id = row.changelog_id;
+        var proc_st = row.proc_st;
 
         var url = 'changelog.html';
         var params = $.param({

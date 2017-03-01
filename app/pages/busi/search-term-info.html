@@ -37,19 +37,18 @@
     <script type="text/javascript" src="../../lib/jweixin-1.0.0.js"></script>
     <script type="text/javascript" src="../../js/lib/zepto.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../js/lib/weuijs/weuijs.js" charset="utf-8"></script>
-    <script id="term-templ" type="text/html">
+    <script id="term-template" type="text/html">
         {{each rows as row i}}
-        <a class="weui-cell weui-cell_access" href="javascript:;" data-id="{{row.term_no}}" data-st="{{row.proc_st}}">
+        <a class="weui-cell weui-cell_access searchbar-result__item" href="javascript:;" data-index="{{total+i}}">
             <div class="weui-cell__bd weui-cell_primary">
                 <p>{{row.man}} {{row.tel_no}} </p>
             </div>
             <div class="weui-cell__ft" style="color:#f6383a;">{{row.proc_st_nm}}</div>
         </a>
         <div class="weui-media-box weui-media-box_text">
-            <div class="weui-media-box__desc">{{row.comm_type}}</div>
+            <div class="weui-media-box__desc">{{row.term_no}}</div>
             <div class="weui-media-box__desc">{{row.installed_addr}}</div>
             <div class="weui-media-box__desc">{{row.remark}} </div>
-            <div class="weui-media-box__desc" style="color:#f6383a;">{{row.term_no}}</div>
             <ul class="weui-media-box__info">
                 <li class="weui-media-box__info__meta">{{row.created_time}}</li>
                 <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{row.created_by}}</li>
@@ -66,38 +65,42 @@
     var query = $$.parseQueryString();
 
     var searchPage = weui.searchPage('#page1', {
-        onSearch: function($searchBarResult, queryParams) {
-            console.log('onSearch');
-            search($searchBarResult, queryParams);
+        resultTpl: '#term-template',
+        loader: onSearch,
+        onInput: function() {
+            console.log(this, arguments);
         },
-        onCancelSearch: function() {
-            console.log('onCancelSearch');
+        onClickItem: function(row) {
+            console.log(this, arguments);
+            showActions(row);
         }
     }).search();
 
-    function search($searchBarResult, queryParams) {
-        var params = $.extend({}, query, queryParams);
-        $$.request('/action/ms/term-info/search-change', params, {
+
+    function onSearch(param, success, error) {
+        console.log(this, arguments);
+        var queryParams = $.extend({}, query, param);
+        $$.request('/action/ms/term-info/search-change', queryParams, {
             error: function() {
-                console.log(arguments);
-                searchPage.loaded(false);
+                console.log(this, arguments);
+                error();
             },
             success: function(data) {
-                console.log(arguments);
-                var html = $.template('term-templ', data);
-                $searchBarResult.append(html);
-                searchPage.loaded(data.rows.length < queryParams.rows ? false : true);
-                $searchBarResult.off('click', '.weui-cell')
-                    .on('click', '.weui-cell', function() {
-                        showActions(this);
+                console.log(this, arguments);
+                if(data.errcode == 0) {
+                    success(data.rows);
+                } else {
+                    weui.alert(data.errmsg, function () {
+                        error();
                     });
+                }
             }
         });
     }
 
-    function showActions(target) {
-        var term_no = $(target).attr('data-id');
-        var proc_st = $(target).attr('data-st');
+    function showActions(row) {
+        var term_no = row.term_no;
+        var proc_st = row.proc_st;
 
         var url = 'info-change.html';
         var params = $.param({

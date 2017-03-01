@@ -2602,12 +2602,19 @@ function compress(file, options, callback) {
     /**
      * uploader 上传组件
      * @param {string} selector 上传组件的selector
-     *
+     * @param {object=} options 配置项
+     * @param {string=} options.deletable 是否可以删除图片
+     * 
      * @example
      * weui.uploader('#uploader');
      */
-    function uploader(selector) {
+    function uploader(selector, options) {
+        options = options || {};
         var $uploader = $(selector);
+
+        options = $.extend({
+            deletable: true,
+        }, options);
 
         function appendFile(url) {
             var id = ++_id;
@@ -2651,6 +2658,7 @@ function compress(file, options, callback) {
                 url = url.match(/url\((.*?)\)/)[1].replace(/"/g, '');
             }
             var gallery = weui.gallery(url, {
+                deletable: options.deletable,
                 onDelete: function() {
                     weui.confirm('确定删除该图片？', function() {
                         target.remove();
