@@ -1648,7 +1648,7 @@ $.fn.scroll = function(options) {
                     lineTemp[level] = index;
 
                     if (isMulti) {
-                        defaults.onChange(result);
+                        defaults.onChange.call(_sington, result);
                     } else {
                         /**
                          * @子列表处理
@@ -1673,7 +1673,7 @@ $.fn.scroll = function(options) {
 
                             result.splice(level + 1);
 
-                            defaults.onChange(result);
+                            defaults.onChange.call(_sington, result);
                         }
                     }
                 }
@@ -1688,6 +1688,16 @@ $.fn.scroll = function(options) {
         $picker.find('.weui-picker__bd').html(groups);
         show();
 
+        $picker.on('click', '.weui-mask', hide).on('click', '.weui-picker__action', hide)
+            .on('click', '#weui-picker-confirm', function() {
+                defaults.onConfirm.call(_sington, result);
+            });
+            
+        _sington = {
+            hide: hide,
+            options: defaults
+        };
+
         if (isMulti) {
             items.forEach(function(item, index) {
                 scroll(item, index);
@@ -1696,12 +1706,6 @@ $.fn.scroll = function(options) {
             scroll(items, 0);
         }
 
-        $picker.on('click', '.weui-mask', hide).on('click', '.weui-picker__action', hide)
-            .on('click', '#weui-picker-confirm', function() {
-                defaults.onConfirm(result);
-            });
-        _sington = $picker[0];
-        _sington.hide = hide;
         return _sington;
     }
 
@@ -1958,7 +1962,7 @@ $.fn.scroll = function(options) {
             weui.searchBar($searchBar, $.noop, function(q) {
                 _clear();
                 loadData(filter(q));
-                options.onInput.apply(this, arguments);
+                options.onInput.call(_obj, q);
             });
 
             loadData(options.data);
@@ -1980,11 +1984,11 @@ $.fn.scroll = function(options) {
                 }
             });
 
-            weui.searchBar($searchBar, function() {
+            weui.searchBar($searchBar, function(q) {
                 _clear();
                 loadmore.loading();
-            }, function() {
-                options.onInput.apply(this, arguments);
+            }, function(q) {
+                options.onInput.call(_obj, q);
             });
         }
 
@@ -2001,7 +2005,7 @@ $.fn.scroll = function(options) {
                 .on('click', '.searchbar-result__item', function() {
                     var index = parseInt($(this).attr('data-index'));
                     var row = isNaN(index) ? null : temp[index];
-                    if (options.onClickItem.call(this, row) != false) {
+                    if (options.onClickItem.call(_obj, row, this) != false) {
                         //TODO
                     }
                 });
@@ -2049,7 +2053,8 @@ $.fn.scroll = function(options) {
         var _obj = {
             clear: clear,
             loaded: loaded,
-            search: search
+            search: search,
+            options: options
         }
 
         return _obj;
@@ -2064,6 +2069,8 @@ $.fn.scroll = function(options) {
 
     var searchTpl = '<div class="select2"><div class="weui-search-bar"><a href="javascript:" class="search-bar__btn select2__back-btn">返回</a><form class="weui-search-bar__form" method="post" action=""><div class="weui-search-bar__box"><i class="weui-icon-search"></i><input type="search" class="weui-search-bar__input" name="q" placeholder="{{title}}"><a href="javascript:" class="weui-icon-clear"></a></div><label class="weui-search-bar__label"><i class="weui-icon-search"></i><span>{{title}}</span> </label></form><a href="javascript:" class="weui-search-bar__cancel-btn">取消</a></div><div class="weui-cells searchbar-result"></div></div>';
     var resultTpl = '{{each rows as row i}}<div class="weui-cell weui-cell_access searchbar-result__item" data-index="{{total+i}}"><div class="weui-cell__bd weui-cell_primary"><p>{{row[textField]}}</p></div><div class="weui-cell__ft"></div></div>{{/each}}';
+
+    var _sington;
 
     /**
      * select2 列表框, searchPage的扩展
@@ -2104,6 +2111,8 @@ $.fn.scroll = function(options) {
      * });
      */
     function select2(options) {
+        if (_sington) return _sington;
+
         options = options || {};
 
         options = $.extend({
@@ -2121,8 +2130,8 @@ $.fn.scroll = function(options) {
 
         //点击
         var onClickItem = options.onClickItem;
-        options.onClickItem = function(row) {
-            if (onClickItem(row) != false) {
+        options.onClickItem = function(row, target) {
+            if (onClickItem.call(_sington, row, target) != false) {
                 hide();
             }
         };
@@ -2140,6 +2149,7 @@ $.fn.scroll = function(options) {
 
             $ele.addClass('weui-animate-fade-out').on('animationend webkitAnimationEnd', function() {
                 $ele.remove();
+                _sington = false;
             });
         }
 
@@ -2147,15 +2157,15 @@ $.fn.scroll = function(options) {
 
         function search(param) {
             searchPage.search(param);
-            return _obj;
+            return _sington;
         }
 
-        var _obj = {
+        _sington = {
             search: searchPage.search,
             hide: hide,
             options: options
         }
-        return _obj;
+        return _sington;
     }
 
     window.weui = window.weui || {};

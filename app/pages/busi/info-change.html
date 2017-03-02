@@ -67,7 +67,7 @@
                 </label>
             </div>
             <div class="weui-cell__bd">
-                <input class="weui-input" type="text" placeholder="请输入{{$data.column_desc}}" name="{{$data.alias_name}}" {{if $data.required=='1' }}required{{/if}} {{if $data.readonly=='1' }}readonly{{/if}}>
+                <input class="weui-input" type="text" placeholder="请输入{{$data.column_desc}}" name="{{$data.alias_name}}" {{if $data.options}}value="{{$data.options.value}}"{{/if}} {{if $data.required=='1' }}required{{/if}} {{if $data.readonly=='1' }}readonly{{/if}}>
             </div>
             {{if $data.readonly!='1'}}
             <div class="weui-cell__ft">
@@ -83,8 +83,23 @@
                 </label>
             </div>
             <div class="weui-cell__bd">
-                <input class="weui-input" type="text" placeholder="请选择{{$data.column_desc}}" id="{{$data.id}}" name="{{$data.options.select2Name}}" {{if $data.required=='1' }}required{{/if}} readonly>
-                <input type="hidden" name="{{$data.alias_name}}">
+                <input class="weui-input" type="text" placeholder="请选择{{$data.column_desc}}" id="{{$data.id}}" name="{{$data.alias_name}}" {{if $data.required=='1' }}required{{/if}} readonly>
+                <input type="hidden" name="{{$data.options.select2Name}}">
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </div>
+    </script>
+    <script id="city-picker-template" type="text/html">
+        <div class="weui-cell weui-cell_access">
+            <div class="weui-cell__hd">
+                <label class="weui-label">
+                    {{$data.column_desc}}
+                </label>
+            </div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="请输入{{$data.column_desc}}" id="{{$data.id}}" name="{{$data.alias_name}}" {{if $data.required=='1' }}required{{/if}} readonly=""> {{each options.pickerName as name}}
+                <input type="hidden" name="{{name}}"> {{/each}}
             </div>
             <div class="weui-cell__ft">
             </div>
@@ -107,7 +122,7 @@
         createUrl = '/action/ms/changelog/create-term';
     } else if (query.form_id == 'add_term') {
         viewUrl = '/action/ms/term-info/view-change';
-        createUrl = '/action/ms/changelog/create-term';
+        createUrl = '/action/ms/changelog/create-new-term';
     }
 
     wxConfig({
@@ -134,7 +149,8 @@
                                     uploaderData[id] = {
                                         ei_type: row[select2.options.valueField],
                                         localid: localIds[0],
-                                        serverid: serverId
+                                        serverid: serverId,
+                                        is_new: '1'
                                     }
                                 }
                             });
@@ -151,7 +167,7 @@
 
 
     function submitChange() {
-        if(!weui.form.validate('#form')) return;
+        if (!weui.form.validate('#form')) return;
 
         var data = $.extend({}, query, {
             update: [],
@@ -218,45 +234,131 @@
         if (!data) return;
         var $form = $('#form');
         weui.form.load($form, data.data);
-        for (var name in data.data) {
-            var val = data.data[name];
-            $form.find('input[name="' + name + '"]').attr('data-val', val);
-            $form.find('select[name="' + name + '"]').attr('data-val', val);
+
+        if(query.form_id != 'add_term') {
+            for (var name in data.data) {
+                var val = data.data[name];
+                $form.find('input[name="' + name + '"]').attr('data-val', val);
+                $form.find('select[name="' + name + '"]').attr('data-val', val);
+            }
         }
     }
 
     function initSelect2(row) {
-        var id = row.id;
-        var options = row.options || {};
+        var $target = $('#' + row.id);
 
-        $('#' + id).on('click', function() {
-            var select2 = weui.select2($.extend(options, {
+        function showSelect2(row) {
+            var options = row.options || {};
+
+            options = $.extend({
+                title: '搜索'+row.column_desc,
+                queryParams: {},
+                rowsName: 'rows',
                 loader: function(param, success, error) {
-                    console.log(this, arguments);
-                    $$.request(options.url, param, {
+                    var queryParams = $.extend(options.queryParams, param);
+
+                    $$.request(options.url, queryParams, {
                         success: function(data) {
                             if (data.errcode == 0) {
-                                success(data[options.output || 'rows']);
+                                success(data[options.rowsName]);
                             } else {
                                 weui.alert(data.errmsg, function() {
                                     error();
+                                }, {
+                                    title: '提示'
                                 });
                             }
+                        },
+                        error: function() {
+                            error();
                         }
                     });
                 },
                 onClickItem: function(row) {
-                    console.log(this, arguments);
-                    $('#' + id).val(row[select2.options.textField]).next().val(row[select2.options.valueField]);
+                    var opts = this.options;
+                    $target.val(row[opts.textField]).next().val(row[opts.valueField]);
                 }
-            }));
-            select2.search({
-                q: $(this).val()
+            }, options);
+            weui.select2(options).search({
+                q: $target.val()
             });
+        }
+
+
+        $target.on('click', function() {
+            showSelect2(row);
         });
     }
 
-    weui.form.checkIfBlur('#form');
+    // function showPicker(target, items, options) {
+    //     options = options || {}
+    //     $target = $(target);
+    //     var defaultValue = [];
+    //     var value = $target.attr('data-value');
+    //     if (value) {
+    //         defaultValue = value.split(',');
+    //     }
+    //     options = $.extend({
+    //         defaultValue: defaultValue,
+    //         onChange: function(result) {},
+    //         onConfirm: function(result) {
+    //             var opts = this.options;
+    //             var text = result.map(function(item) {
+    //                 return item[opts.textField];
+    //             });
+
+    //             var value = result.map(function(item) {
+    //                 return item[opts.valueField];
+    //             });
+    //             $target.val(text.join(' ')).attr('data-value', value.join(','));
+    //         },
+    //         id: $target.attr('id')
+    //     }, options);
+
+    //     return weui.picker(items, options);
+    // }
+
+    function initCityPicker(row) {
+        var $target = $('#' + row.id);
+
+        function showCityPicker(row) {
+
+            var options = row.options || {};
+
+            var defaultValue = [];
+            var $temp = $target;
+            options.pickerName.forEach(function() {
+                $temp = $temp.next();
+                defaultValue.push($temp.val());
+            });
+            options = $.extend({
+                defaultValue: defaultValue,
+                onChange: function(result) {},
+                onConfirm: function(result) {
+                    var opts = this.options;
+                    var text = result.map(function(item) {
+                        return item[opts.textField];
+                    });
+
+                    $target.val(text.join(' '));
+
+                    var $temp = $target;
+                    result.forEach(function(item) {
+                        $temp = $temp.next();
+                        $temp.val(item[opts.valueField]);
+                    });
+                },
+                id: $target.attr('id')
+            }, options);
+            weui.picker(districtData, options);
+        }
+
+        $target.on('click', function() {
+            showCityPicker(row);
+        });
+    }
+
+    
     $(function() {
         var fieldsData;
         //显示字段
@@ -278,9 +380,15 @@
                     var row = data.rows[i];
                     if (row.component == 'select2') {
                         initSelect2(row);
+                    } else if (row.component == 'picker') {
+                        initPicker(row);
+                    } else if (row.component == 'city-picker') {
+                        initCityPicker(row);
                     }
                 }
+
                 loadDetail(fieldsData);
+                weui.form.checkIfBlur('#form');
             }
         });
 
