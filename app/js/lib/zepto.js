@@ -2590,12 +2590,12 @@ window.$ === undefined && (window.$ = Zepto)
                 loading = weui.loading('加载中...');
             },
             complete: function(xhr, status) {
-                if(loading) loading.hide();
+                if (loading) loading.hide();
             }
         }, options);
 
 
-        $.ajax(options);
+        return $.ajax(options);
     };
 
 
@@ -2619,21 +2619,32 @@ window.$ === undefined && (window.$ = Zepto)
     };
 
     //解析日期
-    $$.parseDate = function(format) {
+    $$.parseDate = function(dateString, format) {
         var date = new Date();
-        var o = {
-            "y+": 'setFullYear', //year
-            "M+": 'setMonth', //month
-            "d+": 'setDate', //day
-            "h+": 'setHours', //hour
-            "m+": 'setMinutes', //minute
-            "s+": 'setSeconds', //second
-            "S": 'setMilliseconds' //millisecond
-        }
+        if (dateString.length == format.length) {
+            var o = {
+                "y+": 'setFullYear', //year
+                "M+": 'setMonth', //month
+                "d+": 'setDate', //day
+                "h+": 'setHours', //hour
+                "m+": 'setMinutes', //minute
+                "s+": 'setSeconds', //second
+                "S": 'setMilliseconds' //millisecond
+            }
 
-        for (var k in o)
-            if (new RegExp("(" + k + ")").test(format))
-                date[o[k]](RegExp.$1);
+            for (var k in o) {
+                var re = new RegExp("(" + k + ")")
+                var arr = re.exec(format);
+                if(arr !== null) {
+                    var val = dateString.substr(arr.index, arr[0].length);
+                    if (k == "M+") {
+                        date[o[k]](val - 1);
+                    } else {
+                        date[o[k]](val);
+                    }
+                }
+            }
+        }
         return date;
     };
 
@@ -2698,5 +2709,154 @@ window.$ === undefined && (window.$ = Zepto)
             }
         }
         return null;
+    };
+
+    $$.rules = {
+        rules: {
+            email: function(value) {
+                return /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(value);
+            },
+            url: function(value) {
+                return /^(https?|ftp):\/\/([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?$/.test(value);
+            },
+            length: function(value, param) {
+                var len = $.trim(_44).length;
+                return len >= param[0] && len <= param[1];
+            },
+            remote: function(value, param) {
+                var errcode = -1;
+                var data = {};
+                data[param[1]] = value;
+                $$.request(param[0], data, {
+                    async: false,
+                    success: function(data) {
+                        errcode = data.errcode;
+                    }
+                });
+                return errcode == 0;
+            },
+            mobile: function(value) {
+                return /^1[34578]{1}\d{9}$/.test(value);
+            },
+            telno: function(value) {
+                return /^\d{3}-\d{8}$|^\d{4}-\d{7}$/.test(value);
+            },
+            ip: function(value) {
+                return /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])(\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])){3}$/.test(value);
+            },
+            date: function(value) {
+                return /^\d{4}-\d{1,2}-\d{1,2}$/.test(value);
+            },
+            idnum: function(value, args) {
+                return /^\d{15}$|^\d{17}[\dXx]$/.test(value);
+            },
+            license_no: function(value) {
+                return /^[A-Za-z0-9]+$/.test(value);
+            }
+        }
+    };
+
+    $$.showPicker = function(target, items, options) {
+        options = options || {}
+        $target = $(target);
+        var defaultValue = [];              
+        var depth = weui.depthOf(items[0]);
+        var $temp = $target;
+        for(var i = 0; i < depth; i++) {
+            $temp = $temp.next();
+            defaultValue.push($temp.val());
+        }        
+        options = $.extend({
+            defaultValue: defaultValue,
+            onChange: function(result) {},
+            onConfirm: function(result) {
+                var opts = this.options;
+                var text = result.map(function(item) {
+                    return item[opts.textField];
+                });
+
+                $target.val(text.join(' '));
+
+                var $temp = $target;
+                for(var i = 0; i < result.length; i++) {
+                    $temp = $temp.next();
+                    $temp.val(result[i][opts.valueField]);
+                }                
+            },
+            id: $target.attr('id')
+        }, options);
+
+        return weui.picker(items, options);
+    }
+
+
+    $$.showSelect2 = function(target, data, options) {
+        options = options || {};
+        $target = $(target);
+
+        if (!$.isArray(data)) {
+            options = data;
+            data = null;
+        }
+
+        options = $.extend({
+            data: data,
+            queryParams: {},
+            rowsName: 'rows',
+            loader: function(param, success, error) {
+                var queryParams = $.extend(options.queryParams, param);
+
+                $$.request(options.url, queryParams, {
+                    success: function(data) {
+                        if (data.errcode == 0) {
+                            success(data[options.rowsName]);
+                        } else {
+                            weui.alert(data.errmsg, error, {
+                                title: '提示'
+                            });
+                        }
+                    },
+                    error: function() {
+                        error();
+                    }
+                })
+            },
+            onClickItem: function(row) {
+                var opts = this.options;
+                $target.val(row[opts.textField]).next().val(row[opts.valueField]);
+            }
+        }, options);
+
+        return weui.select2(options).search($target.val());
+    }
+
+    $$.showDatePicker = function(target, format, options) {
+        options = options || {};
+        $target = $(target);
+
+        if (typeof format === 'object') {
+            options = format;
+            format = null;
+        }
+
+        options.format = options.format || format || 'yyyy-MM-dd';
+
+        var date = $$.parseDate($target.val(), options.format);
+
+        options = $.extend({
+            defaultValue: [date.getFullYear(), date.getMonth() + 1, date.getDate()],
+            end: 2050,
+            onConfirm: function(result) {
+                var opts = this.options;
+                var values = result.map(function(item) {
+                    return item[opts.valueField];
+                });
+
+                $target.val($$.formatDate(new Date(values[0], values[1] - 1, values[2]), opts.format));
+            },
+
+        }, options);
+
+        weui.datePicker(options);
     }
 })();
