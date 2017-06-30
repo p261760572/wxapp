@@ -2590,7 +2590,7 @@ window.$ === undefined && (window.$ = Zepto)
                 loading = weui.loading('加载中...');
             },
             complete: function(xhr, status) {
-                if (loading) loading.hide();
+                if (loading) loading.hide();                
             }
         }, options);
 
@@ -2635,7 +2635,7 @@ window.$ === undefined && (window.$ = Zepto)
             for (var k in o) {
                 var re = new RegExp("(" + k + ")")
                 var arr = re.exec(format);
-                if(arr !== null) {
+                if (arr !== null) {
                     var val = dateString.substr(arr.index, arr[0].length);
                     if (k == "M+") {
                         date[o[k]](val - 1);
@@ -2720,7 +2720,7 @@ window.$ === undefined && (window.$ = Zepto)
                 return /^(https?|ftp):\/\/([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?$/.test(value);
             },
             length: function(value, param) {
-                var len = $.trim(_44).length;
+                var len = $.trim(value).length;
                 return len >= param[0] && len <= param[1];
             },
             remote: function(value, param) {
@@ -2735,11 +2735,14 @@ window.$ === undefined && (window.$ = Zepto)
                 });
                 return errcode == 0;
             },
+            equal: function(value, param) {
+                return value == $(param[0]).val();
+            },
             mobile: function(value) {
                 return /^1[34578]{1}\d{9}$/.test(value);
             },
             telno: function(value) {
-                return /^\d{3}-\d{8}$|^\d{4}-\d{7}$/.test(value);
+                return /^(\d{3,4})?-?\d{7,8}(-\d{1,4})?$/.test(value);
             },
             ip: function(value) {
                 return /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])(\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])){3}$/.test(value);
@@ -2759,13 +2762,13 @@ window.$ === undefined && (window.$ = Zepto)
     $$.showPicker = function(target, items, options) {
         options = options || {}
         $target = $(target);
-        var defaultValue = [];              
+        var defaultValue = [];
         var depth = weui.depthOf(items[0]);
         var $temp = $target;
-        for(var i = 0; i < depth; i++) {
+        for (var i = 0; i < depth; i++) {
             $temp = $temp.next();
             defaultValue.push($temp.val());
-        }        
+        }
         options = $.extend({
             defaultValue: defaultValue,
             onChange: function(result) {},
@@ -2778,10 +2781,11 @@ window.$ === undefined && (window.$ = Zepto)
                 $target.val(text.join(' '));
 
                 var $temp = $target;
-                for(var i = 0; i < result.length; i++) {
+                for (var i = 0; i < result.length; i++) {
                     $temp = $temp.next();
                     $temp.val(result[i][opts.valueField]);
-                }                
+                }
+                $target.change(); //触发change
             },
             id: $target.attr('id')
         }, options);
@@ -2804,7 +2808,7 @@ window.$ === undefined && (window.$ = Zepto)
             queryParams: {},
             rowsName: 'rows',
             loader: function(param, success, error) {
-                var queryParams = $.extend(options.queryParams, param);
+                var queryParams = $.extend(param, options.queryParams);
 
                 $$.request(options.url, queryParams, {
                     success: function(data) {
@@ -2823,11 +2827,12 @@ window.$ === undefined && (window.$ = Zepto)
             },
             onClickItem: function(row) {
                 var opts = this.options;
-                $target.val(row[opts.textField]).next().val(row[opts.valueField]);
+                $target.val(opts.formatter.call(this, row)).next().val(row[opts.valueField]);
+                $target.change(); //触发change
             }
         }, options);
 
-        return weui.select2(options).search($target.val());
+        return weui.select2(options); //.search($target.val());
     }
 
     $$.showDatePicker = function(target, format, options) {

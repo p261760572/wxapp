@@ -279,9 +279,7 @@
                     $target.val(row[opts.textField]).next().val(row[opts.valueField]);
                 }
             }, options);
-            weui.select2(options).search({
-                q: $target.val()
-            });
+            weui.select2(options).search($target.val());
         }
 
 
