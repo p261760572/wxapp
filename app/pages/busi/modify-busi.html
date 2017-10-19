@@ -101,6 +101,8 @@
         });
     }
 
+
+
     function showActions(target) {
         var apppay_id = $(target).attr('data-id');
         var proc_st = $(target).attr('data-st');
@@ -112,20 +114,20 @@
         });
 
         var actions = [{
-            label: "变更业务",
-            className: "color_primary",
+            label: "编辑业务参数",
+            className: "actionsheet__cell_warning",
             onClick: function() {
                 window.location.href = page[0] + '?table_name=mchnt_busi&' + params;
             }
         }, {
-            label: "变更终端",
-            className: "color_primary",
+            label: "编辑终端参数",
+            className: "actionsheet__cell_warning",
             onClick: function() {
                 window.location.href = page[1] + '?' + params;
             }
         }, {
             label: "新增终端",
-            className: "color_primary",
+            className: "actionsheet__cell_warning",
             onClick: function() {
                 window.location.href = page[2] + '?' + params;
             }

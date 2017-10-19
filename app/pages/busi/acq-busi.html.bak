@@ -10,21 +10,21 @@
     <link rel="stylesheet" href="../../lib/weuijs/style/weuijs.css">
     <link rel="stylesheet" href="../../css/ui-base.css">
     <style type="text/css">
-        .show-more {
-            display: none;
-        }
-
-        .page_more .show-more {
-            display: block;
-        }
-
-        .page_more .hide-more {
-            display: none;
-        }
-
-        .page_view .hide-view {
-            display: none;
-        }
+    .show-more {
+        display: none;
+    }
+    
+    .page_more .show-more {
+        display: block;
+    }
+    
+    .page_more .hide-more {
+        display: none;
+    }
+    
+    .page_view .hide-view {
+        display: none;
+    }
     </style>
 </head>
 
@@ -35,10 +35,9 @@
                 <div class="navbar__left">
                     <a href="javascript:history.back()" class="navbar__link">
                         <i class="icon-back_nav"></i>
-                        
                     </a>
                 </div>
-                <div class="navbar__center">当面付</div>
+                <div class="navbar__center">收单业务</div>
                 <div class="navbar__right">
                     <a href="javascript:;" class="navbar__link hide-view" onclick="saveDetail()">
                         <span>暂存</span>
@@ -54,7 +53,8 @@
                 <div class="weui-cells weui-cells_form">
                     <div class="weui-cell">
                         <div class="weui-cell__hd">
-                            <label class="weui-label">联系人<span class="required">*</span></label></div>
+                            <label class="weui-label">联系人<span class="required">*</span></label>
+                        </div>
                         <div class="weui-cell__bd">
                                 <input name="linkman" type="text" class="weui-input validate" placeholder="请输入联系人" required title="联系人">
                         </div>
@@ -108,20 +108,20 @@
                     </div>
                     <div class="weui-cell">
                         <div class="weui-cell__hd">
-                            <label class="weui-label">手续费<span class="required">*</span></label>
+                            <label class="weui-label">借记卡手续费<span class="required">*</span></label>
                         </div>
                         <div class="weui-cell__bd">
-                            <input name="fee_algo" type="text" class="weui-input validate" placeholder="请选择手续费" id="fee_algo" required title="手续费" readonly>
+                            <input name="fee_algo" type="text" class="weui-input validate" placeholder="请选择借记卡手续费" id="fee_algo" required title="借记卡手续费" readonly>
                         </div>
                     </div>
-                   <!--  <div class="weui-cell">
+                    <div class="weui-cell">
                         <div class="weui-cell__hd">
                             <label class="weui-label">贷记卡手续费<span class="required">*</span></label>
                         </div>
                         <div class="weui-cell__bd">
-                            <input name="credit_fee_algo" type="text" class="weui-input validate" placeholder="请选择贷记卡手续费" id="credit_fee_algo" required="required" title="贷记卡手续费" readonly="readonly">
+                            <input name="credit_fee_algo" type="text" class="weui-input validate" placeholder="请选择贷记卡手续费" id="credit_fee_algo" required title="贷记卡手续费" readonly>
                         </div>
-                    </div> -->
+                    </div>
                     <div class="weui-cell">
                         <div class="weui-cell__hd">
                             <label class="weui-label">装机地区<span class="required">*</span></label>
@@ -135,15 +135,17 @@
                             <label class="weui-label">装机详细地址<span class="required">*</span></label>
                         </div>
                         <div class="weui-cell__bd">
-                            <input name="installed_addr" type="text" id="installed_addr"  class="weui-input validate" placeholder="请输入详细地址(需核对)" required title="装机详细地址">
+                            <input name="installed_addr" type="text" id="installed_addr" validType="minLength[7]" class="weui-input validate" placeholder="请输入详细地址(需核对)" required title="装机详细地址">
                         </div>
                     </div>
-                    <!-- <div class="weui-cell">
+                    <div class="weui-cell">
                         <div class="weui-cell__hd">
                             <label for="" class="weui-label">机具类型<span class="required">*</span></label>
                         </div>
                         <div class="weui-cell__bd">
-                            <input name="equi_type" type="text" class="weui-input validate" placeholder="请选择机具类型" id="equi_type" required="required">
+                            <!-- <select id="equi_type" class="weui-select validate" name="equi_type" required="required" title="机具类型">
+                            </select> -->
+                            <input name="equi_type" type="text" class="weui-input validate" placeholder="请选择机具类型" id="equi_type" required>
                         </div>
                     </div>
                     <div class="weui-cell">
@@ -151,7 +153,7 @@
                             <label class="weui-label">装机数量<span class="required">*</span></label>
                         </div>
                         <div class="weui-cell__bd">
-                            <input name="num_term" type="number" class="weui-input validate" placeholder="请输入装机数量" value="1" required="required" title="装机数量">
+                            <input name="num_term" type="number" class="weui-input validate" placeholder="请输入装机数量" value="1" required title="装机数量">
                         </div>
                     </div>
                     <div class="weui-cell weui-cell_switch">
@@ -183,7 +185,7 @@
                         <div class="weui-cell__bd">
                             <input name="sale_amount" type="number" class="weui-input" placeholder="请输入销售款">
                         </div>
-                    </div> -->
+                    </div>
                     <div class="weui-cell">
                         <div class="weui-cell__hd">
                             <label class="weui-label">推荐支行</label>
@@ -227,7 +229,6 @@
                             </div>
                         </div>
                     </div>
-                    
                     <div class="weui-cell">
                         <div class="weui-cell__bd">
                             <div class="weui-uploader">
@@ -244,7 +245,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                     <div class="weui-cell">
                         <div class="weui-cell__bd">
                             <div class="weui-uploader">
@@ -261,7 +262,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                     <div class="weui-cell show-more">
                         <div class="weui-cell__bd">
                             <div class="weui-uploader">
@@ -282,7 +283,7 @@
                         <div class="weui-cell__bd">
                             <div class="weui-uploader">
                                 <div class="weui-uploader__hd">
-                                    商户协议
+                                    商户协议(v1)
                                 </div>
                                 <div class="weui-uploader__bd">
                                     <ul class="weui-uploader__files" id="06">
@@ -309,7 +310,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                     <div class="weui-cell show-more">
                         <div class="weui-cell__bd">
                             <div class="weui-uploader">
@@ -356,7 +357,7 @@
             <form class="weui-search-bar__form">
                 <div class="weui-search-bar__box">
                     <i class="weui-icon-search"></i>
-                    <input type="search" class="weui-search-bar__input" name="subbranch_name" placeholder="搜索开户行(支持多个关键字)" required>
+                    <input type="search" class="weui-search-bar__input" name="subbranch_name" placeholder="搜索支行(支持多个关键字)" required>
                 </div>
             </form>
             <a href="javascript:;" class="search-bar__btn search-bar__search-btn">搜索</a>
@@ -375,7 +376,7 @@
     <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
     <script type="text/javascript" src="https://api.map.baidu.com/api?ak=kKuGiC4LbGgwrcfd1pQKq7M5Ax2GAnCy&v=2.0&s=1"></script>
-    <script type="text/javascript" src="dmf-busi.js" charset="utf-8"></script>
+    <script type="text/javascript" src="acq-busi.js" charset="utf-8"></script>
     <script id="subbranch-templ" type="text/html">
         {{each rows as row i}}
         <a class="weui-cell weui-cell_access" href="javascript:;" data-text="{{row.subbranch_name}}">
@@ -384,8 +385,7 @@
             </div>
             <div class="weui-cell__ft"></div>
         </a>
-        {{/each}}
-        </div>
+        {{/each}}    
     </script>
     <script id="uploader-file-templ" type="text/html">
         <li class="weui-uploader__file" style="background-image:url({{if file_url}} {{file_url}} {{else}} {{localid}} {{/if}})">

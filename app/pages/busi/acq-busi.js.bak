@@ -1,8 +1,9 @@
 var district = [{ "text": "湖南省", "items": [{ "text": "长沙市", "items": [{ "text": "市辖区", "value": "01" }, { "text": "芙蓉区", "value": "02" }, { "text": "天心区", "value": "03" }, { "text": "岳麓区", "value": "04" }, { "text": "开福区", "value": "05" }, { "text": "雨花区", "value": "11" }, { "text": "望城区", "value": "12" }, { "text": "长沙县", "value": "21" }, { "text": "宁乡县", "value": "24" }, { "text": "浏阳市", "value": "81" }], "value": "01" }, { "text": "株洲市", "items": [{ "text": "市辖区", "value": "01" }, { "text": "荷塘区", "value": "02" }, { "text": "芦淞区", "value": "03" }, { "text": "石峰区", "value": "04" }, { "text": "天元区", "value": "11" }, { "text": "株洲县", "value": "21" }, { "text": "攸县", "value": "23" }, { "text": "茶陵县", "value": "24" }, { "text": "炎陵县", "value": "25" }, { "text": "醴陵市", "value": "81" }], "value": "02" }, { "text": "湘潭市", "items": [{ "text": "市辖区", "value": "01" }, { "text": "雨湖区", "value": "02" }, { "text": "岳塘区", "value": "04" }, { "text": "湘潭县", "value": "21" }, { "text": "湘乡市", "value": "81" }, { "text": "韶山市", "value": "82" }], "value": "03" }, { "text": "衡阳市", "items": [{ "text": "市辖区", "value": "01" }, { "text": "珠晖区", "value": "05" }, { "text": "雁峰区", "value": "06" }, { "text": "石鼓区", "value": "07" }, { "text": "蒸湘区", "value": "08" }, { "text": "南岳区", "value": "12" }, { "text": "衡阳县", "value": "21" }, { "text": "衡南县", "value": "22" }, { "text": "衡山县", "value": "23" }, { "text": "衡东县", "value": "24" }, { "text": "祁东县", "value": "26" }, { "text": "耒阳市", "value": "81" }, { "text": "常宁市", "value": "82" }], "value": "04" }, { "text": "邵阳市", "items": [{ "text": "市辖区", "value": "01" }, { "text": "双清区", "value": "02" }, { "text": "大祥区", "value": "03" }, { "text": "北塔区", "value": "11" }, { "text": "邵东县", "value": "21" }, { "text": "新邵县", "value": "22" }, { "text": "邵阳县", "value": "23" }, { "text": "隆回县", "value": "24" }, { "text": "洞口县", "value": "25" }, { "text": "绥宁县", "value": "27" }, { "text": "新宁县", "value": "28" }, { "text": "城步苗族自治县", "value": "29" }, { "text": "武冈市", "value": "81" }], "value": "05" }, { "text": "岳阳市", "items": [{ "text": "市辖区", "value": "01" }, { "text": "岳阳楼区", "value": "02" }, { "text": "云溪区", "value": "03" }, { "text": "君山区", "value": "11" }, { "text": "岳阳县", "value": "21" }, { "text": "华容县", "value": "23" }, { "text": "湘阴县", "value": "24" }, { "text": "平江县", "value": "26" }, { "text": "汨罗市", "value": "81" }, { "text": "临湘市", "value": "82" }], "value": "06" }, { "text": "常德市", "items": [{ "text": "市辖区", "value": "01" }, { "text": "武陵区", "value": "02" }, { "text": "鼎城区", "value": "03" }, { "text": "安乡县", "value": "21" }, { "text": "汉寿县", "value": "22" }, { "text": "澧县", "value": "23" }, { "text": "临澧县", "value": "24" }, { "text": "桃源县", "value": "25" }, { "text": "石门县", "value": "26" }, { "text": "津市市", "value": "81" }], "value": "07" }, { "text": "张家界市", "items": [{ "text": "市辖区", "value": "01" }, { "text": "永定区", "value": "02" }, { "text": "武陵源区", "value": "11" }, { "text": "慈利县", "value": "21" }, { "text": "桑植县", "value": "22" }], "value": "08" }, { "text": "益阳市", "items": [{ "text": "市辖区", "value": "01" }, { "text": "资阳区", "value": "02" }, { "text": "赫山区", "value": "03" }, { "text": "南县", "value": "21" }, { "text": "桃江县", "value": "22" }, { "text": "安化县", "value": "23" }, { "text": "沅江市", "value": "81" }], "value": "09" }, { "text": "郴州市", "items": [{ "text": "市辖区", "value": "01" }, { "text": "北湖区", "value": "02" }, { "text": "苏仙区", "value": "03" }, { "text": "桂阳县", "value": "21" }, { "text": "宜章县", "value": "22" }, { "text": "永兴县", "value": "23" }, { "text": "嘉禾县", "value": "24" }, { "text": "临武县", "value": "25" }, { "text": "汝城县", "value": "26" }, { "text": "桂东县", "value": "27" }, { "text": "安仁县", "value": "28" }, { "text": "资兴市", "value": "81" }], "value": "10" }, { "text": "永州市", "items": [{ "text": "市辖区", "value": "01" }, { "text": "零陵区", "value": "02" }, { "text": "冷水滩区", "value": "03" }, { "text": "祁阳县", "value": "21" }, { "text": "东安县", "value": "22" }, { "text": "双牌县", "value": "23" }, { "text": "道县", "value": "24" }, { "text": "江永县", "value": "25" }, { "text": "宁远县", "value": "26" }, { "text": "蓝山县", "value": "27" }, { "text": "新田县", "value": "28" }, { "text": "江华瑶族自治县", "value": "29" }], "value": "11" }, { "text": "怀化市", "items": [{ "text": "市辖区", "value": "01" }, { "text": "鹤城区", "value": "02" }, { "text": "中方县", "value": "21" }, { "text": "沅陵县", "value": "22" }, { "text": "辰溪县", "value": "23" }, { "text": "溆浦县", "value": "24" }, { "text": "会同县", "value": "25" }, { "text": "麻阳苗族自治县", "value": "26" }, { "text": "新晃侗族自治县", "value": "27" }, { "text": "芷江侗族自治县", "value": "28" }, { "text": "靖州苗族侗族自治县", "value": "29" }, { "text": "通道侗族自治县", "value": "30" }, { "text": "洪江市", "value": "81" }], "value": "12" }, { "text": "娄底市", "items": [{ "text": "市辖区", "value": "01" }, { "text": "娄星区", "value": "02" }, { "text": "双峰县", "value": "21" }, { "text": "新化县", "value": "22" }, { "text": "冷水江市", "value": "81" }, { "text": "涟源市", "value": "82" }], "value": "13" }, { "text": "湘西土家族苗族自治州", "items": [{ "text": "吉首市", "value": "01" }, { "text": "泸溪县", "value": "22" }, { "text": "凤凰县", "value": "23" }, { "text": "花垣县", "value": "24" }, { "text": "保靖县", "value": "25" }, { "text": "古丈县", "value": "26" }, { "text": "永顺县", "value": "27" }, { "text": "龙山县", "value": "30" }], "value": "31" }], "value": "43" }];
 
 var query = $$.parseQueryString();
-query.operateType = query.operateType || 'create'; //默认create
+query.operateType = query.operateType || 'create';
 requiredWx(function() {
+
     if (query.operateType == 'create') {
         wxLocation(function(res) {
             var point = new BMap.Point(res.longitude, res.latitude); // 创建坐标点
@@ -55,14 +56,8 @@ function searchSubbrach() {
 
 function serializeDetailForm() {
     var data = $('#detail-fm').serializeObject();
-    data.apptype = '109';
-    data.equi_type = '无机具';
-    data.quick_flag = '1';
-    data.credit_fee_algo = data.fee_algo;
-    data.num_term = '1';
-    data.property = '个体工商户';
+    data.apptype = '105';
     data.license_no = data.license_no.toUpperCase();
-    data.license_flag = '1';
 
     //照片处理
     var images = [];
@@ -121,12 +116,11 @@ function saveDetail() {
 
 
 function submitDetail() {
-    if (!$('#detail-fm').form('validate')) {
-        return false;
-    }
-
-    if( $('#installed_addr').val().length < 7) {
-        $.toast('show', '地址至少输入7个字符');
+    if (!$('#detail-fm').form('validate', {rules: {
+            minLength:function(value, param) {
+                return value.length >= params[0];
+            }
+        }})) {
         return false;
     }
 
@@ -186,46 +180,15 @@ function uploadImage(sourceType, files) {
         //     $.toast('show', '获取地理位置失败,请重新上传' + JSON.stringify(res));
         // });
 
-        wx.getLocalImgData({
-            localId: localId, // 图片的localID
-            success: function (res) {
-                var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
-                $.toast('showLoading');
-                $.ajax({
-                    url: '/wx/upload',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: localData,                    
-                    success: function(result) {
-                        $.toast('hideLoading');
-                        if (result.errcode == 0) {
-                            // data.is_new = '1';
-                            data.serverid = result.serverid;
-                            data.file_url = result.file_url;
-                            data.app_created_time = $$.formatDate(new Date(), 'yyyyMMddhhmmss');
-                            //生成html,存储
-                            $(template('uploader-file-templ', data)).appendTo(files).data('file', data);
-                        } else {
-                            $.toast('show', '上传失败,请重新上传' + JSON.stringify(result));
-                        }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        $.toast('hideLoading');
-                        $.toast('show', errorThrown);
-                    }
-                });
-            }
+        wxUploadImage(localId, function(serverId) {
+            data.is_new = '1';
+            data.serverid = serverId;
+            data.app_created_time = $$.formatDate(new Date(), 'yyyyMMddhhmmss');
+            //生成html,存储
+            $(template('uploader-file-templ', data)).appendTo(files).data('file', data);
+        }, function(res) {
+            $.toast('show', '上传失败,请重新上传' + JSON.stringify(res));
         });
-
-        // wxUploadImage(localId, function(serverId) {
-        //     data.is_new = '1';
-        //     data.serverid = serverId;
-        //     data.app_created_time = $$.formatDate(new Date(), 'yyyyMMddhhmmss');
-        //     //生成html,存储
-        //     $(template('uploader-file-templ', data)).appendTo(files).data('file', data);
-        // }, function(res) {
-        //     $.toast('show', '上传失败,请重新上传' + JSON.stringify(res));
-        // });
     });
 }
 
@@ -250,7 +213,7 @@ $(function() {
         onSearch: searchSubbrach
     });
 
-    $('#subbranch-list').on('click', 'a.weui-cell', function() {
+    $('#subbranch-list').on('click', '.weui-cell', function() {
         //$('#subbranch_name').val($(this).attr('data-text'));
 		$('#'+$('#pop-id').val()).val($(this).attr('data-text'));
         $('#subbranch-popup').popup('close');
@@ -301,6 +264,7 @@ $(function() {
         }
     });
 
+
     if (query.operateType == 'create') {
         var data = $$.getData('detail');
         if (data) {
@@ -315,6 +279,6 @@ $(function() {
     }
 
     if (query.operateType == 'view') {
-        $('#main-page').addClass('page_view').find('input').attr('disabled', 'disabled').removeAttr('placeholder');    
+        $('#main-page').addClass('page_view').find('input').attr('disabled', 'disabled').removeAttr('placeholder');
     }
 });

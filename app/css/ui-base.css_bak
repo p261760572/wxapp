@@ -1,0 +1,142 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    /*font-size: 12px;*/
+}
+
+span.required {
+    color: red;
+}
+
+.badge {
+    background-color: #3879d9;
+    color: #fff;
+    z-index: 1;
+    display: inline-block;
+    padding: 3px 8px;
+    min-width: 10px;
+    border-radius: 10px;
+    vertical-align: baseline;
+    text-align: center;
+    white-space: nowrap;
+    font-size: 12px;
+    line-height: 14px;
+}
+
+.badge_warn {
+    background-color: #ef473a;
+}
+
+.weui-cells {
+    font-size: 14px;
+}
+
+
+/*图标*/
+
+[class^="icon-"],
+[class*=" icon-"] {
+    display: inline-block;
+}
+
+.icon-plus {
+    width: 24px;
+    height: 24px;
+    background-image: url('plus.svg');
+}
+
+.icon-balance {
+    width: 28px;
+    height: 28px;
+    background-image: url('余额.svg');
+}
+
+.icon-bank-card {
+    width: 28px;
+    height: 28px;
+    background-image: url('银行卡.svg');
+}
+
+.icon-income {
+    width: 28px;
+    height: 28px;
+    background-image: url('收益.svg');
+}
+
+.icon-other-income {
+    width: 28px;
+    height: 28px;
+    background-image: url('其他收入.svg');
+}
+
+.icon-setting {
+    width: 28px;
+    height: 28px;
+    background-image: url('设置.svg');
+}
+
+.icon-my {
+    width: 28px;
+    height: 28px;
+    background-image: url('我的.svg');
+}
+
+.icon-user {
+    width: 60px;
+    height: 60px;
+    background-image: url('用户.svg');
+}
+
+.icon-home {
+    width: 28px;
+    height: 28px;
+    background-image: url('住房.svg');
+}
+
+.icon-list {
+    width: 28px;
+    height: 28px;
+    background-image: url('列表.svg');
+}
+
+.icon-list {
+    width: 28px;
+    height: 28px;
+    background-image: url('列表.svg');
+}
+
+.icon-friend {
+    width: 28px;
+    height: 28px;
+    background-image: url('社交.svg');
+}
+
+.icon-merchant {
+    width: 28px;
+    height: 28px;
+    background-image: url('财富A.svg');
+}
+
+.icon-business {
+    width: 28px;
+    height: 28px;
+    background-image: url('业务.svg');
+}
+
+.icon-history {
+    width: 28px;
+    height: 28px;
+    background-image: url('历史.svg');
+}
+
+.icon-more {
+    width: 28px;
+    height: 28px;
+    background-image: url('更多.svg');
+}

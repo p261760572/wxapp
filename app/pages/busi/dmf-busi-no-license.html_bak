@@ -54,16 +54,16 @@
                 <div class="weui-cells weui-cells_form">
                     <div class="weui-cell">
                         <div class="weui-cell__hd">
-                            <label class="weui-label">联系人<span class="required">*</span></label></div>
+                            <label class="weui-label">联系人<span class="required">*</span</label></div>
                         <div class="weui-cell__bd">
-                                <input name="linkman" type="text" class="weui-input validate" placeholder="请输入联系人" required title="联系人">
+                                <input name="linkman" type="text" class="weui-input validate" placeholder="请输入联系人" required="required" title="联系人">
                         </div>
                     </div>
                     <div class="weui-cell">
                         <div class="weui-cell__hd"><label class="weui-label">联系人手机<span class="required">*</span></label>
                         </div>
                         <div class="weui-cell__bd">
-                            <input name="mobile" type="text" class="weui-input validate" placeholder="请输入联系人手机" required title="联系人手机">
+                            <input name="mobile" type="text" class="weui-input validate" placeholder="请输入联系人手机" required="required" title="联系人手机">
                         </div>
                     </div>
                     <div class="weui-cell">
@@ -74,20 +74,20 @@
                             <input name="tel_no" type="text" class="weui-input" placeholder="请输入联系电话">
                         </div>
                     </div>
-                    <div class="weui-cell">
+                    <!-- <div class="weui-cell">
                         <div class="weui-cell__hd">
                             <label class="weui-label">营业执照号码<span class="required">*</span></label>
                         </div>
                         <div class="weui-cell__bd">
-                            <input id="license_no" name="license_no" type="text" class="weui-input validate" placeholder="请输入营业执照号码" required title="营业执照号码" style="text-transform:uppercase;">
+                            <input id="license_no" name="license_no" type="text" class="weui-input validate" placeholder="请输入营业执照号码" required="required" title="营业执照号码" style="text-transform:uppercase;">
                         </div>
-                    </div>
+                    </div> -->
                     <div class="weui-cell">
                         <div class="weui-cell__hd">
                             <label class="weui-label">户名<span class="required">*</span></label>
                         </div>
                         <div class="weui-cell__bd">
-                            <input id="account_name" name="account_name" type="text" class="weui-input validate" placeholder="请输入户名" required title="户名">
+                            <input id="account_name" name="account_name" type="text" class="weui-input validate" placeholder="请输入户名" required="required" title="户名">
                         </div>
                     </div>
                     <div class="weui-cell">
@@ -95,7 +95,7 @@
                             <label class="weui-label">账号<span class="required">*</span></label>
                         </div>
                         <div class="weui-cell__bd">
-                            <input id="account_no" name="account_no" type="text" class="weui-input validate" placeholder="请输入账号" required title="账号">
+                            <input id="account_no" name="account_no" type="text" class="weui-input validate" placeholder="请输入账号" required="required" title="账号">
                         </div>
                     </div>
                     <div class="weui-cell">
@@ -103,7 +103,7 @@
                             <label class="weui-label">开户支行名称<span class="required">*</span></label>
                         </div>
                         <div class="weui-cell__bd">
-                            <input id="subbranch_name" name="subbranch_name" type="text" class="weui-input validate" placeholder="请选择开户支行名称" required title="开户支行名称" onclick="$('#subbranch-popup').popup('open');$('#pop-id').val('subbranch_name');" readonly>
+                            <input id="subbranch_name" name="subbranch_name" type="text" class="weui-input validate" placeholder="请选择开户支行名称" required="required" title="开户支行名称" onclick="$('#subbranch-popup').popup('open')" readonly="readonly">
                         </div>
                     </div>
                     <div class="weui-cell">
@@ -111,7 +111,7 @@
                             <label class="weui-label">手续费<span class="required">*</span></label>
                         </div>
                         <div class="weui-cell__bd">
-                            <input name="fee_algo" type="text" class="weui-input validate" placeholder="请选择手续费" id="fee_algo" required title="手续费" readonly>
+                            <input name="fee_algo" type="text" class="weui-input validate" placeholder="请选择手续费" id="fee_algo" required="required" title="手续费" readonly="readonly">
                         </div>
                     </div>
                    <!--  <div class="weui-cell">
@@ -127,7 +127,7 @@
                             <label class="weui-label">装机地区<span class="required">*</span></label>
                         </div>
                         <div class="weui-cell__bd">
-                            <input id="district" name="district_name" type="text" class="weui-input validate" placeholder="请选择装机地区" required title="装机地区" readonly>
+                            <input id="district" name="district_name" type="text" class="weui-input validate" placeholder="请选择装机地区" required="required" title="装机地区" readonly="readonly">
                         </div>
                     </div>
                     <div class="weui-cell">
@@ -135,7 +135,7 @@
                             <label class="weui-label">装机详细地址<span class="required">*</span></label>
                         </div>
                         <div class="weui-cell__bd">
-                            <input name="installed_addr" type="text" id="installed_addr"  class="weui-input validate" placeholder="请输入详细地址(需核对)" required title="装机详细地址">
+                            <input name="installed_addr" type="text" id="installed_addr" class="weui-input validate" placeholder="请输入详细地址(需核对)" required="required" title="装机详细地址">
                         </div>
                     </div>
                     <!-- <div class="weui-cell">
@@ -186,22 +186,6 @@
                     </div> -->
                     <div class="weui-cell">
                         <div class="weui-cell__hd">
-                            <label class="weui-label">推荐支行</label>
-                        </div>
-                        <div class="weui-cell__bd">
-                            <input id="ec_branch" name="ec_branch" type="text" class="weui-input" placeholder="请选择推荐支行" title="支行名称" onclick="$('#subbranch-popup').popup('open');$('#pop-id').val('ec_branch');" readonly>
-                        </div>
-                    </div>
-                    <div class="weui-cell">
-                        <div class="weui-cell__hd">
-                            <label class="weui-label">推荐人</label>
-                        </div>
-                        <div class="weui-cell__bd">
-                            <input name="ec_branch_name" type="text" class="weui-input" placeholder="推荐人姓名">
-                        </div>
-                    </div>
-                    <div class="weui-cell">
-                        <div class="weui-cell__hd">
                             <label class="weui-label">备注</label>
                         </div>
                         <div class="weui-cell__bd">
@@ -211,7 +195,7 @@
                 </div>
                 <div class="weui-cells weui-cells_form">
                     <div class="weui-cells__title">上传照片</div>
-                    <div class="weui-cell">
+                    <!-- <div class="weui-cell">
                         <div class="weui-cell__bd">
                             <div class="weui-uploader">
                                 <div class="weui-uploader__hd">
@@ -226,13 +210,13 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     
                     <div class="weui-cell">
                         <div class="weui-cell__bd">
                             <div class="weui-uploader">
                                 <div class="weui-uploader__hd">
-                                    法人身份证照片
+                                    <!-- 法人 -->身份证照片
                                     <span class="required">*</span>
                                 </div>
                                 <div class="weui-uploader__bd">
@@ -262,7 +246,7 @@
                             </div>
                         </div>
                     </div>                    
-                    <div class="weui-cell show-more">
+                    <!-- <div class="weui-cell show-more">
                         <div class="weui-cell__bd">
                             <div class="weui-uploader">
                                 <div class="weui-uploader__hd ">
@@ -277,7 +261,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="weui-cell show-more">
                         <div class="weui-cell__bd">
                             <div class="weui-uploader">
@@ -310,7 +294,7 @@
                             </div>
                         </div>
                     </div>                    
-                    <div class="weui-cell show-more">
+                    <!-- <div class="weui-cell show-more">
                         <div class="weui-cell__bd">
                             <div class="weui-uploader">
                                 <div class="weui-uploader__hd">
@@ -325,7 +309,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="weui-cell show-more">
                         <div class="weui-cell__bd">
                             <div class="weui-uploader">
@@ -356,13 +340,10 @@
             <form class="weui-search-bar__form">
                 <div class="weui-search-bar__box">
                     <i class="weui-icon-search"></i>
-                    <input type="search" class="weui-search-bar__input" name="subbranch_name" placeholder="搜索开户行(支持多个关键字)" required>
+                    <input type="search" class="weui-search-bar__input" name="subbranch_name" placeholder="搜索开户行(支持多个关键字)" required="required">
                 </div>
             </form>
             <a href="javascript:;" class="search-bar__btn search-bar__search-btn">搜索</a>
-        </div>
-        <div>
-        	<input type="hidden" id="pop-id" name="pop-id"/>
         </div>
         <div id="infinite" class="popup__bd">
             <div id="subbranch-list" class="weui-cells" style="margin-bottom: 44px;">
@@ -375,7 +356,7 @@
     <script type="text/javascript" src="../../lib/weuijs/weuijs.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../js/base.js" charset="utf-8"></script>
     <script type="text/javascript" src="https://api.map.baidu.com/api?ak=kKuGiC4LbGgwrcfd1pQKq7M5Ax2GAnCy&v=2.0&s=1"></script>
-    <script type="text/javascript" src="dmf-busi.js" charset="utf-8"></script>
+    <script type="text/javascript" src="dmf-busi-no-license.js" charset="utf-8"></script>
     <script id="subbranch-templ" type="text/html">
         {{each rows as row i}}
         <a class="weui-cell weui-cell_access" href="javascript:;" data-text="{{row.subbranch_name}}">

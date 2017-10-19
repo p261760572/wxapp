@@ -120,6 +120,11 @@ function submitDetail() {
         return false;
     }
 
+    if( $('#installed_addr').val().length < 7) {
+	$.toast('show', '地址至少输入7个字符');
+        return false;
+    }
+
     var data = serializeDetailForm();
 
     if (!hasImage(data.images, '01')) {
@@ -175,16 +180,48 @@ function uploadImage(sourceType, files) {
         // }, function(res) {
         //     $.toast('show', '获取地理位置失败,请重新上传' + JSON.stringify(res));
         // });
-
-        wxUploadImage(localId, function(serverId) {
-            data.is_new = '1';
-            data.serverid = serverId;
-            data.app_created_time = $$.formatDate(new Date(), 'yyyyMMddhhmmss');
-            //生成html,存储
-            $(template('uploader-file-templ', data)).appendTo(files).data('file', data);
-        }, function(res) {
-            $.toast('show', '上传失败,请重新上传' + JSON.stringify(res));
+        // 
+        
+        wx.getLocalImgData({
+            localId: localId, // 图片的localID
+            success: function (res) {
+                var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+                $.toast('showLoading');
+                $.ajax({
+                    url: '/wx/upload',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: localData,                    
+                    success: function(result) {
+                        $.toast('hideLoading');
+                        if (result.errcode == 0) {
+                            // data.is_new = '1';
+                            data.serverid = result.serverid;
+                            data.file_url = result.file_url;
+                            data.app_created_time = $$.formatDate(new Date(), 'yyyyMMddhhmmss');
+                            //生成html,存储
+                            $(template('uploader-file-templ', data)).appendTo(files).data('file', data);
+                        } else {
+                            $.toast('show', '上传失败,请重新上传' + JSON.stringify(result));
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $.toast('hideLoading');
+                        $.toast('show', errorThrown);
+                    }
+                });
+            }
         });
+
+        // wxUploadImage(localId, function(serverId) {
+        //     data.is_new = '1';
+        //     data.serverid = serverId;
+        //     data.app_created_time = $$.formatDate(new Date(), 'yyyyMMddhhmmss');
+        //     //生成html,存储
+        //     $(template('uploader-file-templ', data)).appendTo(files).data('file', data);
+        // }, function(res) {
+        //     $.toast('show', '上传失败,请重新上传' + JSON.stringify(res));
+        // });
     });
 }
 
@@ -226,7 +263,7 @@ $(function() {
             deletable: query.operateType == 'view' ? false : true,
             imageUrl: data.file_url || data.localid,
             onDelete: function() {
-                target.remove();
+                $(target).removeData().remove();
             }
         });
     });
